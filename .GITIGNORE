@@ -2,6 +2,9 @@
 ## Project Directories
 #################
 
+#Don't upload depreciated folders
+*_old*
+
 #################
 ## Eclipse
 #################
