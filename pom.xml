@@ -1,0 +1,98 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.spotrealms</groupId>
+	<artifactId>javautils</artifactId>
+	<name>JavaUtils</name>
+	<description>Provides a set of utility classes and methods for other Java projects</description>
+	<url>https://spotrealms.com</url>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	
+	<!-- Set Java version to use as well as encoding -->
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	
+	<profiles>
+		<profile>
+			<id>allow-snapshots</id>
+			<activation><activeByDefault>true</activeByDefault></activation>
+		</profile>
+	</profiles>
+	
+	<dependencies>
+		<!-- Json.org JSON -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20180813</version>
+		</dependency>
+	</dependencies>
+	
+	<!-- Set build properties -->
+	<build>
+		<resources> 
+			<!-- Include source code, so JavaDoc can be accessed in the final JAR -->
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.java</include>
+				</includes>
+			</resource>
+		</resources>
+		<!-- Set Maven defaults -->
+		<defaultGoal>clean package</defaultGoal>
+		<finalName>${project.name}-${project.version}-unshaded</finalName>
+		<sourceDirectory>src/main/java</sourceDirectory>
+		
+		<plugins>
+			<!-- Compile the project into a JAR file -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.0.2</version>
+			</plugin>
+			<!-- Dependency centralization -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.5.1</version>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>
+								${project.build.directory}/dependency-jars/
+							</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- Combine all dependencies into one JAR file -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.2.0</version>
+					<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					 	<configuration>
+							<outputFile>${project.build.directory}/${project.name}-${project.version}.jar</outputFile>
+							<shadedArtifactAttached>true</shadedArtifactAttached>
+							<shadedClassifierName>jar-with-dependencies</shadedClassifierName>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

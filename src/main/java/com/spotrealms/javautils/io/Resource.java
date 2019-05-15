@@ -1,0 +1,278 @@
+/**
+ * JavaUtils: A collection of utility methods and classes for your Java programs
+ *   Copyright (C) 2015-2018  Spotrealms Network
+ *
+ *    This library is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU Lesser General Public License as
+ *    published by the Free Software Foundation, either version 3 of the 
+ *    License, or (at your option) any later version.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
+ *
+ *    You should have received a copy of the GNU Lesser General Public
+ *    License along with this library.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+/**
+ *
+ * @author Spotrealms Network
+ * @website https://spotrealms.com
+ * @website https://github.com/spotrealms
+ */
+
+package com.spotrealms.javautils.io;
+
+//Import Java classes and dependencies
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+
+/**
+ * A series of methods for working with resource files inside JAR files. 
+ * Resource files are any file inside a JAR file or on the classpath that 
+ * may or may not be utilized by the entire program. Working with resource 
+ * files can be useful if hard-coded data must be supplied. Examples may 
+ * include localization strings, default configurations, fonts, images, etc.
+ * The methods included can both import and export data from JAR files.
+ * <br>This class includes the following export options:
+ * <ul>
+ * 	<li>{@link File}</li>
+ * </ul>
+ * This class also includes the following import options:
+ * <ul>
+ * 	<li>{@link File}</li>
+ * 	<li>{@link FileInputStream}</li>
+ * 	<li>{@link InputStream}</li>
+ * 	<li>{@link String}</li>
+ * 	<li>{@link URL}</li>
+ * </ul>
+ * Finally, the following generic helper methods also exist that relate 
+ * to classpath files:
+ * <ul>
+ * 	<li>{@link resouceFileExists}</li>
+ * </ul>
+ * 
+ * @author Spotrealms Network
+ *
+ */
+public class Resource {		
+	/**
+	 * Export a resource from within a JAR file ({@code src/main/resources}) to a specified path
+	 * @param execClass - The class that this method is being executed from (instantiated using {@code ClassName.class} or {@code this.getClass()})
+	 * @param resourcePath - The relative path to the resource and its name
+	 * @param resourceDropLocation - The relative location to drop the extracted resource and its file name
+	 * @return void
+	 * @throws IOException
+	 */
+	public static <T> void exportResource(Class<T> execClass, String resourcePath, String resourceDropLocation) throws IOException {
+		//Initialization
+		InputStream resStreamIn = null;
+		
+		//Get the current working directory
+		String curDir = new File("").getAbsolutePath();
+		
+		//Convert the resource file path to its UNIX counterpart, as getResourceAsStream will be null if the path includes backslashes
+		resourcePath = FileUtil.winToUnixPath(resourcePath);
+		
+		//Normalize the file path of the drop location
+		resourceDropLocation = FileUtil.normalizePath(curDir + "/" + resourceDropLocation);
+		
+		//Get the resource as an InputStream from inside the JAR file using the classloader
+		resStreamIn = execClass.getResourceAsStream("/" + resourcePath);
+		
+		//Create the output file
+		File fileOut = new File(resourceDropLocation);
+		
+		//Copy the resource to the output destination
+		Files.copy(resStreamIn, fileOut.toPath(), StandardCopyOption.REPLACE_EXISTING);
+	}
+	
+	/**
+	 * Export a resource from within a JAR file ({@code src/main/resources}) to a specified path
+	 * @param resourcePath - The relative path to the resource and its name
+	 * @param resourceDropLocation - The relative location to drop the extracted resource
+	 * @return void
+	 * @throws IOException
+	 
+	public void exportResource(String resourcePath, String resourceDropLocation) throws IOException {
+		//Normalize the file path
+		resourcePath = FileUtil.normalizePath(resourcePath);
+		
+		//Initialization
+		OutputStream outStream = null;
+		
+		//Open the resource file as an InputStream
+		InputStream resourceFileIn = getResourceAsStream(resourcePath);
+
+		//Create a byte array holding the contents of the resource file
+		byte[] buffer = new byte[resourceFileIn.available()];
+			
+		//Read in the byte array
+		resourceFileIn.read(buffer);
+			
+		//Create the exported resource file
+		File exportedResource = new File(resourceDropLocation + resourcePath);
+		outStream = new FileOutputStream(exportedResource);
+			
+		//Write the resource file contents to the new file
+		outStream.write(buffer);
+			
+		//Close the stream to prevent resource leaks
+		resourceFileIn.close();
+		outStream.close();
+	}
+	*/
+	
+	/**
+	 * Import a resource from within a JAR file ({@code src/main/resources}) as a {@code File}
+	 * @param execClass - The class that this method is being executed from (instantiated using {@code ClassName.class} or {@code this.getClass()})
+	 * @param resourcePath - The relative path to the resource and its name
+	 * @return <b>File</b> - The resource as a {@code File}
+	 * @throws IOException
+	 * @see Resource#getResourceAsFileStream
+	 */
+	public static <T> File getResourceAsFile(Class<T> execClass, String resourcePath) throws IOException {
+		//Convert the resource file path to its UNIX counterpart, as getResourceAsStream will be null if the path includes backslashes
+		resourcePath = FileUtil.winToUnixPath(resourcePath);
+		
+		//Get the resource as an InputStream
+		InputStream streamIn = getResourceAsStream(execClass, resourcePath);
+			
+		//Check if the stream is null (file not found)
+		if(streamIn == null){
+			return null;
+		}
+
+		//Create the file, but mark it for deletion on exit because the file is only temporary
+		File tempFile = File.createTempFile(String.valueOf(streamIn.hashCode()), ".tmp");
+		tempFile.deleteOnExit();
+
+		//Create a FileOutputStream
+		FileOutputStream contentsOut = new FileOutputStream(tempFile);
+		
+		//Create the buffer and byte counter for the file writing process
+		byte[] buffer = new byte[1024];
+		int bytesRead;
+		
+		//Loop through the InputStream's contents
+		while((bytesRead = streamIn.read(buffer)) != -1){
+			//Write the contents of the stream byte-by-byte to the file
+			contentsOut.write(buffer, 0, bytesRead);
+		}
+		
+		//Return the resulting file and close the FileOutputStream
+		contentsOut.close();
+		return tempFile;
+	}
+	
+	/**
+	 * Import a resource from within a JAR file ({@code src/main/resources}) as a {@code FileInputStream}
+	 * @param execClass - The class that this method is being executed from (instantiated using {@code ClassName.class} or {@code this.getClass()})
+	 * @param resourcePath - The relative path to the resource and its name
+	 * @return <b>File</b> - The resource as a {@code FileInputStream}
+	 * @throws IOException
+	 * @see Resource#getResourceAsFile
+	 */
+	public static <T> FileInputStream getResourceAsFileStream(Class<T> execClass, String resourcePath) throws IOException {
+		//Convert the resource file path to its UNIX counterpart, as getResourceAsStream will be null if the path includes backslashes
+		resourcePath = FileUtil.winToUnixPath(resourcePath);
+		
+		//Create a FileInputStream from the file
+		FileInputStream streamOut = new FileInputStream(getResourceAsFile(execClass, resourcePath));
+	
+		//Return the resulting FileInputStream
+		return streamOut;
+	}
+	
+	/**
+	 * Import a resource from within a JAR file ({@code src/main/resources}) as an {@code InputStream}
+	 * @param execClass - The class that this method is being executed from (instantiated using {@code ClassName.class} or {@code this.getClass()})
+	 * @param resourcePath - The relative path to the resource and its name
+	 * @return <b>InputStream</b> - The resource as an {@code InputStream}
+	 */
+	public static <T> InputStream getResourceAsStream(Class<T> execClass, String resourcePath){
+		//Convert the resource file path to its UNIX counterpart, as getResourceAsStream will be null if the path includes backslashes
+		resourcePath = FileUtil.winToUnixPath(resourcePath);
+		
+		//Open the resource file as an InputStream
+		InputStream resourceFileIn = execClass.getResourceAsStream("/" + resourcePath);
+		
+		//Return the resulting resource as an InputStream
+		return resourceFileIn;
+	}
+	
+	/**
+	 * Retrieve the URL of a resource from within a JAR file ({@code src/main/resources}) as a {@code String}
+	 * @param execClass - The class that this method is being executed from (instantiated using {@code ClassName.class} or {@code this.getClass()})
+	 * @param resourcePath - The relative path to the resource and its name
+	 * @return <b>String</b> - The resource file's absolute URL inside the JAR file as a {@code String}
+	 * @throws UnsupportedEncodingException
+	 */
+	public static <T> String getResourceAsStr(Class<T> execClass, String resourcePath) throws UnsupportedEncodingException {
+		//Convert the resource file path to its UNIX counterpart, as getResourceAsStream will be null if the path includes backslashes
+		resourcePath = FileUtil.winToUnixPath(resourcePath);
+		
+		//Get the resource path as a URL, then convert the URL to a string
+		String fileURL = NetUtil.urlToStr(getResourceAsURL(execClass, resourcePath));
+		
+		//Return the resulting string
+		return fileURL;
+	}
+	
+	/**
+	 * Retrieve the URL of a resource from within a JAR file ({@code src/main/resources})
+	 * @param execClass - The class that this method is being executed from (instantiated using {@code ClassName.class} or {@code this.getClass()})
+	 * @param resourcePath - The relative path to the resource and its name
+	 * @return <b>URL</b> - The resource file's absolute URL inside the JAR file
+	 */
+	public static <T> URL getResourceAsURL(Class<T> execClass, String resourcePath){
+		//Convert the resource file path to its UNIX counterpart, as getResourceAsStream will be null if the path includes backslashes
+		resourcePath = FileUtil.winToUnixPath(resourcePath);
+		
+		//Get the URL of the resource
+		URL fileURL = execClass.getResource("/" + resourcePath);
+		
+		//Return the URL
+		return fileURL;
+	}
+	
+	/**
+	 * Check if a resource file exists on the classpath of a JAR or set of class files
+	 * @param execClass - The class that this method is being executed from (instantiated using {@code ClassName.class} or {@code this.getClass()})
+	 * @param resourcePath - The relative path to the resource and its name
+	 * @return <b>boolean</b> - The status of whether or not the input {@code File} exists
+	 */
+	public static <T> boolean resouceFileExists(Class<T> execClass, String resourcePath){
+		//Create a new file object for later
+		File resFile;
+		
+		//Try to get the resource as a file
+		try {
+			//Get the resource as a file
+			resFile = getResourceAsFile(execClass, resourcePath);
+			
+			//Check if the file is an actual file and not a directory
+			if(resFile.isFile()){
+				//Return true because the file was found and is a file
+				return true;
+			}
+			else {
+				//Return false because the resource at the location is a directory
+				return false;
+			}
+		}
+		catch(IOException notFound){
+			//Return false because an error occurred
+			return false;
+		}
+	}
+}
