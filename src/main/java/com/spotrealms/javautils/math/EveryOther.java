@@ -21,7 +21,7 @@ package com.spotrealms.javautils.math;
 //Import Java classes and dependencies
 import java.util.ArrayList;
 
-//TODO: Finsh up JavaDoc
+//TODO: Finish up JavaDoc
 
 public class EveryOther {
 	/**

@@ -18,7 +18,7 @@
 
 package com.spotrealms.javautils.math;
 
-//TODO: Finsh up JavaDoc
+//TODO: Finish up JavaDoc
 
 public class MathRandom {
 	/**

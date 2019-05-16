@@ -219,7 +219,7 @@ public class SimpleLogger {
 		//Compressed method
 		SimpleLogger log3 = new SimpleLogger(
 			new SimpleLoggerConfig(
-				"Constructor Parameter Assignemnt",
+				"Constructor Parameter Assignment",
 				"${headercolor}[${appheader} - ${logtype}]${resetcolor}: ${bodycolor}${message}",
 				false
 			)

@@ -94,7 +94,7 @@ public class Resource {
 	 * @param resourcePath The relative path to the resource and its name
 	 * @param <T> Allow generic types and objects to be used
 	 * @return <b>File</b> The resource as a {@code File}
-	 * @throws IOException If an error occurred while fetiching the resource (usually an invalid resource path)
+	 * @throws IOException If an error occurred while fetching the resource (usually an invalid resource path)
 	 * @see Resource#getResourceAsFileStream
 	 */
 	public static <T> File getResourceAsFile(Class<T> execClass, String resourcePath) throws IOException {
@@ -137,7 +137,7 @@ public class Resource {
 	 * @param resourcePath The relative path to the resource and its name
 	 * @param <T> Allow generic types and objects to be used
 	 * @return <b>File</b> The resource as a {@code FileInputStream}
-	 * @throws IOException If an error occurred while fetiching the resource (usually an invalid resource path)
+	 * @throws IOException If an error occurred while fetching the resource (usually an invalid resource path)
 	 * @see Resource#getResourceAsFile
 	 */
 	public static <T> FileInputStream getResourceAsFileStream(Class<T> execClass, String resourcePath) throws IOException {
