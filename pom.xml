@@ -89,7 +89,6 @@
 							<head>See:</head>
 						</tag>
 					</tags>
-					<additionalOptions>-html5</additionalOptions>
 				</configuration>
 				<executions>
 					<execution>
