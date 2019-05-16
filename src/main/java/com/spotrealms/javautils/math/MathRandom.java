@@ -16,14 +16,9 @@
  *    License along with this library.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/**
- *
- * @author Spotrealms Network
- * @website https://spotrealms.com
- * @website https://github.com/spotrealms
- */
-
 package com.spotrealms.javautils.math;
+
+//TODO: Finsh up JavaDoc
 
 public class MathRandom {
 	/**
@@ -41,9 +36,9 @@ public class MathRandom {
 	 * minimum and max number using
 	 * {@code Math.random()}
 	 *
-	 * @param min - min number
-	 * @param max - max number
-	 * @return <b>double</b> - A random double
+	 * @param min min number
+	 * @param max max number
+	 * @return <b>double</b> A random double
 	 */
 	public static double getRandomDouble(double min, double max){
 		return Math.random() * (max - min) + min;
@@ -54,9 +49,9 @@ public class MathRandom {
 	 * minimum and max number using
 	 * {@code Math.random()}
 	 *
-	 * @param min - min number
-	 * @param max - max number
-	 * @return <b>float</b> - A random double
+	 * @param min min number
+	 * @param max max number
+	 * @return <b>float</b> A random double
 	 */
 	public static float getRandomFloat(float min, float max){
 		return (float) Math.random() * (max - min) + min;
@@ -67,9 +62,9 @@ public class MathRandom {
 	 * minimum and max number using
 	 * {@code Math.random()}
 	 *
-	 * @param min - min number
-	 * @param max - max number
-	 * @return <b>int</b> - A random integer
+	 * @param min min number
+	 * @param max max number
+	 * @return <b>int</b> A random integer
 	 */
 	public static int getRandomInt(int min, int max){
 		return (int) Math.floor(Math.random() * (max - min + 1) + min);
@@ -80,9 +75,9 @@ public class MathRandom {
 	 * minimum and max number using
 	 * {@code Math.random()}
 	 *
-	 * @param min - min number
-	 * @param max - max number
-	 * @return <b>long</b> - A random long
+	 * @param min min number
+	 * @param max max number
+	 * @return <b>long</b> A random long
 	 */
 	public static long getRandomLong(long min, long max){
 		return (long) Math.floor(Math.random() * (max - min + 1) + min);

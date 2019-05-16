@@ -16,20 +16,12 @@
  *    License along with this library.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/**
- *
- * @author Spotrealms Network
- * @website https://spotrealms.com
- * @website https://github.com/spotrealms
- */
-
 package com.spotrealms.javautils.exception;
 
 /**
  * An exception thrown when an item in a
  * {@code Map} was not found.
- * @author Spotrealms Network
- * @param errorMessage - The message to display to the user when the error is thrown
+ * @author Spotrealms
  */
 public class KeyNotFoundException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
@@ -37,8 +29,8 @@ public class KeyNotFoundException extends RuntimeException {
 	/**
 	 * An exception thrown when an item in a
 	 * {@code Map} was not found.
-	 * @author Spotrealms Network
-	 * @param errorMessage - The message to display to the user when the error is thrown
+	 * @author Spotrealms
+	 * @param errorMessage The message to display to the user when the error is thrown
 	 */
 	public KeyNotFoundException(String errorMessage){
 		//Invoke the runtime exception

@@ -16,13 +16,6 @@
  *    License along with this library.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/**
- *
- * @author Spotrealms Network
- * @website https://spotrealms.com
- * @website https://github.com/spotrealms
- */
-
 package com.spotrealms.javautils;
 
 //Import first-party classes
@@ -31,14 +24,17 @@ import com.spotrealms.javautils.math.MathRandom;
 //Import Java classes and dependencies
 import java.util.Map;
 
+//TODO: Finish up JavaDoc
+
 public class MapUtil {
 	/**
 	 * Get a random element from a generic 
 	 * arbitrary-dimensional {@code Map} using 
 	 * a random number generator
-	 * @param tArray - The {@code Map} to look through
-	 * @param recMode - Set whether or not to also pick elements from any nested {@code Maps} 
-	 * @return <b>T</b> - The resulting random element
+	 * @param tMap The {@code Map} to look through
+	 * @param recMode Set whether or not to also pick elements from any nested {@code Maps} 
+	 * @param <T> Allow generic types and objects to be used
+	 * @return <b>T</b> The resulting random element
 	 */
 	public static <T> T getRandomMapElem(Map<T,T> tMap, boolean recMode){
 		//Get the size of the map
@@ -58,6 +54,8 @@ public class MapUtil {
 		return randomMapElem;
 	}
 	
+	//TODO: Move to JUnit test instead of declaring it here in the class itself
+
 	/*
 	public static void main(String[] args){
 		final java.util.Map<String, String> m = new java.util.HashMap<String, String>();

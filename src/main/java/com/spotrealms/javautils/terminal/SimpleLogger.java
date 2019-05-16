@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+//TODO: Add JavaDoc
 
 public class SimpleLogger {
 	//Setup class variables
@@ -185,6 +186,8 @@ public class SimpleLogger {
 		//Return the formatted log message
 		return formattedMsg;
 	}
+	
+	//TODO: Move to JUnit test instead of declaring it here in the class itself
 	
 	/*
 	 * TESTS

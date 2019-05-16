@@ -16,19 +16,10 @@
  *    License along with this library.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/**
- *
- * @author Spotrealms Network
- * @website https://spotrealms.com
- * @website https://github.com/spotrealms
- */
-
 package com.spotrealms.javautils.exception;
 
-/**
- * @author Spotrealms
- *
- */
+//TODO: Add JavaDoc
+
 public class ThrowableUtil {
 	public static Throwable getRootException(Throwable genericExc){
 		//Loop until the root cause of the throwable is null

@@ -16,13 +16,6 @@
  *    License along with this library.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/**
- *
- * @author Spotrealms Network
- * @website https://spotrealms.com
- * @website https://github.com/spotrealms
- */
-
 package com.spotrealms.javautils.terminal;
 
 /**
@@ -55,9 +48,9 @@ package com.spotrealms.javautils.terminal;
  * The background can also be colored and use high intensity modification.
  * The color can also be reset to the default simply by using {@code RESET}.
  * 
- * @author Spotrealms Network & Contributors
- * @website http://ascii-table.com/ansi-escape-sequences.php
- * @website https://stackoverflow.com/a/51944613/7520602
+ * @author Spotrealms &amp; Contributors
+ * @see <a href="http://ascii-table.com/ansi-escape-sequences.php">http://ascii-table.com/ansi-escape-sequences.php</a>
+ * @see <a href="https://stackoverflow.com/a/51944613/7520602">https://stackoverflow.com/a/51944613/7520602</a>
  */
 public class TF {
 	public static enum Color {
@@ -145,6 +138,8 @@ public class TF {
 		}
 	}
 	
+	//TODO: Move to JUnit test instead of declaring it here in the class itself
+
 	/*
 	//EXAMPLE: 
 	public static void main(String[] args){

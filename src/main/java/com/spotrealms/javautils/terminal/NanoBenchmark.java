@@ -16,19 +16,10 @@
  *    License along with this library.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/**
- *
- * @author Spotrealms Network
- * @website https://spotrealms.com
- * @website https://github.com/spotrealms
- */
-
 package com.spotrealms.javautils.terminal;
 
-/**
- * @author Spotrealms
- *
- */
+//TODO: Add JavaDoc
+
 public class NanoBenchmark {
 	private long starterMillis;
 	private long elapsedMillis;

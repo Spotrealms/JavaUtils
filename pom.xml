@@ -33,8 +33,9 @@
 	
 	<!-- Set build properties -->
 	<build>
+		<!--
 		<resources> 
-			<!-- Include source code, so JavaDoc can be accessed in the final JAR -->
+			Include source code, so JavaDoc can be accessed in the final JAR 
 			<resource>
 				<directory>src/main/java</directory>
 				<includes>
@@ -42,6 +43,7 @@
 				</includes>
 			</resource>
 		</resources>
+		-->
 		<!-- Set Maven defaults -->
 		<defaultGoal>clean package</defaultGoal>
 		<finalName>${project.name}-${project.version}-unshaded</finalName>
@@ -71,6 +73,30 @@
 								${project.build.directory}/dependency-jars/
 							</outputDirectory>
 						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- Generate JavaDoc JAR (depreciates old method of including java files in the JAR, which is stupid and takes up too much space)-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<tags>
+						<tag>
+							<name>website.</name>
+							<placement>a</placement>
+							<head>See:</head>
+						</tag>
+					</tags>
+					<additionalOptions>-html5</additionalOptions>
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
 					</execution>
 				</executions>
 			</plugin>

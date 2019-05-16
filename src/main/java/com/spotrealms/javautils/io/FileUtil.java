@@ -16,13 +16,6 @@
  *    License along with this library.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/**
- *
- * @author Spotrealms Network
- * @website https://spotrealms.com
- * @website https://github.com/spotrealms
- */
-
 package com.spotrealms.javautils.io;
 
 //Import first-party classes
@@ -76,8 +69,7 @@ import java.util.regex.Matcher;
  * 	<li>{@link URL}</li>
  * </ul>
  * 
- * @author Spotrealms Network & Contributors
- *
+ * @author Spotrealms &amp; Contributors
  */
 public class FileUtil {
 	/**
@@ -117,9 +109,9 @@ public class FileUtil {
 	/**
 	 * Count the number of lines a given {@code File}
 	 * contains
-	 * @param tFile - The {@code File} to count the lines in
-	 * @return <b>int</b> - The number of lines in the {@code File}
-	 * @throws IOException
+	 * @param tFile The {@code File} to count the lines in
+	 * @return <b>int</b> The number of lines in the {@code File}
+	 * @throws IOException If the path to the {@code File} is invalid
 	 */
 	public static int countFileLines(File tFile) throws IOException {
 		//Make sure the file exists
@@ -149,10 +141,9 @@ public class FileUtil {
 	/**
 	 * Delete a line in a {@code File} at a specific
 	 * point in that {@code File}
-	 * @param tFile - The {@code File} to write the line to
-	 * @param lineNum - The position in the {@code File} to delete
-	 * @return void
-	 * @throws IOException
+	 * @param tFile The {@code File} to write the line to
+	 * @param lineNum The position in the {@code File} to delete
+	 * @throws IOException If the path to the {@code File} is invalid
 	 */
 	public static void delAtPos(File tFile, int lineNum) throws IOException {
 		//Make sure the file exists
@@ -185,8 +176,8 @@ public class FileUtil {
 	
 	/**
 	 * Check if a file exists at the relative path specified
-	 * @param fileLocation - The relative path of the file to check
-	 * @return <b>boolean</b> - The status of whether the file exists or not
+	 * @param fileLocation The relative path of the file to check
+	 * @return <b>boolean</b> The status of whether the file exists or not
 	 */
 	public static boolean fileExists(String fileLocation){
 		//Normalize the file path
@@ -208,8 +199,8 @@ public class FileUtil {
 	
 	/**
 	 * Get the execution directory of the class as a {@code String}
-	 * @return <b>String</b> - The absolute path to the execution directory
-	 * @throws UnsupportedEncodingException
+	 * @return <b>String</b> The absolute path to the execution directory
+	 * @throws UnsupportedEncodingException If the URL to the path of the class is of an unsupported encoding
 	 */
 	public static String getExecPath() throws UnsupportedEncodingException {
 		//Get the path to the class		
@@ -246,8 +237,8 @@ public class FileUtil {
 	
 	/**
 	 * Get the extension of a file from its name
-	 * @param fileName - The name of the file
-	 * @return <b>String</b> - The extension of the file
+	 * @param fileName The name of the file
+	 * @return <b>String</b> The extension of the file
 	 */
 	public static String getExtension(String fileName){
 		//Get the length of the file
@@ -280,9 +271,9 @@ public class FileUtil {
 	/**
 	 * Get the relative path of a {@code File} based on its
 	 * absolute path
-	 * @param absPath - The relative path to the {@code File}
-	 * @return <b>String</b> - The resulting relative path
-	 * @throws UnsupportedEncodingException 
+	 * @param absPath The relative path to the {@code File}
+	 * @return <b>String</b> The resulting relative path
+	 * @throws UnsupportedEncodingException If the URL generated from {@code Paths.get} is of an unsupported encoding
 	 */
 	public static String getRelativePath(String absPath) throws UnsupportedEncodingException {
 		//Normalize the file path
@@ -301,11 +292,11 @@ public class FileUtil {
 	
 	/**
 	 * Load a generic non-resource file from the relative path specified as a {@code File}
-	 * @param filePath - The relative path of the file to load
-	 * @return <b>File</b> - The file as a {@code File} object
-	 * @throws FileNotFoundException
-	 * @throws IOException
-	 * @see FileUtil#getResourceAsFileStream
+	 * @param filePath The relative path of the file to load
+	 * @return <b>File</b> The file as a {@code File} object
+	 * @throws FileNotFoundException If the file path is invalid or the file wasn't found
+	 * @throws IOException If there was a miscellaneous IO error while retrieving the {@code File}
+	 * @see Resource#getResourceAsFileStream
 	 */
 	public static File loadFileAsFile(String filePath) throws FileNotFoundException, IOException {
 		//Normalize the file path
@@ -343,10 +334,10 @@ public class FileUtil {
 	
 	/**
 	 * Load a generic non-resource file from the relative path specified as a {@code FileInputStream}
-	 * @param filePath - The relative path of the file to load
-	 * @return <b>File</b> - The file as a {@code FileInputStream}
-	 * @throws IOException
-	 * @see FileUtil#getResourceAsFile
+	 * @param filePath The relative path of the file to load
+	 * @return <b>File</b> The file as a {@code FileInputStream}
+	 * @throws IOException If an error occurred while fetiching the file (usually an invalid path)
+	 * @see Resource#getResourceAsFile
 	 */
 	public static FileInputStream loadFileAsFileStream(String filePath) throws IOException {
 		//Normalize the file path
@@ -361,9 +352,9 @@ public class FileUtil {
 	
 	/**
 	 * Load a generic non-resource file from the relative path specified as an {@code InputStream}
-	 * @param filePath - The relative path of the file to load
-	 * @return <b>InputStream</b> - The file as an {@code InputStream}
-	 * @throws FileNotFoundException
+	 * @param filePath The relative path of the file to load
+	 * @return <b>InputStream</b> The file as an {@code InputStream}
+	 * @throws FileNotFoundException If the file path is invalid or the file wasn't found
 	 */
 	public static InputStream loadFileAsStream(String filePath) throws FileNotFoundException {
 		//Normalize the file path
@@ -388,8 +379,9 @@ public class FileUtil {
 
 	/**
 	 * Retrieve the URL of a file as a {@code String}
-	 * @param filePath - The relative path of the file to load
-	 * @return <b>String</b> - The file's absolute URL as a {@code String}
+	 * @param filePath The relative path of the file to load
+	 * @return <b>String</b> The file's absolute URL as a {@code String}
+	 * @throws UnsupportedEncodingException If the URL retrieved from resolving the file path contains unsupported encoding
 	 */
 	public static String loadFileAsStr(String filePath) throws UnsupportedEncodingException {
 		//Normalize the file path
@@ -404,10 +396,8 @@ public class FileUtil {
 	
 	/**
 	 * Retrieve the absolute URL of a file
-	 * @param filePath - The relative path of the file to load
-	 * @return <b>URL</b> - The file's absolute URL
-	 * @author GrzegorzDrozd
-	 * @website https://gist.github.com/GrzegorzDrozd/8433939
+	 * @param filePath The relative path of the file to load
+	 * @return <b>URL</b> The file's absolute URL
 	 */
 	public static URL loadFileAsURL(String filePath){
 		//Normalize the file path
@@ -424,10 +414,10 @@ public class FileUtil {
 	 * Find lines in a {@code File} that match an input 
 	 * {@code String}, and return all matching lines in
 	 * a {@code HashMap} (line number, line value)
-	 * @param tFile - The {@code File} to find the lines in
-	 * @param lineContent - The line content to look for in the {@code File}
-	 * @return <b>HashMap&lt;Integer, String&gt;</b> - The matched lines in the {@code File}
-	 * @throws IOException
+	 * @param tFile The {@code File} to find the lines in
+	 * @param lineContent The line content to look for in the {@code File}
+	 * @return <b>HashMap&lt;Integer, String&gt;</b> The matched lines in the {@code File}
+	 * @throws IOException If an error occurred while fetiching the file (usually an invalid path)
 	 */
 	public static HashMap<Integer, String> locateMatchingLines(File tFile, String lineContent) throws IOException {
 		//Make sure the file exists
@@ -469,16 +459,12 @@ public class FileUtil {
 	/**
 	 * Normalize a file path to the standard path
 	 * expected by the target OS
-	 * @param pathIn - The relative or absolute path to normalize
-	 * @return <b>String</b> - The normalized path
+	 * @param pathIn The relative or absolute path to normalize
+	 * @return <b>String</b> The normalized path
+	 * @author GrzegorzDrozd
+	 * @see <a href="https://gist.github.com/GrzegorzDrozd/8433939">https://gist.github.com/GrzegorzDrozd/8433939</a>
 	 */
 	public static String normalizePath(String pathIn){
-		/*
-		OLD: 
-		//Replace both types of slash to the appropriate separator
-		return pathIn.replaceAll("(\\\\|/){1,}", Matcher.quoteReplacement(System.getProperty("file.separator")));
-		*/
-		
 		//Get the system path separator
 		String sysSep = System.getProperty("file.separator");
 		
@@ -495,8 +481,8 @@ public class FileUtil {
 	/**
 	 * Convert a file path to the standard path
 	 * expected by Windows
-	 * @param pathIn - The relative or absolute path to convert
-	 * @return <b>String</b> - The resulting Windows path
+	 * @param pathIn The relative or absolute path to convert
+	 * @return <b>String</b> The resulting Windows path
 	 */
 	public static String unixToWinPath(String pathIn){
 		//Replace all forward slashes to backward slashes, as Windows directories use a backward slash as the separator
@@ -509,8 +495,8 @@ public class FileUtil {
 	/**
 	 * Convert a file path to the standard path
 	 * expected by UNIX
-	 * @param pathIn - The relative or absolute path to convert
-	 * @return <b>String</b> - The resulting UNIX path
+	 * @param pathIn The relative or absolute path to convert
+	 * @return <b>String</b> The resulting UNIX path
 	 */
 	public static String winToUnixPath(String pathIn){
 		//Replace all backslashes to forward slashes, as UNIX directories use a forward slash as the separator
@@ -520,6 +506,12 @@ public class FileUtil {
 		return pathIn;
 	}
 	
+	/**
+	 * Write a line to a {@code File} at the very end
+	 * @param tFile The {@code File} to write the line to
+	 * @param lineContent The line content to write
+	 * @throws IOException If an error occurred while fetiching the file (usually an invalid path)
+	 */
 	public static void writeAtEnd(File tFile, String lineContent) throws IOException {
 		//Make sure the file exists
 		if(tFile.exists()){
@@ -545,11 +537,10 @@ public class FileUtil {
 	/**
 	 * Write a line to a {@code File} at a specific
 	 * point in that {@code File}
-	 * @param tFile - The {@code File} to write the line to
-	 * @param lineContent - The line content to write
-	 * @param lineNum - The position in the {@code File} to write the line
-	 * @return void
-	 * @throws IOException
+	 * @param tFile The {@code File} to write the line to
+	 * @param lineContent The line content to write
+	 * @param lineNum The position in the {@code File} to write the line
+	 * @throws IOException If an error occurred while fetiching the file (usually an invalid path)
 	 */
 	public static void writeAtPos(File tFile, String lineContent, int lineNum) throws IOException {
 		//Make sure the file exists

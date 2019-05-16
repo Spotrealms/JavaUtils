@@ -16,19 +16,14 @@
  *	License along with this library.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/**
- *
- * @author Spotrealms Network
- * @website https://spotrealms.com
- * @website https://github.com/spotrealms
- */
-
 package com.spotrealms.javautils;
 
 //Import Java classes and dependencies
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+
+//TODO: Finish up JavaDoc
 
 public class StringUtil {
 	/**
@@ -120,7 +115,7 @@ public class StringUtil {
 	 * Decode a URL-encoded String into standard UTF-8 characters
 	 * @param encodedURL - The string to be decoded
 	 * @return <b>String</b> - The resulting decoded string
-	 * @throws UnsupportedEncodingException
+	 * @throws UnsupportedEncodingException If the encoded URL passed to the method is of an invalid encoding
 	 */
 	public static String decodeURL(String encodedURL) throws UnsupportedEncodingException {
 		//Assign the URLs to temporary variables
@@ -142,7 +137,7 @@ public class StringUtil {
 	 * Encode a UTF-8 String into valid characters for URLs and forms
 	 * @param decodedURL - The string to be encoded
 	 * @return <b>String</b> - The resulting encoded string
-	 * @throws UnsupportedEncodingException
+	 * @throws UnsupportedEncodingException If the decoded URL passed to the method is of an invalid encoding
 	 */
 	public static String encodeURL(String decodedURL) throws UnsupportedEncodingException {
 		//Decode the URL and return it as a string
@@ -168,8 +163,8 @@ public class StringUtil {
 	 * Check if a given {@code String} is of a 
 	 * null value or simply blank
 	 * 
-	 * @param tStr - The target {@code String}
-	 * @return <b>boolean</b> - The status of whether or 
+	 * @param tStr The target {@code String}
+	 * @return <b>boolean</b> The status of whether or 
 	 * not the given {@code String} is null or empty
 	 */
 	public static boolean isNull(String tStr){
@@ -184,12 +179,6 @@ public class StringUtil {
 		}
 	}
 	
-	/**
-	 * Encode a String like äöü to \u00e4\u00f6\u00fc
-	 * 
-	 * @param text
-	 * @return
-	 */
 	public String native2Ascii(String text) {
 		if(text == null) {
 			return text;
@@ -201,12 +190,6 @@ public class StringUtil {
 		return sb.toString();
 	}
 
-	/**
-	 * Encode a Character like ä to \u00e4
-	 * 
-	 * @param ch
-	 * @return
-	 */
 	public String native2Ascii(char ch){
 		if(ch > '\u007f'){
 			StringBuilder sb = new StringBuilder();
@@ -230,8 +213,8 @@ public class StringUtil {
 	
 	/**
 	 * Add ordinal suffixes to numbers (1st, 2nd, 3rd, etc)
-	 * @param intIn - The number to add the suffix to
-	 * @return <b>String</b> - The resulting number with ordinal suffix
+	 * @param intIn The number to add the suffix to
+	 * @return <b>String</b> The resulting number with ordinal suffix
 	 */
 	public static String suffixOrdinalNum(int intIn){
 		//Set the list of valid ordinal suffixes
@@ -254,9 +237,9 @@ public class StringUtil {
 	 * Safely encode a {@code String} into
 	 * UTF-8 (takes care of any special 
 	 * characters)
-	 * @param strIn - The target {@code String}
-	 * @return <b>String</b> - The resulting UTF-8 encoded {@code String}
-	 * @throws UnsupportedEncodingException
+	 * @param strIn The target {@code String}
+	 * @return <b>String</b> The resulting UTF-8 encoded {@code String}
+	 * @throws UnsupportedEncodingException If the {@code String} passed to the method is of an invalid encoding
 	 */
 	public static String unicodeStr(String strIn) throws UnsupportedEncodingException {
 		//Create the resulting string

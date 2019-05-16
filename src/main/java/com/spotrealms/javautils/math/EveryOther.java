@@ -16,25 +16,20 @@
  *    License along with this library.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/**
- *
- * @author Spotrealms Network
- * @website https://spotrealms.com
- * @website https://github.com/spotrealms
- */
-
 package com.spotrealms.javautils.math;
 
 //Import Java classes and dependencies
 import java.util.ArrayList;
 
+//TODO: Finsh up JavaDoc
+
 public class EveryOther {
 	/**
 	 * Get an {@code ArrayList} holding every even 
 	 * whole number in a given range
-	 * @param sNum - The lowest number in the range
-	 * @param eNum - The highest number in the range
-	 * @return <b>ArrayList&lt;Integer&gt;</b> - The {@code ArrayList} holding the evens
+	 * @param sNum The lowest number in the range
+	 * @param eNum The highest number in the range
+	 * @return <b>ArrayList&lt;Integer&gt;</b> The {@code ArrayList} holding the evens
 	 */
 	public static ArrayList<Integer> everyEven(int sNum, int eNum){
 		//Make the arraylist to hold the numbers
@@ -48,17 +43,16 @@ public class EveryOther {
 			}
 		}
 	
-		//Return the resulting arraylist as a primitive array of ints via stream ( >= JAVA SE 1.8 is required)
-		//return evenArr.stream().mapToInt(i -> i).toArray();
+		//Return the resulting arraylist
 		return evenArr;
 	}
 	
 	/**
 	 * Get an {@code ArrayList} holding every whole
 	 * number in a given range
-	 * @param sNum - The lowest number in the range
-	 * @param eNum - The highest number in the range
-	 * @return <b>ArrayList&lt;Integer&gt;</b> - The {@code ArrayList} holding the numbers
+	 * @param sNum The lowest number in the range
+	 * @param eNum The highest number in the range
+	 * @return <b>ArrayList&lt;Integer&gt;</b> The {@code ArrayList} holding the numbers
 	 */
 	public static ArrayList<Integer> everyNumInRange(int sNum, int eNum){
 		//Make the arraylist to hold the numbers
@@ -69,18 +63,16 @@ public class EveryOther {
 			rangeArr.add(i);
 		}
 		
-		//Return the resulting arraylist as a primitive array of ints via stream ( >= JAVA SE 1.8 is required)
-		//return rangeArr.stream().mapToInt(i -> i).toArray();
+		//Return the resulting arraylist
 		return rangeArr;
 	}
 	
 	/**
 	 * Get an {@code ArrayList} holding every odd
 	 * whole number in a given range
-	 * @param sNum - The lowest number in the range
-	 * @param eNum - The highest number in the range
-	 * @return <b>ArrayList&lt;Integer&gt;</b> - The {@code ArrayList} holding the odds
-	 *
+	 * @param sNum The lowest number in the range
+	 * @param eNum The highest number in the range
+	 * @return <b>ArrayList&lt;Integer&gt;</b> The {@code ArrayList} holding the odds
 	 */
 	public static ArrayList<Integer> everyOdd(int sNum, int eNum){
 		//Make the arraylist to hold the numbers
@@ -94,8 +86,7 @@ public class EveryOther {
 			}
 		}
 	
-		//Return the resulting arraylist as a primitive array of ints via stream ( >= JAVA SE 1.8 is required)
-		//return oddArr.stream().mapToInt(i -> i).toArray();
+		//Return the resulting arraylist
 		return oddArr;
 	}
 	
@@ -103,10 +94,9 @@ public class EveryOther {
 	/**
 	 * Get an {@code ArrayList} holding every other
 	 * even whole number in a given range
-	 * @param sNum - The lowest number in the range
-	 * @param eNum - The highest number in the range
+	 * @param sNum The lowest number in the range
+	 * @param eNum The highest number in the range
 	 * @return <b>ArrayList&lt;Integer&gt;</b> - The {@code ArrayList} holding the evens
-	 *
 	 */
 	public static ArrayList<Integer> everyOtherEven(int sNum, int eNum){
 		//Make the arraylist to hold the numbers
@@ -124,18 +114,16 @@ public class EveryOther {
 			}
 		}
 	
-		//Return the resulting arraylist as a primitive array of ints via stream ( >= JAVA SE 1.8 is required)
-		//return eoeArr.stream().mapToInt(i -> i).toArray();
+		//Return the resulting arraylist
 		return eoeArr;
 	}
 	
 	/**
 	 * Get an {@code ArrayList} holding every other
 	 * odd whole number in a given range
-	 * @param sNum - The lowest number in the range
-	 * @param eNum - The highest number in the range
-	 * @return <b>ArrayList&lt;Integer&gt;</b> - The {@code ArrayList} holding the odds
-	 *
+	 * @param sNum The lowest number in the range
+	 * @param eNum The highest number in the range
+	 * @return <b>ArrayList&lt;Integer&gt;</b> The {@code ArrayList} holding the odds
 	 */
 	public static ArrayList<Integer> everyOtherOdd(int sNum, int eNum){
 		//Make the arraylist to hold the numbers
@@ -153,8 +141,7 @@ public class EveryOther {
 			}
 		}
 	
-		//Return the resulting arraylist as a primitive array of ints via stream ( >= JAVA SE 1.8 is required)
-		//return eooArr.stream().mapToInt(i -> i).toArray();
+		//Return the resulting arraylist
 		return eooArr;
 	}
 }

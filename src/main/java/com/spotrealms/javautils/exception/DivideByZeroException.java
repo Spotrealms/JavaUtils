@@ -16,20 +16,13 @@
  *    License along with this library.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/**
- *
- * @author Spotrealms Network
- * @website https://spotrealms.com
- * @website https://github.com/spotrealms
- */
-
 package com.spotrealms.javautils.exception;
 
 /**
  * An exception thrown when division by zero
  * occurs or is likely to occur when computing
  * any sort of division.
- * @author Spotrealms Network
+ * @author Spotrealms
  */
 public class DivideByZeroException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
@@ -38,7 +31,7 @@ public class DivideByZeroException extends RuntimeException {
 	 * An exception thrown when division by zero
 	 * occurs or is likely to occur when computing
 	 * any sort of division.
-	 * @param errorMessage - The message to display to the user when the exception is thrown
+	 * @param errorMessage The message to display to the user when the exception is thrown
 	 */
 	public DivideByZeroException(String errorMessage){
 		//Invoke the runtime exception

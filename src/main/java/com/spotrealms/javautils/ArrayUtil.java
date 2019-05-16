@@ -16,13 +16,6 @@
  *    License along with this library.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/**
- *
- * @author Spotrealms Network
- * @website https://spotrealms.com
- * @website https://github.com/spotrealms
- */
-
 package com.spotrealms.javautils;
 
 //Import first-party classes
@@ -32,15 +25,18 @@ import com.spotrealms.javautils.math.MathRandom;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO: Finish up JavaDoc
+
 public class ArrayUtil {	
 	/**
 	 * Create a grammatical list in a {@code String} from a 
 	 * primitive array of arbitrary types
-	 * @param tArr - The primitive array of arbitrary values to create the list from
-	 * @param listType - A character representing the list type (A - and, N - nor, O - or)
-	 * @param listSep - The separator to use in the final list (commas are usually preferred)
-	 * @param spChar - The whitespace character to use in the list (a space is usually preferred)
-	 * @return <b>String</b> - The resulting list in a {@code String}
+	 * @param tArr The primitive array of arbitrary values to create the list from
+	 * @param listType A character representing the list type (A - and, N - nor, O - or)
+	 * @param listSep The separator to use in the final list (commas are usually preferred)
+	 * @param spChar The whitespace character to use in the list (a space is usually preferred)
+	 * @param <T> Allow generic types and objects to be used
+	 * @return <b>String</b> The resulting list in a {@code String}
 	 */
 	public static <T> String createListFromArr(T[] tArr, char listType, char listSep, char spChar){
 		//Create a StringBuilder to hold the list and a String to hold the list type
@@ -103,9 +99,10 @@ public class ArrayUtil {
 	 * Get a random element from a generic 
 	 * arbitrary-dimensional {@code List} using 
 	 * a random number generator
-	 * @param tArray - The {@code List} to look through
-	 * @param recMode - Set whether or not to also pick elements from any nested {@code Lists} 
-	 * @return <b>T</b> - The resulting random element
+	 * @param tArray The {@code List} to look through
+	 * @param recMode Set whether or not to also pick elements from any nested {@code Lists}
+	 * @param <T> Allow generic types and objects to be used
+	 * @return <b>T</b> The resulting random element
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T getRandomArrayElem(List<T> tArray, boolean recMode){
@@ -135,9 +132,10 @@ public class ArrayUtil {
 	 * Get a random element from a generic 
 	 * arbitrary-dimensional primitive {@code Array} 
 	 * using a random number generator
-	 * @param tArray - The {@code Array} to look through
-	 * @param recMode - Set whether or not to also pick elements from any nested {@code Arrays} 
-	 * @return <b>T</b> - The resulting random element
+	 * @param tArray The {@code Array} to look through
+	 * @param recMode Set whether or not to also pick elements from any nested {@code Arrays} 
+	 * @param <T> Allow generic types and objects to be used
+	 * @return <b>T</b> The resulting random element
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T getRandomPrimArrayElem(T[] tArray, boolean recMode){
@@ -166,10 +164,11 @@ public class ArrayUtil {
 	/**
 	 * Shuffle a generic arbitrary-dimensional {@code List}
 	 * using the Fisher-Yates shuffling algorithm
-	 * @website https://bost.ocks.org/mike/shuffle/
-	 * @param tArray - The {@code List} to shuffle
-	 * @param recMode - Set whether or not to also shuffle any nested {@code Lists} 
-	 * @return <b>List&lt;T&gt;</b> - The resulting shuffled {@code List}
+	 * @see <a href="https://bost.ocks.org/mike/shuffle/">https://bost.ocks.org/mike/shuffle/</a>
+	 * @param tArray The {@code List} to shuffle
+	 * @param recMode Set whether or not to also shuffle any nested {@code Lists}
+	 * @param <T> Allow generic types and objects to be used
+	 * @return <b>List&lt;T&gt;</b> The resulting shuffled {@code List}
 	 */
 	public static <T> List<T> yatesArrShuffle(List<T> tArray, boolean recMode){
 		//Create the array object
@@ -212,10 +211,11 @@ public class ArrayUtil {
 	/**
 	 * Shuffle a generic arbitrary-dimensional primitive {@code Array}
 	 * using the Fisher-Yates shuffling algorithm
-	 * @website https://bost.ocks.org/mike/shuffle/
-	 * @param tArray - The {@code Array} to shuffle
-	 * @param recMode - Set whether or not to also shuffle any nested {@code Arrays} 
-	 * @return <b>T[]</b> - The resulting shuffled {@code Array}
+	 * @see <a href="https://bost.ocks.org/mike/shuffle/">https://bost.ocks.org/mike/shuffle/</a>
+	 * @param tArray The {@code Array} to shuffle
+	 * @param recMode Set whether or not to also shuffle any nested {@code Arrays}
+	 * @param <T> Allow generic types and objects to be used
+	 * @return <b>T[]</b> The resulting shuffled {@code Array}
 	 */
 	public static <T> T[] yatesPrimArrShuffle(T[] tArray, boolean recMode){
 		//Create the array object

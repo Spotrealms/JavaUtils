@@ -16,13 +16,6 @@
  *    License along with this library.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/**
- *
- * @author Spotrealms Network
- * @website https://spotrealms.com
- * @website https://github.com/spotrealms
- */
-
 package com.spotrealms.javautils;
 
 //Import Java classes and dependencies
@@ -44,14 +37,13 @@ import org.json.JSONObject;
  *  <li>{@code short} validation</li>
  * </ul>
  * @author Spotrealms
- *
  */
 public class TypeValidation {	
 	/**
 	 * Check whether or not a {@code String} validates 
 	 * to a {@code boolean}
-	 * @param strIn - The input {@code String} to check
-	 * @return <b>boolean</b> - The status of whether or not the input {@code String} is a valid {@code boolean}
+	 * @param strIn The input {@code String} to check
+	 * @return <b>boolean</b> The status of whether or not the input {@code String} is a valid {@code boolean}
 	 */
 	public static boolean isBool(String strIn){
 		//Check if the String equals true or false
@@ -68,8 +60,8 @@ public class TypeValidation {
 	/**
 	 * Check whether or not a {@code String} validates 
 	 * to a {@code double}
-	 * @param strIn - The input {@code String} to check
-	 * @return <b>boolean</b> - The status of whether or not the input {@code String} is a valid {@code double}
+	 * @param strIn The input {@code String} to check
+	 * @return <b>boolean</b> The status of whether or not the input {@code String} is a valid {@code double}
 	 */
 	public static boolean isDouble(String strIn){
 		try {
@@ -88,8 +80,8 @@ public class TypeValidation {
 	/**
 	 * Check whether or not a {@code String} validates 
 	 * to a {@code float}
-	 * @param strIn - The input {@code String} to check
-	 * @return <b>boolean</b> - The status of whether or not the input {@code String} is a valid {@code float}
+	 * @param strIn The input {@code String} to check
+	 * @return <b>boolean</b> The status of whether or not the input {@code String} is a valid {@code float}
 	 */
 	public static boolean isFloat(String strIn){
 		try {
@@ -108,8 +100,8 @@ public class TypeValidation {
 	/**
 	 * Check whether or not a {@code String} validates 
 	 * to an {@code int}
-	 * @param strIn - The input {@code String} to check
-	 * @return <b>boolean</b> - The status of whether or not the input {@code String} is a valid {@code int}
+	 * @param strIn The input {@code String} to check
+	 * @return <b>boolean</b> The status of whether or not the input {@code String} is a valid {@code int}
 	 */
 	public static boolean isInt(String strIn){
 		try {
@@ -128,30 +120,36 @@ public class TypeValidation {
 	/**
 	 * Check whether or not a {@code String} validates 
 	 * to {@code JSON}
-	 * @param strIn - The input {@code String} to check
-	 * @return <b>boolean</b> - The status of whether or not the input {@code String} is valid {@code JSON}
-	 * @website https://stackoverflow.com/questions/10174898/how-to-check-whether-a-given-string-is-valid-json-in-java
+	 * @param testJSON The input {@code String} to check
+	 * @return <b>boolean</b> The status of whether or not the input {@code String} is valid {@code JSON}
+	 * @see <a href="https://stackoverflow.com/questions/10174898/how-to-check-whether-a-given-string-is-valid-json-in-java">https://stackoverflow.com/questions/10174898/how-to-check-whether-a-given-string-is-valid-json-in-java</a>
 	 */
 	public static boolean isJSONValid(String testJSON){
 		try {
+			//Make a new JSON object from the String
 			new JSONObject(testJSON);
 		} 
 		catch(JSONException ex){
+			//Try to create a JSON array instead
 			try {
+				//Make a new JSONArray object instead
 				new JSONArray(testJSON);
 			} 
 			catch(JSONException ex1){
+				//Return false because the String isn't valid JSON
 				return false;
 			}
 		}
+		
+		//Return true because the String is valid JSON
 		return true;
 	}
 	
 	/**
 	 * Check whether or not a {@code String} validates 
 	 * to a {@code long}
-	 * @param strIn - The input {@code String} to check
-	 * @return <b>boolean</b> - The status of whether or not the input {@code String} is a valid {@code long}
+	 * @param strIn The input {@code String} to check
+	 * @return <b>boolean</b> The status of whether or not the input {@code String} is a valid {@code long}
 	 */
 	public static boolean isLong(String strIn){
 		try {
@@ -170,8 +168,8 @@ public class TypeValidation {
 	/**
 	 * Check whether or not a {@code String} validates 
 	 * to a {@code short}
-	 * @param strIn - The input {@code String} to check
-	 * @return <b>boolean</b> - The status of whether or not the input {@code String} is a valid {@code short}
+	 * @param strIn The input {@code String} to check
+	 * @return <b>boolean</b> The status of whether or not the input {@code String} is a valid {@code short}
 	 */
 	public static boolean isShort(String strIn){
 		try {

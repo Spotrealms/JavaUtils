@@ -16,13 +16,6 @@
  *    License along with this library.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/**
- *
- * @author Spotrealms Network
- * @website https://spotrealms.com
- * @website https://github.com/spotrealms
- */
-
 package com.spotrealms.javautils.exception;
 
 //Import first-party classes
@@ -32,9 +25,7 @@ import com.spotrealms.javautils.ArrayUtil;
  * An exception thrown when a primitive array,
  * {@code List}, {@code ArrayList}, etc is
  * not valid for the given type expected.
- * @author Spotrealms Network
- * @param errorMessage - The message to display to the user when the error is thrown
- * @param expectedType - A primitive array of {@code String} variables that show the valid array types expected by the method or class
+ * @author Spotrealms
  */
 public class InvalidArrayException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
@@ -43,8 +34,8 @@ public class InvalidArrayException extends RuntimeException {
 	 * An exception thrown when a primitive array,
 	 * {@code List}, {@code ArrayList}, etc is
 	 * not valid for the given type expected.
-	 * @param errorMessage - The message to display to the user when the exception is thrown
-	 * @param expectedType - A primitive array of {@code String} variables that show the valid array types expected by the method or class
+	 * @param errorMessage The message to display to the user when the exception is thrown
+	 * @param expectedType A primitive array of {@code String} variables that show the valid array types expected by the method or class
 	 */
 	public InvalidArrayException(String errorMessage, String[] expectedType){
 		//Invoke the runtime exception
@@ -53,9 +44,9 @@ public class InvalidArrayException extends RuntimeException {
 	
 	/**
 	 * Generate the response message for the constructor
-	 * @param errorMessage - The message to display to the user when the exception is thrown
-	 * @param expectedType - A primitive array of {@code String} variables that show the valid array types expected by the method or class
-	 * @return <b>String</b> - The final response to show in the thrown exception
+	 * @param errorMessage The message to display to the user when the exception is thrown
+	 * @param expectedType A primitive array of {@code String} variables that show the valid array types expected by the method or class
+	 * @return <b>String</b> The final response to show in the thrown exception
 	 */
 	private static String generateResponse(String errorMessage, String[] expectedType){
 		//Collect the valid array types into a String for processing

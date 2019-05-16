@@ -16,13 +16,6 @@
  *    License along with this library.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/**
- *
- * @author Spotrealms Network
- * @website https://spotrealms.com
- * @website https://github.com/spotrealms
- */
-
 package com.spotrealms.javautils.io;
 
 //Import Java classes and dependencies
@@ -43,14 +36,13 @@ import java.util.Arrays;
  * 	<li>Directory purging ({@code purgeDir})</li>
  * 	<li>Directory deletion ({@code purgeDir})</li>
  * </ul>
- * @author Spotrealms Network & Contributors
- *
+ * @author Spotrealms &amp; Contributors
  */
 public class DirectoryUtil {
 	/**
 	 * Count the number of items in a given directory
-	 * @param dirLocation - The relative path of the directory to operate in
-	 * @return <b>int</b> - The number of files and sub-directories in the given directory
+	 * @param dirLocation The relative path of the directory to operate in
+	 * @return <b>int</b> The number of files and sub-directories in the given directory
 	 */
 	public static int countInDir(String dirLocation){
 		//Create a file object to represent the directory
@@ -65,9 +57,8 @@ public class DirectoryUtil {
 	
 	/**
 	 * Creates a directory at the specified relative path
-	 * @param dirPath - The relative path of the directory to create
-	 * @param debugOut - Show debug messages relating to the status of the directory creation operation
-	 * @return void
+	 * @param dirPath The relative path of the directory to create
+	 * @param debugOut Show debug messages relating to the status of the directory creation operation
 	 */
 	public static void createDirectory(String dirPath, boolean debugOut){
 		//Normalize the file path
@@ -105,8 +96,7 @@ public class DirectoryUtil {
 	
 	/**
 	 * Remove an entire directory or file along with its contents
-	 * @param tDir - The target directory's relative path
-	 * @return void
+	 * @param dirPath The target directory's relative path
 	 */
 	public static void deleteDir(String dirPath){
 		//Normalize the file path
@@ -135,8 +125,8 @@ public class DirectoryUtil {
 	
 	/**
 	 * Check if a directory exists at the relative path specified
-	 * @param dirLocation - The relative path of the directory to check
-	 * @return <b>boolean</b> - The status of whether the directory exists or not
+	 * @param dirLocation The relative path of the directory to check
+	 * @return <b>boolean</b> The status of whether the directory exists or not
 	 */
 	public static boolean dirExists(String dirLocation){
 		//Normalize the file path
@@ -158,10 +148,9 @@ public class DirectoryUtil {
 	
 	/**
 	 * Remove the contents of a directory, with extension exclusions
-	 * @param tDir - The target directory's relative path
-	 * @param excludeExt - A primitive array of Strings specifying any extensions to exclude (EXAMPLE: <code>new String[]{"jar", "log"}</code>)
-	 * @param recursiveDel - Traverse sub-directories in addition to the target directory
-	 * @return void
+	 * @param tDir The target directory's relative path
+	 * @param excludeExt A primitive array of Strings specifying any extensions to exclude (EXAMPLE: <code>new String[]{"jar", "log"}</code>)
+	 * @param recursiveDel Traverse sub-directories in addition to the target directory
 	 */
 	public static void purgeDir(String tDir, String[] excludeExt, boolean recursiveDel){
 		//Normalize the file path

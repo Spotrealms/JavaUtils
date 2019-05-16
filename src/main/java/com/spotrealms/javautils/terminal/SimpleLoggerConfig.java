@@ -16,17 +16,12 @@
  *    License along with this library.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/**
- *
- * @author Spotrealms Network
- * @website https://spotrealms.com
- * @website https://github.com/spotrealms
- */
-
 package com.spotrealms.javautils.terminal;
 
 //Import first-party classes
 import com.spotrealms.javautils.terminal.TF.Color;
+
+//TODO: Add JavaDoc
 
 public class SimpleLoggerConfig {
 	//Setup default color variables (has to be strings because extending classes may use something besides ANSI escape codes)

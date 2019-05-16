@@ -16,13 +16,6 @@
  *    License along with this library.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/**
- *
- * @author Spotrealms Network & Contributors
- * @website https://spotrealms.com
- * @website https://github.com/spotrealms
- */
-
 package com.spotrealms.javautils;
 
 //Import first-party classes
@@ -35,6 +28,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+//TODO: Finish up JavaDoc
+
 /**
  * A util/helper class (using jdk 8) which can format a 
  * string and replaces occurrences of variables. 
@@ -45,7 +40,7 @@ import java.util.regex.Pattern;
  * Map with values (or suffix prefix or noKeyFunction)
  * like:
  * <pre>
- *  Map<String, Object> values = new HashMap<>();
+ *  Map&lt;String, Object&gt; values = new HashMap&lt;&gt;();
  *  values.put("firstName", "Peter");
  *  values.put("lastName", "Parker");
  *  JPlaceholder JPlaceholder = new JPlaceholder(values);
@@ -62,7 +57,7 @@ import java.util.regex.Pattern;
  * exception (unchecked because I use the default jdk8 
  * Function which can't handle checked exceptions) like:
  * <pre>
- *  Map<String, Object> map = new HashMap<>();
+ *  Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();
  *  map.put("firstName", "Peter");
  *  map.put("lastName", "Parker");
  *  JPlaceholder JPlaceholder = new JPlaceholder(map);
@@ -71,31 +66,31 @@ import java.util.regex.Pattern;
  * </pre>
  * You can define a custom behavior in the constructor call like: 
  * <pre>
- *  Map<String, Object> values = new HashMap<>();
+ *  Map&lt;String, Object&gt; values = new HashMap&lt;&gt;();
  *  values.put("firstName", "Peter");
  *  values.put("lastName", "Parker");
- *  JPlaceholder JPlaceholder = new JPlaceholder(fullMatch, variableName) -> variableName.equals("missingName") ? "John": "SOMETHING_WRONG", values);
+ *  JPlaceholder JPlaceholder = new JPlaceholder(fullMatch, variableName) -&gt; variableName.equals("missingName") ? "John": "SOMETHING_WRONG", values);
  *  JPlaceholder.format("${missingName} ${lastName} is Spiderman!");
  *  // Result: "John Parker is Spiderman!"
  * </pre>
  * or delegate it back to the default no key behavior:
  * <pre>
  *  ...
- *  JPlaceholder JPlaceholder = new JPlaceholder((fullMatch, variableName) ->   variableName.equals("missingName") ? "John" :
+ *  JPlaceholder JPlaceholder = new JPlaceholder((fullMatch, variableName) -&gt;   variableName.equals("missingName") ? "John" :
  *  JPlaceholder.DEFAULT_NO_KEY_FUNCTION.apply(fullMatch, variableName), map);
  *  ...
  * </pre>
  * For better handling there are also static method representations like: 
  * <pre>
- *  Map<String, Object> values = new HashMap<>();
+ *  Map&lt;String, Object&gt; values = new HashMap&lt;&gt;();
  *  values.put("firstName", "Peter");
  *  values.put("lastName", "Parker");
  *  JPlaceholder.format("${firstName} ${lastName} is Spiderman!", values);
  *  // Result: "Peter Parker is Spiderman!"
  * </pre>
  * 
- * @author schlegel11
- * @website https://stackoverflow.com/a/51989500/7520602
+ * @author schlegel11 &amp; Spotrealms
+ * @see <a href="https://stackoverflow.com/a/51989500/7520602">https://stackoverflow.com/a/51989500/7520602</a>
  */
 public class JPlaceholder {
 	//Prefix and suffix for the enclosing variable name in the format string.
@@ -294,6 +289,8 @@ public class JPlaceholder {
 		//Return the populated HashMap
 		return placeholderData;
 	}
+	
+	//TODO: Move to JUnit test instead of declaring it here in the class itself
 	
 	//TESTING
 	/*

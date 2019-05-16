@@ -16,13 +16,6 @@
  *    License along with this library.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/**
- *
- * @author Spotrealms Network
- * @website https://spotrealms.com
- * @website https://github.com/spotrealms
- */
-
 package com.spotrealms.javautils.io;
 
 //Import first-party classes
@@ -32,6 +25,8 @@ import com.spotrealms.javautils.StringUtil;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+//TODO: Add JavaDoc
 
 public class NetUtil {
 	public static URL strToURL(String tString) throws MalformedURLException {
