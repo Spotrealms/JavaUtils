@@ -336,7 +336,7 @@ public class FileUtil {
 	 * Load a generic non-resource file from the relative path specified as a {@code FileInputStream}
 	 * @param filePath The relative path of the file to load
 	 * @return <b>File</b> The file as a {@code FileInputStream}
-	 * @throws IOException If an error occurred while fetiching the file (usually an invalid path)
+	 * @throws IOException If an error occurred while fetching the file (usually an invalid path)
 	 * @see Resource#getResourceAsFile
 	 */
 	public static FileInputStream loadFileAsFileStream(String filePath) throws IOException {
@@ -417,7 +417,7 @@ public class FileUtil {
 	 * @param tFile The {@code File} to find the lines in
 	 * @param lineContent The line content to look for in the {@code File}
 	 * @return <b>HashMap&lt;Integer, String&gt;</b> The matched lines in the {@code File}
-	 * @throws IOException If an error occurred while fetiching the file (usually an invalid path)
+	 * @throws IOException If an error occurred while fetching the file (usually an invalid path)
 	 */
 	public static HashMap<Integer, String> locateMatchingLines(File tFile, String lineContent) throws IOException {
 		//Make sure the file exists
@@ -510,7 +510,7 @@ public class FileUtil {
 	 * Write a line to a {@code File} at the very end
 	 * @param tFile The {@code File} to write the line to
 	 * @param lineContent The line content to write
-	 * @throws IOException If an error occurred while fetiching the file (usually an invalid path)
+	 * @throws IOException If an error occurred while fetching the file (usually an invalid path)
 	 */
 	public static void writeAtEnd(File tFile, String lineContent) throws IOException {
 		//Make sure the file exists
@@ -540,7 +540,7 @@ public class FileUtil {
 	 * @param tFile The {@code File} to write the line to
 	 * @param lineContent The line content to write
 	 * @param lineNum The position in the {@code File} to write the line
-	 * @throws IOException If an error occurred while fetiching the file (usually an invalid path)
+	 * @throws IOException If an error occurred while fetching the file (usually an invalid path)
 	 */
 	public static void writeAtPos(File tFile, String lineContent, int lineNum) throws IOException {
 		//Make sure the file exists
