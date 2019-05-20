@@ -15,12 +15,13 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	
-	<profiles>
-		<profile>
-			<id>allow-snapshots</id>
-			<activation><activeByDefault>true</activeByDefault></activation>
-		</profile>
-	</profiles>
+	<licenses>
+		<license>
+			<name>GNU Lesser General Public License, Version 3.0</name>
+			<url>https://www.gnu.org/licenses/lgpl-3.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
 	
 	<dependencies>
 		<!-- Json.org JSON -->
