@@ -164,7 +164,7 @@ public class DirectoryUtil {
 			//Check if the current file is another directory
 			if(!(cFile.isDirectory())){
 				//Get the current file's extension
-				String cFileExt = FileUtil.getExtension(cFile.getName()).toLowerCase();
+				String cFileExt = FileUtil.getFileProps(cFile.getName()).get(1).toLowerCase();
 
 				//Check if the file has an excluded extension via stream ( >= JAVA SE 1.8 is required)
 				if(!(Arrays.stream(excludeExt).anyMatch(cFileExt::equals))){

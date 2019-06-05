@@ -37,10 +37,27 @@ import org.json.JSONObject;
  *  <li>{@code int} validation</li>
  *  <li>{@code long} validation</li>
  *  <li>{@code short} validation</li>
+ *  <li>{@code JSON} validation</li>
  * </ul>
+ * Additionally, an enum containing all of the
+ * available types that can be checked is also
+ * available, which is useful for determining 
+ * which of these methods to use when validating
+ * a {@code String} that is expected to be of an 
+ * arbitrary type.
  * @author Spotrealms
  */
-public class TypeValidation {	
+public class TypeValidation {
+	/**
+	 * Provides a list of all data types that can
+	 * be validated using methods from the validation
+	 * class. Useful when determining what a {@code String}
+	 * should be expected to validate to.
+	 */
+	public static enum allValidationTypes {
+		BOOLEAN, BYTE, CHAR, DOUBLE, FLOAT, INT, LONG, SHORT, JSON;
+	}
+	
 	/**
 	 * Check whether or not a {@code String} validates 
 	 * to a {@code boolean}
@@ -165,34 +182,6 @@ public class TypeValidation {
 	
 	/**
 	 * Check whether or not a {@code String} validates 
-	 * to {@code JSON}
-	 * @param testJSON The input {@code String} to check
-	 * @return <b>boolean</b> The status of whether or not the input {@code String} is valid {@code JSON}
-	 * @see <a href="https://stackoverflow.com/questions/10174898/how-to-check-whether-a-given-string-is-valid-json-in-java">https://stackoverflow.com/questions/10174898/how-to-check-whether-a-given-string-is-valid-json-in-java</a>
-	 */
-	public static boolean isJSONValid(String testJSON){
-		try {
-			//Make a new JSON object from the string
-			new JSONObject(testJSON);
-		} 
-		catch(JSONException ex){
-			//Try to create a JSON array instead
-			try {
-				//Make a new JSONArray object instead
-				new JSONArray(testJSON);
-			} 
-			catch(JSONException ex1){
-				//Return false because the string isn't valid JSON
-				return false;
-			}
-		}
-		
-		//Return true because the string is valid JSON
-		return true;
-	}
-	
-	/**
-	 * Check whether or not a {@code String} validates 
 	 * to a {@code long}
 	 * @param strIn The input {@code String} to check
 	 * @return <b>boolean</b> The status of whether or not the input {@code String} is a valid {@code long}
@@ -229,5 +218,34 @@ public class TypeValidation {
 			//The short isn't valid, so return false
 			return false;
 		}
+	}
+	
+
+	/**
+	 * Check whether or not a {@code String} validates 
+	 * to {@code JSON}
+	 * @param testJSON The input {@code String} to check
+	 * @return <b>boolean</b> The status of whether or not the input {@code String} is valid {@code JSON}
+	 * @see <a href="https://stackoverflow.com/questions/10174898/how-to-check-whether-a-given-string-is-valid-json-in-java">https://stackoverflow.com/questions/10174898/how-to-check-whether-a-given-string-is-valid-json-in-java</a>
+	 */
+	public static boolean isValidJSON(String testJSON){
+		try {
+			//Make a new JSON object from the string
+			new JSONObject(testJSON);
+		} 
+		catch(JSONException ex){
+			//Try to create a JSON array instead
+			try {
+				//Make a new JSONArray object instead
+				new JSONArray(testJSON);
+			} 
+			catch(JSONException ex1){
+				//Return false because the string isn't valid JSON
+				return false;
+			}
+		}
+		
+		//Return true because the string is valid JSON
+		return true;
 	}
 }
