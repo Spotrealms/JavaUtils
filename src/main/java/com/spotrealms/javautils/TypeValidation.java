@@ -65,10 +65,10 @@ public class TypeValidation {
 	 * @param strIn The input {@code String} to check
 	 * @return <b>boolean</b> The status of whether or not the input {@code String} is a valid {@code byte}
 	 */
-	public static boolean isByte(String tStr){
+	public static boolean isByte(String strIn){
 		try {
 			//Convert the string to an integer
-			int testInt = Integer.decode(tStr);
+			int testInt = Integer.decode(strIn);
 		
 			//Check if the integer is out of range (between -128 and 127), which prevents buffer overflows/underflows
 			if((testInt > Byte.MAX_VALUE) || (testInt < Byte.MIN_VALUE)){
