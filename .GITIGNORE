@@ -2,8 +2,14 @@
 ## Project Directories
 #################
 
-#Don't upload depreciated folders
+#Don't upload deprecated folders
 *_old*
+
+
+#Don't upload folders containing code that isn't ready for release
+*_indev*
+*_alpha*
+*_beta*
 
 #################
 ## Eclipse

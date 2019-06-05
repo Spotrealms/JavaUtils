@@ -52,19 +52,22 @@ public class SimpleLoggerConfig {
 	
 	//Setup default variable values
 	protected static final String defaultAppHeader = "";
+	private static final boolean defaultGlobalNoColors = false;
 	private static final String defaultLogFormat = "${headercolor}[${logtype}]${resetcolor}: ${bodycolor}${message}";
 	private static final boolean defaultSuppressOutput = false;
 	
 	//Setup private variables
 	private String appHeader;
+	private boolean globalNoColors;
 	private String logFormat;
 	private boolean suppressOutput;
 
 	//Class constructor
-	public SimpleLoggerConfig(String appHeader, String logFormat, boolean suppressOutput){
+	public SimpleLoggerConfig(String appHeader, String logFormat, boolean globalNoColors ,boolean suppressOutput){
 		//Assign the class variables from the constructor
 		this.appHeader = appHeader;
 		this.logFormat = logFormat;
+		this.globalNoColors = globalNoColors;
 		this.suppressOutput = suppressOutput;
 		
 		//Assign default color variables for the config object
@@ -81,24 +84,33 @@ public class SimpleLoggerConfig {
 		this.resetColor = defaultResetColor;
 	}
 	
+	public SimpleLoggerConfig(String appHeader, String logFormat, boolean globalNoColors){
+		//Redirect to the overloaded constructor with unimplemented parameters being substituted by their default values
+		this(appHeader, logFormat, globalNoColors, defaultSuppressOutput);
+	}
+	
 	public SimpleLoggerConfig(String appHeader, String logFormat){
 		//Redirect to the overloaded constructor with unimplemented parameters being substituted by their default values
-		this(appHeader, logFormat, defaultSuppressOutput);
+		this(appHeader, logFormat, defaultGlobalNoColors, defaultSuppressOutput);
 	}
 	
 	public SimpleLoggerConfig(String appHeader){
 		//Redirect to the overloaded constructor with unimplemented parameters being substituted by their default values
-		this(appHeader, defaultLogFormat, defaultSuppressOutput);
+		this(appHeader, defaultLogFormat, defaultGlobalNoColors, defaultSuppressOutput);
 	}
 	
 	public SimpleLoggerConfig(){
 		//Redirect to the overloaded constructor with unimplemented parameters being substituted by their default values
-		this(defaultAppHeader, defaultLogFormat, defaultSuppressOutput);
+		this(defaultAppHeader, defaultLogFormat, defaultGlobalNoColors, defaultSuppressOutput);
 	}
 
 	//Getters for class variables
 	public String getAppHeader(){
 		return appHeader;
+	}
+	
+	public boolean isGlobalNoColors(){
+		return globalNoColors;
 	}
 
 	public String getLogFormat(){
@@ -112,6 +124,10 @@ public class SimpleLoggerConfig {
 	//Setters for class variables
 	public void setAppHeader(String appHeader){
 		this.appHeader = appHeader;
+	}
+	
+	public void setGlobalNoColors(boolean globalNoColors){
+		this.globalNoColors = globalNoColors;
 	}
 
 	public void setLogFormat(String logFormat){

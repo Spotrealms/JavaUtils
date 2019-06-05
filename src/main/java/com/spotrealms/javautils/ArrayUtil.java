@@ -161,6 +161,20 @@ public class ArrayUtil {
 		return randomElem;
 	}
 	
+	public static <T> String listToStr(List<T> targetList){
+		//Create a StringBuilder for later
+		StringBuilder outputStr = new StringBuilder();
+		
+		//Loop through the list
+		for(T listElem : targetList){
+			//Append the current element to the StringBuilder (must be converted to a string first)
+			outputStr.append(listElem.toString());
+		}
+		
+		//Output the StringBuilder as a string
+		return outputStr.toString();
+	}
+	
 	/**
 	 * Shuffle a generic arbitrary-dimensional {@code List}
 	 * using the Fisher-Yates shuffling algorithm

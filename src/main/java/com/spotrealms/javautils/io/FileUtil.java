@@ -34,6 +34,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -42,14 +43,17 @@ import java.util.regex.Matcher;
  * A series of methods for working with files on the system.
  * Working with files in Java can be useful if a file 
  * needs to be written to or read from. 
- * <br>This class has the following file management features:
+ * <br>This class has the following file management and
+ * file utility features:
  * <ul>
  * 	<li>File line counter ({@code countfileLines})</li>
  * 	<li>File line deleter at position x ({@code delAtPos})</li>
  * 	<li>File existence checking ({@code fileExists})</li>
  * 	<li>Class execution path getter ({@code getExecPath})</li>
- * 	<li>File extension parsing ({@code getExtension})</li>
+ * 	<li>File extension parsing ({@code getExtension} / <b>Deprecated!</b> Use {@code getFileProps} instead.)</li>
+ * 	<li>File property parsing ({@code getFileProps})</li>
  *  <li>File relative path getter ({@code getRelativePath})</li>
+ *  <li>File line matcher ({@code locateMatchingLines})</li>
  *  <li>File path normalizer ({@code normalizePath})</li>
  *  <li>UNIX file path converter ({@code unixToWinPath})</li>
  *  <li>Windows file path converter ({@code winToUnixPath})</li>
@@ -221,7 +225,7 @@ public class FileUtil {
 
 			//Check if the path is a URL
 			if(configPath.indexOf("file:\\\\") != -1){
-				//Escape the backslah path seperator
+				//Escape the backslash path separator
 				configPath = configPath.replace("file:\\\\", "");
 			}
 		}
@@ -239,7 +243,11 @@ public class FileUtil {
 	 * Get the extension of a file from its name
 	 * @param fileName The name of the file
 	 * @return <b>String</b> The extension of the file
+	 * @deprecated This method has been rendered obsolete 
+	 * by {@code getFileProps}, which adds more options
+	 * for getting file info from its name or path.
 	 */
+	@Deprecated
 	public static String getExtension(String fileName){
 		//Get the length of the file
 		int fileLength = fileName.length();
@@ -266,6 +274,58 @@ public class FileUtil {
 			//Return the extension of the file
 			return fileName.substring(dotInd+1).toLowerCase();
 		}
+	}
+	
+	/**
+	 * Get the name and extension of a file from its name
+	 * or path on the file system. 
+	 * @param filePath The name of the file or the path to
+	 * it on the file system
+	 * @return <b>ArrayList&lt;String&gt;</b> The name and 
+	 * extension of the file, with the name being at position 
+	 * 0 and the extension being at position 1 in the array.
+	 */
+	public static ArrayList<String> getFileProps(String filePath){
+		//Create the container ArrayList
+		ArrayList<String> fileProps = new ArrayList<>();
+		
+		//Create a new file object to represent the file path
+		File fileObj = new File(filePath);
+		
+		//Get the name of the file
+		String fileName = fileObj.getName();
+		
+		//Check if the length of the name is 0
+		if(fileName.length() < 1){
+			//Return a zero-length ArrayList because the file has a blank name (an empty or null path was supplied)
+			//System.out.println("null file");
+			return fileProps;
+		}
+		
+		//Get the location of the last dot in the filename (if there is one)
+		int dotInd = fileName.lastIndexOf('.');
+			
+		//Check if there is no dot in the filename and if any dot is not the end of the filename
+		if((dotInd != -1) && (fileName.charAt(fileName.length() - 1) != '.')){
+			//Separate the filename from the extension and add it to the ArrayList at position 0 (found by getting the string just before any dot in the filename)
+			fileProps.add(0, fileName.substring(0, (dotInd)));
+			
+			//Get the file's extension (found by getting the string past the last dot in the path)
+			String fileExt = (fileName.substring(dotInd + 1).toLowerCase());
+			
+			//Add the extension to the ArrayList at position 1
+			fileProps.add(1, fileExt);
+		}
+		else {
+			//Add the filename to the ArrayList (won't need to undergo separation from the extension since there is none)
+			fileProps.add(0, fileName);
+			
+			//Set the extension as null, as there is no extension
+			fileProps.add(1, null);
+		}
+		
+		//Return the file properties as an ArrayList
+		return fileProps;
 	}
 	
 	/**

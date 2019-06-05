@@ -15,10 +15,11 @@ import java.util.Map;
 
 public class SimpleLogger {
 	//Setup class variables
-	private SimpleLoggerConfig simpleLoggerConfig;
+	private final SimpleLoggerConfig simpleLoggerConfig;
 	private final String appHeader;
-	private String logFormat;
-	private boolean suppressOutput;
+	private final boolean globalNoColors;
+	private final String logFormat;
+	private final boolean suppressOutput;
 	
 	//Class constructor
 	public SimpleLogger(SimpleLoggerConfig simpleLoggerConfig){	
@@ -27,6 +28,7 @@ public class SimpleLogger {
 				
 		//Pull out the other variables from the config
 		this.appHeader = simpleLoggerConfig.getAppHeader();
+		this.globalNoColors = simpleLoggerConfig.isGlobalNoColors();
 		this.logFormat = simpleLoggerConfig.getLogFormat();
 		this.suppressOutput = simpleLoggerConfig.isSuppressOutput();
 	}
@@ -46,8 +48,8 @@ public class SimpleLogger {
 			//Generate the log message to send via genLogOut()
 			String outputMsg = genLogOut(logMessage, logType, formatOverride);
 		
-			//Check if color should be excluded from the output
-			if(removeColors){
+			//Check if color should be excluded from the output (either because this log shouldn't have color or colors were overridden globally)
+			if(removeColors || globalNoColors){
 				//Output the log message without the color
 				System.out.println(StringUtil.cleanText(outputMsg, "COLOR"));
 			}
@@ -65,22 +67,22 @@ public class SimpleLogger {
 	
 	public void submitLog(String logMessage, Log logType, boolean removeColors){
 		//Redirect to the overloaded method
-		submitLog(logMessage, logType, removeColors, this.logFormat);
+		submitLog(logMessage, logType, removeColors, logFormat);
 	}
 	
 	public void submitLog(String logMessage, Log logType){
 		//Redirect to the overloaded method
-		submitLog(logMessage, logType, false, this.logFormat);
+		submitLog(logMessage, logType, false, logFormat);
 	}
 	
 	public void submitLog(String logMessage){
 		//Redirect to the overloaded method
-		submitLog(logMessage, Log.INFO, false, this.logFormat);
+		submitLog(logMessage, Log.INFO, false, logFormat);
 	}
 	
 	protected String genLogOut(String logMessage, Log logType, String formatOverride){
 		//Create a throwaway variable for the header to avoid changing the original
-		String aHeader = this.appHeader;
+		String aHeader = appHeader;
 				
 		//Create the variables for the header and body colors (info colors are the default)
 		String lHeaderColor = simpleLoggerConfig.getInfoHeaderColor();
@@ -126,7 +128,7 @@ public class SimpleLogger {
 		//Check if the log format is unfilled
 		if(StringUtil.isNull(formatOverride)){
 			//Format and return the completed log message with the default log format syntax
-			return (formatLogOutput(logMessage, aHeader, logColors, logType, this.logFormat));
+			return (formatLogOutput(logMessage, aHeader, logColors, logType, logFormat));
 		}
 		else {
 			//Format and return the completed log message with the user specified log format syntax (if it was provided)
@@ -154,7 +156,7 @@ public class SimpleLogger {
 		if(StringUtil.isNull(timestampFormat)){
 			//Get the date format from the user's locale
 			DateFormat dateFormat = DateFormat.getDateTimeInstance(
-				DateFormat.DEFAULT,DateFormat.DEFAULT, Locale.getDefault()
+				DateFormat.DEFAULT, DateFormat.DEFAULT, Locale.getDefault()
 			);
 				
 			//Populate with the format from the user's inferred locale

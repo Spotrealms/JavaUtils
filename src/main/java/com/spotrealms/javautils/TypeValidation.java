@@ -30,6 +30,8 @@ import org.json.JSONObject;
  * validation methods are available:
  * <ul>
  *  <li>{@code boolean} validation</li>
+ *  <li>{@code byte} validation</li>
+ *  <li>{@code char} validation</li>
  *  <li>{@code double} validation</li>
  *  <li>{@code float} validation</li>
  *  <li>{@code int} validation</li>
@@ -46,13 +48,57 @@ public class TypeValidation {
 	 * @return <b>boolean</b> The status of whether or not the input {@code String} is a valid {@code boolean}
 	 */
 	public static boolean isBool(String strIn){
-		//Check if the String equals true or false
+		//Check if the string equals true or false
 		if(strIn.equals("true") || strIn.equals("false")){
-			//The String is a valid boolean, so return true
+			//The string is a valid boolean, so return true
 			return true;
 		}
 		else {
 			//The boolean isn't valid, so return false
+			return false;
+		}
+	}
+	
+	/**
+	 * Check whether or not a {@code String} validates 
+	 * to a {@code byte}
+	 * @param strIn The input {@code String} to check
+	 * @return <b>boolean</b> The status of whether or not the input {@code String} is a valid {@code byte}
+	 */
+	public static boolean isByte(String tStr){
+		try {
+			//Convert the string to an integer
+			int testInt = Integer.decode(tStr);
+		
+			//Check if the integer is out of range (between -128 and 127), which prevents buffer overflows/underflows
+			if((testInt > Byte.MAX_VALUE) || (testInt < Byte.MIN_VALUE)){
+				//Return false, as the integer is out of range of the max and min values for bytes
+				return false;
+			}
+			
+			//Return true, as the integer parsed from the string is a valid byte that's in range
+			return true;
+		}
+		catch(Exception e){
+			//Return false, as there was an issue parsing the string as an integer
+			return false;
+		}
+	}
+	
+	/**
+	 * Check whether or not a {@code String} validates 
+	 * to a {@code char}
+	 * @param strIn The input {@code String} to check
+	 * @return <b>boolean</b> The status of whether or not the input {@code String} is a valid {@code char}
+	 */
+	public static boolean isChar(String strIn){
+		//Test if the string is of length 1
+		if(strIn.length() == 1){
+			//Return true because the string contains one and only one character, therefore it can be casted as a character
+			return true;
+		}
+		else {
+			//Return false because the string can't be casted to a character, as its length is not equal to that of a single character
 			return false;
 		}
 	}
@@ -65,10 +111,10 @@ public class TypeValidation {
 	 */
 	public static boolean isDouble(String strIn){
 		try {
-			//Try to parse the String as a double
+			//Try to parse the string as a double
 			Double.parseDouble(strIn);
 			
-			//The String is a valid double, so return true
+			//The string is a valid double, so return true
 			return true;
 		}
 		catch(NumberFormatException invalidDouble){
@@ -85,10 +131,10 @@ public class TypeValidation {
 	 */
 	public static boolean isFloat(String strIn){
 		try {
-			//Try to parse the String as a float
+			//Try to parse the string as a float
 			Float.parseFloat(strIn);
 			
-			//The String is a valid float, so return true
+			//The string is a valid float, so return true
 			return true;
 		}
 		catch(NumberFormatException invalidFloat){
@@ -105,10 +151,10 @@ public class TypeValidation {
 	 */
 	public static boolean isInt(String strIn){
 		try {
-			//Try to parse the String as an integer
+			//Try to parse the string as an integer
 			Integer.parseInt(strIn);
 			
-			//The String is a valid integer, so return true
+			//The string is a valid integer, so return true
 			return true;
 		}
 		catch(NumberFormatException invalidInt){
@@ -126,7 +172,7 @@ public class TypeValidation {
 	 */
 	public static boolean isJSONValid(String testJSON){
 		try {
-			//Make a new JSON object from the String
+			//Make a new JSON object from the string
 			new JSONObject(testJSON);
 		} 
 		catch(JSONException ex){
@@ -136,12 +182,12 @@ public class TypeValidation {
 				new JSONArray(testJSON);
 			} 
 			catch(JSONException ex1){
-				//Return false because the String isn't valid JSON
+				//Return false because the string isn't valid JSON
 				return false;
 			}
 		}
 		
-		//Return true because the String is valid JSON
+		//Return true because the string is valid JSON
 		return true;
 	}
 	
@@ -153,10 +199,10 @@ public class TypeValidation {
 	 */
 	public static boolean isLong(String strIn){
 		try {
-			//Try to parse the String as a long
+			//Try to parse the string as a long
 			Long.parseLong(strIn);
 			
-			//The String is a valid long, so return true
+			//The string is a valid long, so return true
 			return true;
 		}
 		catch(NumberFormatException invalidLong){
@@ -173,10 +219,10 @@ public class TypeValidation {
 	 */
 	public static boolean isShort(String strIn){
 		try {
-			//Try to parse the String as a short
+			//Try to parse the string as a short
 			Short.parseShort(strIn);
 			
-			//The String is a valid short, so return true
+			//The string is a valid short, so return true
 			return true;
 		}
 		catch(NumberFormatException invalidShort){
