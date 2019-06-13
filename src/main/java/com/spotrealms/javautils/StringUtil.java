@@ -161,20 +161,46 @@ public class StringUtil {
 	
 	/**
 	 * Check if a given {@code String} is of a 
-	 * null value or simply blank
-	 * 
+	 * null value. This is different from 
+	 * {@code isNullOrVoid}, as this method will
+	 * return {@code true} if and ONLY IF the input
+	 * {@code String} is null.
+	 * @param tStr The target {@code String}
+	 * @return <b>boolean</b> The status of whether or 
+	 * not the given {@code String} is null
+	 * @see isNullOrVoid
+	 */
+	public static boolean isNull(String tStr){
+		//Check if the string is null
+		if(tStr != null){
+			//String has a value tied to it or is simply blank
+			return false;
+		}
+		else {
+			//String is null
+			return true;
+		}
+	}
+	
+	/**
+	 * Check if a given {@code String} is of a 
+	 * null value or is simply blank. This is 
+	 * different from {@code isNull}, as this
+	 * method will also return {@code true} if 
+	 * the input {@code String} is empty.
 	 * @param tStr The target {@code String}
 	 * @return <b>boolean</b> The status of whether or 
 	 * not the given {@code String} is null or empty
+	 * @see isNull
 	 */
-	public static boolean isNull(String tStr){
+	public static boolean isNullOrVoid(String tStr){
 		//Check if the string is null
 		if(tStr != null && !tStr.isEmpty()){
 			//String has a value tied to it
 			return false;
 		}
 		else {
-			//String is null
+			//String is null or blank
 			return true;
 		}
 	}

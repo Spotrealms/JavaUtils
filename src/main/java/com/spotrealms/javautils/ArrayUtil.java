@@ -161,18 +161,29 @@ public class ArrayUtil {
 		return randomElem;
 	}
 	
-	public static <T> String listToStr(List<T> targetList){
+	public static <T> String listToStr(List<T> targetList, String arrElemDelimiter){
 		//Create a StringBuilder for later
 		StringBuilder outputStr = new StringBuilder();
 		
 		//Loop through the list
-		for(T listElem : targetList){
+		for(int i=0; i<targetList.size(); i++){
 			//Append the current element to the StringBuilder (must be converted to a string first)
-			outputStr.append(listElem.toString());
+			outputStr.append(targetList.get(i).toString());
+			
+			//Check if the current element in the List is not the last one
+			if(i < (targetList.size() - 1)){
+				//Append the delimiter on the end of the StringBuilder
+				outputStr.append(arrElemDelimiter);
+			}
 		}
 		
 		//Output the StringBuilder as a string
 		return outputStr.toString();
+	}
+	
+	public static <T> String listToStr(List<T> targetList){
+		//Redirect to the overloaded method
+		return listToStr(targetList, "");
 	}
 	
 	/**

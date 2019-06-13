@@ -52,13 +52,13 @@ import java.util.regex.Matcher;
  * 	<li>Class execution path getter ({@code getExecPath})</li>
  * 	<li>File extension parsing ({@code getExtension} / <b>Deprecated!</b> Use {@code getFileProps} instead.)</li>
  * 	<li>File property parsing ({@code getFileProps})</li>
- *  <li>File relative path getter ({@code getRelativePath})</li>
- *  <li>File line matcher ({@code locateMatchingLines})</li>
- *  <li>File path normalizer ({@code normalizePath})</li>
- *  <li>UNIX file path converter ({@code unixToWinPath})</li>
- *  <li>Windows file path converter ({@code winToUnixPath})</li>
- *  <li>File line writer to end ({@code writeAtEnd})</li>
- *  <li>File line writer at position x ({@code writeAtPos})</li>
+ * 	<li>File relative path getter ({@code getRelativePath})</li>
+ * 	<li>File line matcher ({@code locateMatchingLines})</li>
+ * 	<li>File path normalizer ({@code normalizePath})</li>
+ * 	<li>UNIX file path converter ({@code unixToWinPath})</li>
+ * 	<li>Windows file path converter ({@code winToUnixPath})</li>
+ * 	<li>File line writer to end ({@code writeAtEnd})</li>
+ * 	<li>File line writer at position x ({@code writeAtPos})</li>
  * </ul>
  * 
  * Additionally, this class contains methods for loading generic
