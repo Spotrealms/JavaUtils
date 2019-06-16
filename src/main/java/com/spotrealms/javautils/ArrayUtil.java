@@ -161,6 +161,18 @@ public class ArrayUtil {
 		return randomElem;
 	}
 	
+	/**
+	 * Check if an input generic object is a
+	 * primitive array
+	 * @param objToCheck The object to check
+	 * @param <T> Allow generic types and objects to be used
+	 * @return <b>boolean</b> The status of whether or not the object is an array
+	 */
+	public static <T> boolean isPrimArr(T objToCheck){
+		//Return true if the input object is an instance of an array and isn't null
+		return (objToCheck != null && objToCheck.getClass().isArray());
+	}
+	
 	public static <T> String listToStr(List<T> targetList, String arrElemDelimiter){
 		//Create a StringBuilder for later
 		StringBuilder outputStr = new StringBuilder();
