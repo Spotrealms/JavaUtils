@@ -2,14 +2,14 @@
 ## Project Directories
 #################
 
-#Don't upload deprecated folders
+# Deprecated folders
 *_old*
 
-
-#Don't upload folders containing code that isn't ready for release
+# Folders containing code that isn't ready for release
 *_indev*
 *_alpha*
 *_beta*
+
 
 #################
 ## Eclipse
@@ -129,7 +129,6 @@ Backup*/
 UpgradeLog*.XML
 
 
-
 ############
 ## Windows
 ############
@@ -139,6 +138,14 @@ Thumbs.db
 
 # Folder config file
 Desktop.ini
+
+
+#############
+## MacOS
+#############
+
+# Mac specific file attributes
+.DS_Store
 
 
 #############
@@ -172,6 +179,3 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
-
-# Mac stuff
-.DS_Store
