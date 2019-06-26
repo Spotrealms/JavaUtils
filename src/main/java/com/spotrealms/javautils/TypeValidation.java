@@ -528,8 +528,18 @@ public class TypeValidation {
 				}
 			}
 			else {
-				//Run the corresponding method for the current expected type against the input string and get the result as a boolean
-				boolean currentResult = currentExpectedType.validate(targetStr, customTypes.get(0));
+				//Setup a boolean for later
+				boolean currentResult;
+				
+				//Check if at least one custom type exists (prevents NPEs)
+				if(customTypes.size() > 0){
+					//Run the corresponding method for the current expected type against the input string
+					currentResult = currentExpectedType.validate(targetStr, customTypes.get(0));
+				}
+				else {
+					//Run the corresponding method for the current expected type against the input string, but don't pass a custom type, as none exist
+					currentResult = currentExpectedType.validate(targetStr, null);
+				}
 				
 				//Check if the result is false (indicates that the string doesn't validate to the current type)
 				if(!currentResult){
