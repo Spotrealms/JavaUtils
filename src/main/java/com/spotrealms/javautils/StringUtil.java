@@ -22,6 +22,8 @@ package com.spotrealms.javautils;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 //TODO: Finish up JavaDoc
 
@@ -203,6 +205,52 @@ public class StringUtil {
 			//String is null or blank
 			return true;
 		}
+	}
+
+	/**
+	 * Version of lastIndexOf that uses regular 
+	 * expressions (regex) for searching.
+	 * @author Tomer Godinger &amp; Spotrealms
+	 * @param huntStr The {@code String} in which to search for the pattern
+	 * @param toFind The REGEX pattern to use on the input {@code String}
+	 * @return The index of the requested pattern, if found; returns "-1" otherwise
+	 * @see <a href="https://stackoverflow.com/a/10999868">https://stackoverflow.com/a/10999868</a>
+	 */
+	public static int lastIndexOfRegex(String huntStr, String toFind){
+		//Set the regex pattern to use on the input String
+		Pattern regexPattern = Pattern.compile(toFind);
+		
+		//Set the matcher to use
+		Matcher patternMatcher = regexPattern.matcher(huntStr);
+
+		//Default to the integer "-1" if not found
+		int lastIndex = -1;
+
+		//Loop while the regex pattern is located
+	    while(patternMatcher.find()){
+	    	//Get the last index of the matched regex
+	    	lastIndex = patternMatcher.start();
+	    }
+
+	    //Return the last matched index in the input String
+	    return lastIndex;
+	}
+	
+	/**
+	 * Finds the last index of the given regular 
+	 * expression pattern (regexp) in the given 
+	 * {@code String}, starting from the given 
+	 * index (and conceptually going backwards).
+	 * @author Tomer Godinger &amp; Spotrealms
+	 * @param huntStr The {@code String} in which to search for the pattern
+	 * @param toFind The REGEX pattern to use on the input {@code String}
+	 * @param fromIndex Set the staring point in the input {@code String}
+	 * @return The index of the requested pattern, if found; returns "-1" otherwise
+	 * @see <a href="https://stackoverflow.com/a/10999868">https://stackoverflow.com/a/10999868</a>
+	 */
+	public static int lastIndexOfRegex(String huntStr, String toFind, int fromIndex){
+	    //Return the last matched index in the input String
+	    return lastIndexOfRegex(huntStr.substring(0, fromIndex), toFind);
 	}
 	
 	public String native2Ascii(String text) {
