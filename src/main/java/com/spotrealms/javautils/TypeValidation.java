@@ -18,6 +18,8 @@
 
 package com.spotrealms.javautils;
 
+import com.spotrealms.javautils.math.MathUtil;
+
 //Import Java classes and dependencies
 import java.util.ArrayList;
 import org.json.JSONArray;
@@ -47,7 +49,9 @@ import org.json.JSONObject;
  * a {@code String} that is expected to be of an 
  * arbitrary type. This arbitrary type validation
  * is available in this class in the method
- * {@code strValidates}.
+ * {@code strValidates}. Data type assumption is also
+ * available via the previously defined data type 
+ * validation methods.
  * @author Spotrealms
  */
 public class TypeValidation {
@@ -278,14 +282,8 @@ public class TypeValidation {
 			//Convert the string to an integer
 			int testInt = Integer.decode(strIn);
 		
-			//Check if the integer is out of range (between -128 and 127), which prevents buffer overflows/underflows
-			if((testInt > Byte.MAX_VALUE) || (testInt < Byte.MIN_VALUE)){
-				//Return false, as the integer is out of range of the max and min values for bytes
-				return false;
-			}
-			
-			//Return true, as the integer parsed from the string is a valid byte that's in range
-			return true;
+			//Try to parse the string as a byte and check if it's in range, then return the result
+			return MathUtil.numberInRange(testInt, Byte.MIN_VALUE, Byte.MAX_VALUE);
 		}
 		catch(Exception e){
 			//Return false, as there was an issue parsing the string as an integer
@@ -302,14 +300,8 @@ public class TypeValidation {
 	public static boolean isChar(String strIn){
 		//Check if the string validates to an integer
 		if(isInt(strIn)){
-			//Check if the integer is out of range (between 0 and 65535), which prevents buffer overflows/underflows
-			if((Integer.parseInt(strIn) > Character.MAX_VALUE) || (Integer.parseInt(strIn) < Character.MIN_VALUE)){
-				//Return false, as the integer is out of range of the max and min values for characters
-				return false;
-			}
-			
-			//Return true, as the integer parsed from the string is a valid character that's in range
-			return true;
+			//Try to parse the string as an integer and check if it's in range given it's a char value, then return the result
+			return MathUtil.numberInRange(Integer.parseInt(strIn), Character.MIN_VALUE, Character.MAX_VALUE);
 		}
 		else {	
 			//Test if the string is of length 1
@@ -332,11 +324,8 @@ public class TypeValidation {
 	 */
 	public static boolean isDouble(String strIn){
 		try {
-			//Try to parse the string as a double
-			Double.parseDouble(strIn);
-			
-			//The string is a valid double, so return true
-			return true;
+			//Try to parse the string as a double and check if it's in range, then return the result
+			return MathUtil.numberInRange(Double.parseDouble(strIn), Double.MIN_VALUE, Double.MAX_VALUE);
 		}
 		catch(NumberFormatException invalidDouble){
 			//The double isn't valid, so return false
@@ -352,11 +341,8 @@ public class TypeValidation {
 	 */
 	public static boolean isFloat(String strIn){
 		try {
-			//Try to parse the string as a float
-			Float.parseFloat(strIn);
-			
-			//The string is a valid float, so return true
-			return true;
+			//Try to parse the string as a float and check if it's in range, then return the result
+			return MathUtil.numberInRange(Float.parseFloat(strIn), Float.MIN_VALUE, Float.MAX_VALUE);
 		}
 		catch(NumberFormatException invalidFloat){
 			//The float isn't valid, so return false
@@ -372,11 +358,8 @@ public class TypeValidation {
 	 */
 	public static boolean isInt(String strIn){
 		try {
-			//Try to parse the string as an integer
-			Integer.parseInt(strIn);
-			
-			//The string is a valid integer, so return true
-			return true;
+			//Try to parse the string as an integer and check if it's in range, then return the result
+			return MathUtil.numberInRange(Integer.parseInt(strIn), Integer.MIN_VALUE, Integer.MAX_VALUE);
 		}
 		catch(NumberFormatException invalidInt){
 			//The integer isn't valid, so return false
@@ -392,11 +375,8 @@ public class TypeValidation {
 	 */
 	public static boolean isLong(String strIn){
 		try {
-			//Try to parse the string as a long
-			Long.parseLong(strIn);
-			
-			//The string is a valid long, so return true
-			return true;
+			//Try to parse the string as a long and check if it's in range, then return the result
+			return MathUtil.numberInRange(Long.parseLong(strIn), Long.MIN_VALUE, Long.MAX_VALUE);
 		}
 		catch(NumberFormatException invalidLong){
 			//The long isn't valid, so return false
@@ -412,11 +392,8 @@ public class TypeValidation {
 	 */
 	public static boolean isShort(String strIn){
 		try {
-			//Try to parse the string as a short
-			Short.parseShort(strIn);
-			
-			//The string is a valid short, so return true
-			return true;
+			//Try to parse the string as a short and check if it's in range, then return the result
+			return MathUtil.numberInRange(Short.parseShort(strIn), Short.MIN_VALUE, Short.MAX_VALUE);
 		}
 		catch(NumberFormatException invalidShort){
 			//The short isn't valid, so return false
@@ -639,5 +616,86 @@ public class TypeValidation {
 	public static boolean strValidates(String targetStr, allValidationTypes expectedType){
 		//Redirect to the overloaded method
 		return strValidates(targetStr, expectedType, new ArrayList<arbitraryType>());
+	}
+	
+	/**
+	 * Attempts to assume the data type of an input
+	 * {@code String} given a set of pre&dash;determined
+	 * requirements that must be met for each of the 
+	 * eight primitive data types. The way this happens 
+	 * is via a specific order of operations in which the 
+	 * type checking starts with the most restrictive types, 
+	 * then moves to more permissive ones. The output of 
+	 * this method, therefore, will return an instance of 
+	 * the lowest possibly sized object to which the 
+	 * {@code String} can validate to. If the input 
+	 * {@code String} doesn't validate to a specific 
+	 * primitive type, an instance of {@code String} is 
+	 * returned instead.
+	 * @param strIn
+	 * @return <b>Object</b> An instance of the object that the 
+	 * input {@code String} can validate to, via {@code instanceof} 
+	 * or via a call such as this: {@code assumeType(strIn).getClass().getName()}
+	 */
+	public static Object assumeType(String strIn){
+		//Check if the string can be a boolean
+		if(TypeValidation.isBool(strIn)){
+			//Return a new boolean object 
+			return Boolean.FALSE;
+		}
+		
+		//Check if the string can be a long (covers whole number family)
+		if(TypeValidation.isLong(strIn)){
+			//Check if the string can be a byte
+			if(TypeValidation.isByte(strIn)){
+				//Return a new byte object
+				return Byte.valueOf((byte) 0);
+			}
+			
+			//Check if the string can be a short
+			else if(TypeValidation.isShort(strIn)){
+				//Return a new integer object
+				return Short.valueOf((short) 0);
+			}
+			
+			//Check if the string can be an integer
+			else if(TypeValidation.isInt(strIn)){
+				//Return a new integer object
+				return Integer.valueOf((int) 0);
+			}
+			
+			//Return a long object, as the smaller types in the family aren't valid given the input string
+			else {
+				//Return a new long object
+				return Long.valueOf((long) 0);
+			}
+		}
+		
+		//Check if the string can be a double (covers real number family)
+		if(TypeValidation.isDouble(strIn)){
+			//Check if the string can be a float
+			if(TypeValidation.isFloat(strIn)){
+				//Return a new float object
+				return Float.valueOf((float) 0.0);
+			}
+			
+			//Return a double object, as the smaller types in the family aren't valid given the input string
+			else {
+				//Return a new double object
+				return Double.valueOf((double) 0.0);
+			}
+		}
+		
+		//Check if the string can be a char
+		if(TypeValidation.isChar(strIn)){
+			//Return a new char object
+			return Character.valueOf((char) 0);
+		}
+		
+		//Default selection option
+		else {
+			//Return a new string object, as the input object doesn't match one of the eight primitive types 
+			return new String();
+		}
 	}
 }

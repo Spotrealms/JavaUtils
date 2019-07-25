@@ -56,7 +56,7 @@ public class NanoBenchmark {
 	}
 	
 	//Define precision levels
-	enum measPrecision {
+	public enum measPrecision {
 		NANOSEC, MICROSEC, MILLISEC, SEC;
 	}
 	

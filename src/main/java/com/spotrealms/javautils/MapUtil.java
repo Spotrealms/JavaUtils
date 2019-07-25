@@ -19,7 +19,7 @@
 package com.spotrealms.javautils;
 
 //Import first-party classes
-import com.spotrealms.javautils.math.MathRandom;
+import com.spotrealms.javautils.math.MathUtil;
 
 //Import Java classes and dependencies
 import java.util.Map;
@@ -45,7 +45,7 @@ public class MapUtil {
 		T[] primMap = (T[]) tMap.keySet().toArray();
 		
 		//Pick a random integer in a range (from 0 to the map size)
-		int randInt = MathRandom.getRandomInt(0, (mapSize - 1));
+		int randInt = MathUtil.getRandomInt(0, (mapSize - 1));
 				
 		//Get the element at the index of the random long
 		T randomMapElem = primMap[randInt];

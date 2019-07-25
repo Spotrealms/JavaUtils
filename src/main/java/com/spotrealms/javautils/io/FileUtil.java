@@ -21,11 +21,13 @@ package com.spotrealms.javautils.io;
 //Import first-party classes
 import com.spotrealms.javautils.StringUtil;
 
+import java.io.BufferedReader;
 //Import Java classes and dependencies
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -34,7 +36,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -46,6 +50,7 @@ import java.util.regex.Matcher;
  * <br>This class has the following file management and
  * file utility features:
  * <ul>
+ * 	<li>File copying utility ({@code copy})</li>
  * 	<li>File line counter ({@code countfileLines})</li>
  * 	<li>File line deleter at position x ({@code delAtPos})</li>
  * 	<li>File existence checking ({@code fileExists})</li>
@@ -53,8 +58,9 @@ import java.util.regex.Matcher;
  * 	<li>File extension parsing ({@code getExtension} / <b>Deprecated!</b> Use {@code getFileProps} instead.)</li>
  * 	<li>File property parsing ({@code getFileProps})</li>
  * 	<li>File relative path getter ({@code getRelativePath})</li>
- * 	<li>File line matcher ({@code locateMatchingLines})</li>
+ * 	<li>File line matcher ({@code findLines})</li>
  * 	<li>File path normalizer ({@code normalizePath})</li>
+ *  <li>File line replacement ({@code replaceLines})</li>
  * 	<li>UNIX file path converter ({@code unixToWinPath})</li>
  * 	<li>Windows file path converter ({@code winToUnixPath})</li>
  * 	<li>File line writer to end ({@code writeAtEnd})</li>
@@ -76,6 +82,31 @@ import java.util.regex.Matcher;
  * @author Spotrealms &amp; Contributors
  */
 public class FileUtil {
+	/**
+	 * Wrapper for the built-in {@code Files.copy()} method
+	 * that adds error checks with a unified exception if
+	 * anything goes south. NOTE: This method requires 
+	 * Java SE >= 1.7 to run
+	 * @param sourceFile The path to the input {@code File} to copy, including the filename
+	 * @param destFile The path to the destination {@code File}, including the filename
+	 * @throws IOException If the path to the {@code File} is invalid
+	 */
+	public static void copy(String sourceFile, String destFile) throws IOException {
+		//Create file objects for each file represented by the input strings
+		File srcFile = new File(sourceFile);
+		File destiFile = new File(destFile);
+		
+		//Try to copy the input file
+		try {
+			//Copy the file using Files.copy() (Java SE 1.7+ is required)
+			Files.copy(Paths.get(srcFile.getPath()), Paths.get(destiFile.getPath()), StandardCopyOption.REPLACE_EXISTING);
+		} 
+		catch(Exception e){
+			//Throw an IOException containing the details of whatever exception was caught
+			throw new IOException(e.getMessage(), e);
+		}
+	}
+
 	/**
 	 * Defines comment line markers used by a
 	 * variety of different programming and markup 
@@ -109,6 +140,24 @@ public class FileUtil {
 	        return cLine;
 	    }
 	}
+	
+	/**
+	 * Defines a list of all available comment
+	 * line markers that are "regex safe", or 
+	 * their usage in files isn't ambiguous to
+	 * regex matchers
+	 * @see commentLines
+	 */
+	public static ArrayList<String> comLines = new ArrayList<String>(Arrays.asList(
+		commentLines.ADA.toString(),
+		commentLines.BASIC.toString(),
+		commentLines.BATCH.toString(),
+		commentLines.CISCO.toString(),
+		commentLines.CPP.toString(),
+		commentLines.LATEX.toString(),
+		commentLines.PERL.toString(),
+		commentLines.PYTHON.toString()
+	));
 	
 	/**
 	 * Count the number of lines a given {@code File}
@@ -176,7 +225,6 @@ public class FileUtil {
 			throw new IOException("The file at " + tFile.getPath() + " doesn't exist.");
 		}
 	}
-	
 	
 	/**
 	 * Check if a file exists at the relative path specified
@@ -298,7 +346,6 @@ public class FileUtil {
 		//Check if the length of the name is 0
 		if(fileName.length() < 1){
 			//Return a zero-length ArrayList because the file has a blank name (an empty or null path was supplied)
-			//System.out.println("null file");
 			return fileProps;
 		}
 		
@@ -476,10 +523,12 @@ public class FileUtil {
 	 * a {@code HashMap} (line number, line value)
 	 * @param tFile The {@code File} to find the lines in
 	 * @param lineContent The line content to look for in the {@code File}
+	 * @param useRegex Set whether or not {@code lineContent} should be treated as a regex
+	 * @param ignoreComments Set whether or not to include comments in the output {@code HashMap}
 	 * @return <b>HashMap&lt;Integer, String&gt;</b> The matched lines in the {@code File}
 	 * @throws IOException If an error occurred while fetching the file (usually an invalid path)
 	 */
-	public static HashMap<Integer, String> locateMatchingLines(File tFile, String lineContent) throws IOException {
+	public static HashMap<Integer, String> findLines(File tFile, String lineContent, boolean useRegex, boolean ignoreComments) throws IOException {
 		//Make sure the file exists
 		if(tFile.exists()){
 			//Ensure the file is indeed a file
@@ -495,10 +544,34 @@ public class FileUtil {
 				
 				//Loop over the file lines
 				for(int i=0; i<fileLines.size(); i++){
-					//Check if current the file line matches the given string
-					if(fileLines.get(i).equals(lineContent)){
-						//Add the matched line and its position in the file to the HashMap
-						matchedLines.put((i + 1), fileLines.get(i));
+					//Get the status as to whether the current line is an exact match
+					boolean exactMatch = (fileLines.get(i).equals(lineContent));
+
+					//Get the status as to whether the current line is a regex match
+					boolean regexMatch = StringUtil.matchesRegex(fileLines.get(i), lineContent);
+
+					//Get the status as to whether the current line is a comment line
+					boolean commentLine = (StringUtil.equalsAny(fileLines.get(i), comLines, false, true));
+
+					//Check if regexes should be used
+					if(useRegex){
+						//Check if the current file line has a regex match
+						if(regexMatch){
+							//Add the matched line and its position in the file to the HashMap
+							matchedLines.put((i + 1), fileLines.get(i));
+						}
+					}
+					else {
+						//Check if current the file line is an exact match
+						if(exactMatch){
+							//Add the matched line and its position in the file to the HashMap
+							matchedLines.put((i + 1), fileLines.get(i));
+						}
+					}
+					//Check if the current line is a comment line and that comments shouldn't be ignored
+					if(commentLine && ignoreComments){
+						//Remove the corresponsing element from the HashMap
+						matchedLines.remove((i + 1));
 					}
 				}
 				
@@ -536,6 +609,65 @@ public class FileUtil {
 		
 		//Replace both types of slash to the appropriate separator
 		return pathIn.replaceAll("(\\\\|/){1,}", Matcher.quoteReplacement(sysSep));
+	}
+	
+	/**
+	 * Replace all lines in a {@code File} that match
+	 * an input {@code String}
+	 * @param tFile The {@code File} to find the lines in
+	 * @param replaceTarget The line content to look for in the {@code File}
+	 * @param replaceWith The line content to replace the matches with
+	 * @param useRegex Set whether or not {@code lineContent} should be treated as a regex
+	 * @param ignoreComments Set whether or not to include comments in the output {@code HashMap}
+	 * @return <b>HashMap&lt;Integer, String&gt;</b> The matched lines in the {@code File}
+	 * @throws IOException If an error occurred while fetching the file (usually an invalid path)
+	 */
+	public static void replaceLines(File tFile, String replaceTarget, String replaceWith, boolean useRegex, boolean ignoreComments) throws IOException {
+		//Start the replace process
+		try {
+			//Create a BufferedReader for the original file
+			BufferedReader origFile = new BufferedReader(new FileReader(tFile.getPath()));
+			
+			//Create a StringBuffer to hold the new file
+			StringBuffer inputBuffer = new StringBuffer();
+
+			//Get a HashMap of all the matches
+			HashMap<Integer, String> allMatches = findLines(tFile, replaceTarget, useRegex, ignoreComments);
+
+			//Read in the target file lines to a List
+			List<String> fileLines = Files.readAllLines(Paths.get(tFile.getPath()), StandardCharsets.UTF_8);
+
+			//Loop over the file lines
+			for(int i=0; i<fileLines.size(); i++){
+				//Get the current file line
+				String fileLine = fileLines.get(i);
+
+				//Check if the current file line is listed in the match HashMap
+				if(allMatches.get((i + 1)) != null){
+					//Replace the regex targets with the string to replace it with
+					fileLine = fileLine.replaceAll(replaceTarget, replaceWith);
+				}
+				
+				//Append the current line along with a line break onto the new file StringBuffer
+				inputBuffer.append(fileLine + '\n');
+			}
+			
+			//Close the original file
+	        origFile.close();
+
+	        //Create a file object to represent the new file (same as the old, but new object)
+	        FileOutputStream fileOut = new FileOutputStream(tFile.getPath());
+	        
+	        //Overwrite the input file
+	        fileOut.write(inputBuffer.toString().getBytes());
+	        
+	        //Close the modified file
+	        fileOut.close();
+		} 
+		catch(Exception e){
+			//Throw an IOException containing the details of whatever exception was caught
+			throw new IOException(e.getMessage(), e);
+		}
 	}
 	
 	/**

@@ -22,6 +22,7 @@ package com.spotrealms.javautils;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -147,6 +148,48 @@ public class StringUtil {
 		return encodeURL;
 	}
 	
+	/**
+	 * Check if a {@code String} equals any element in
+	 * a given {@code ArrayList}. Useful in cases where
+	 * a {@code String} can equal multiple objects.
+	 * @param tStr The {@code String} to use in the operation
+	 * @param equalTargets A list of all objects that the input {@code String} can equal
+	 * @param ignoreCase Specifies whether or not to ignore case in the comparison operation
+	 * @param useRegex Specifies whether or not to match lines by using the {@code ArrayList} as regex patterns
+	 * @param <T> Allow generic types and objects to be used
+	 * @return <b>boolean</b> The status as to whether or not the input {@code String} equals any object in the passed {@code ArrayList}
+	 */
+	public static <T> boolean equalsAny(String tStr, ArrayList<T> equalTargets, boolean ignoreCase, boolean useRegex){
+		//Loop through the ArrayList of targets
+		for(Object curTarget : equalTargets){
+			//Check if case should be ignored
+			if(ignoreCase){
+				//Transform both the target element and the input string to lowercase
+				tStr = tStr.toLowerCase();
+				curTarget = curTarget.toString().toLowerCase();
+			}
+			
+			//Check if regex should be used
+			if(useRegex){
+				//Check if there was a match
+				if(matchesRegex(tStr, curTarget.toString())){
+					//Return true because the string matches at least one regex
+					return true;
+				}
+			}
+			else {
+				//Check if the input string equals the target element
+				if(tStr.equals(curTarget)){
+					//Return true because the string matches at least one equal target
+					return true;
+				}
+			}
+		}
+		
+		//Return false because the input string doesn't equal any of the equal targets
+		return false;
+	}
+	
 	public static String escAllChars(String escStr){
 		//Set the characters to insert
 		String insertStr = "\\";
@@ -210,30 +253,22 @@ public class StringUtil {
 	/**
 	 * Version of lastIndexOf that uses regular 
 	 * expressions (regex) for searching.
-	 * @author Tomer Godinger &amp; Spotrealms
 	 * @param huntStr The {@code String} in which to search for the pattern
 	 * @param toFind The REGEX pattern to use on the input {@code String}
-	 * @return The index of the requested pattern, if found; returns "-1" otherwise
-	 * @see <a href="https://stackoverflow.com/a/10999868">https://stackoverflow.com/a/10999868</a>
+	 * @return <b>int</b> The index of the requested pattern, if found; returns "-1" otherwise
 	 */
 	public static int lastIndexOfRegex(String huntStr, String toFind){
-		//Set the regex pattern to use on the input String
-		Pattern regexPattern = Pattern.compile(toFind);
+		try {
+			//Get all indexes of the regex matches
+			int[] allMatches = regexIndexes(huntStr, toFind);
 		
-		//Set the matcher to use
-		Matcher patternMatcher = regexPattern.matcher(huntStr);
-
-		//Default to the integer "-1" if not found
-		int lastIndex = -1;
-
-		//Loop while the regex pattern is located
-	    while(patternMatcher.find()){
-	    	//Get the last index of the matched regex
-	    	lastIndex = patternMatcher.start();
-	    }
-
-	    //Return the last matched index in the input String
-	    return lastIndex;
+			//Return only the final element in the array
+			return allMatches[(allMatches.length - 1)];
+		}
+		catch(IndexOutOfBoundsException e){
+			//Return -1, since the element wasn't found in the string
+			return -1;
+		}
 	}
 	
 	/**
@@ -241,16 +276,14 @@ public class StringUtil {
 	 * expression pattern (regexp) in the given 
 	 * {@code String}, starting from the given 
 	 * index (and conceptually going backwards).
-	 * @author Tomer Godinger &amp; Spotrealms
 	 * @param huntStr The {@code String} in which to search for the pattern
 	 * @param toFind The REGEX pattern to use on the input {@code String}
 	 * @param fromIndex Set the staring point in the input {@code String}
-	 * @return The index of the requested pattern, if found; returns "-1" otherwise
-	 * @see <a href="https://stackoverflow.com/a/10999868">https://stackoverflow.com/a/10999868</a>
+	 * @return <b>int</b> The index of the requested pattern, if found; returns "-1" otherwise
 	 */
 	public static int lastIndexOfRegex(String huntStr, String toFind, int fromIndex){
-	    //Return the last matched index in the input String
-	    return lastIndexOfRegex(huntStr.substring(0, fromIndex), toFind);
+		//Return the last matched index in the input String
+		return lastIndexOfRegex(huntStr.substring(0, fromIndex), toFind);
 	}
 	
 	public String native2Ascii(String text) {
@@ -262,6 +295,21 @@ public class StringUtil {
 			sb.append(native2Ascii(ch));
 		}
 		return sb.toString();
+	}
+	
+	/**
+	 * Check if an input {@code String} contains
+	 * a given regex pattern
+	 * @param tStr tStr The {@code String} to use in the operation
+	 * @param regexStr tStr The regex to use in the operation
+	 * @return <b>boolean</b> The status as to whether or not the input {@code String} matches the input regex
+	 */
+	public static boolean matchesRegex(String tStr, String regexStr){
+		//Get all indexes of the regex matches
+		int[] allMatches = regexIndexes(tStr, regexStr);
+		
+		//Check if the length is at least one and return the status as a boolean
+		return (allMatches.length >= 1);
 	}
 
 	public String native2Ascii(char ch){
@@ -283,6 +331,35 @@ public class StringUtil {
 		else {
 			return Character.toString(ch);
 		}
+	}
+	
+	/**
+	 * Compiles a list of the indexes in a 
+	 * given {@code String} in which a given
+	 * regular expression pattern (regexp) 
+	 * is found
+	 * @param huntStr The {@code String} in which to search for the pattern
+	 * @param toFind The REGEX pattern to use on the input {@code String}
+	 * @return <b>int[]</b> A list of indexes in the input {@code String} where the regex matches
+	 */
+	public static int[] regexIndexes(String huntStr, String toFind){
+		//Create an ArrayList to hold the matcher finds
+		ArrayList<Integer> matchedIndexes = new ArrayList<>();
+		
+		//Set the regex pattern to use on the input String
+		Pattern regexPattern = Pattern.compile(toFind);
+		
+		//Set the matcher to use
+		Matcher patternMatcher = regexPattern.matcher(huntStr);
+		
+		//Loop while the regex pattern is located
+		while(patternMatcher.find()){
+			//Get the last index of the matched regex
+			matchedIndexes.add(patternMatcher.start());
+		}
+
+		//Return the ArrayList as a primitive array of ints (Java SE 8 is required, as it uses stream() to achieve this)
+		return matchedIndexes.stream().mapToInt(Integer::intValue).toArray();
 	}
 	
 	/**

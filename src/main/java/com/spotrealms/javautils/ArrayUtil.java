@@ -19,7 +19,7 @@
 package com.spotrealms.javautils;
 
 //Import first-party classes
-import com.spotrealms.javautils.math.MathRandom;
+import com.spotrealms.javautils.math.MathUtil;
 
 //Import Java classes and dependencies
 import java.util.ArrayList;
@@ -110,7 +110,7 @@ public class ArrayUtil {
 		int listSize = tArray.size();
 		
 		//Pick a random integer in a range (from 0 to the list size)
-		int randInt = MathRandom.getRandomInt(0, (listSize - 1));
+		int randInt = MathUtil.getRandomInt(0, (listSize - 1));
 		
 		//Get the element at the index of the random long
 		T randomElem = tArray.get(randInt);
@@ -143,7 +143,7 @@ public class ArrayUtil {
 		int arraySize = tArray.length;
 		
 		//Pick a random integer in a range (from 0 to the array size)
-		int randInt = MathRandom.getRandomInt(0, (arraySize - 1));
+		int randInt = MathUtil.getRandomInt(0, (arraySize - 1));
 		
 		//Get the element at the index of the random long
 		T randomElem = tArray[randInt];

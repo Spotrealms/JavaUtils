@@ -19,7 +19,7 @@
 package com.spotrealms.javautils.math;
 
 //TODO: Finish up JavaDoc
-
+@Deprecated
 public class MathRandom {
 	/**
 	 * Get a random boolean value using
