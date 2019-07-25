@@ -86,7 +86,7 @@ public class FileUtil {
 	 * Wrapper for the built-in {@code Files.copy()} method
 	 * that adds error checks with a unified exception if
 	 * anything goes south. NOTE: This method requires 
-	 * Java SE >= 1.7 to run
+	 * Java SE &gt;= 1.7 to run
 	 * @param sourceFile The path to the input {@code File} to copy, including the filename
 	 * @param destFile The path to the destination {@code File}, including the filename
 	 * @throws IOException If the path to the {@code File} is invalid
@@ -619,7 +619,6 @@ public class FileUtil {
 	 * @param replaceWith The line content to replace the matches with
 	 * @param useRegex Set whether or not {@code lineContent} should be treated as a regex
 	 * @param ignoreComments Set whether or not to include comments in the output {@code HashMap}
-	 * @return <b>HashMap&lt;Integer, String&gt;</b> The matched lines in the {@code File}
 	 * @throws IOException If an error occurred while fetching the file (usually an invalid path)
 	 */
 	public static void replaceLines(File tFile, String replaceTarget, String replaceWith, boolean useRegex, boolean ignoreComments) throws IOException {

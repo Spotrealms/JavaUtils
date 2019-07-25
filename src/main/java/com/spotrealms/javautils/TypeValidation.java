@@ -620,7 +620,7 @@ public class TypeValidation {
 	
 	/**
 	 * Attempts to assume the data type of an input
-	 * {@code String} given a set of pre&dash;determined
+	 * {@code String} given a set of pre-determined
 	 * requirements that must be met for each of the 
 	 * eight primitive data types. The way this happens 
 	 * is via a specific order of operations in which the 
@@ -632,7 +632,7 @@ public class TypeValidation {
 	 * {@code String} doesn't validate to a specific 
 	 * primitive type, an instance of {@code String} is 
 	 * returned instead.
-	 * @param strIn
+	 * @param strIn The {@code String} to run the type assumption on
 	 * @return <b>Object</b> An instance of the object that the 
 	 * input {@code String} can validate to, via {@code instanceof} 
 	 * or via a call such as this: {@code assumeType(strIn).getClass().getName()}
