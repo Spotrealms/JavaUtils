@@ -21,8 +21,8 @@ package com.spotrealms.javautils.io;
 //Import first-party classes
 import com.spotrealms.javautils.StringUtil;
 
-import java.io.BufferedReader;
 //Import Java classes and dependencies
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -61,6 +61,7 @@ import java.util.regex.Matcher;
  * 	<li>File line matcher ({@code findLines})</li>
  * 	<li>File path normalizer ({@code normalizePath})</li>
  *  <li>File line replacement ({@code replaceLines})</li>
+ *  <li>File path piece derivation ({@code splitPathPieces})</li>
  * 	<li>UNIX file path converter ({@code unixToWinPath})</li>
  * 	<li>Windows file path converter ({@code winToUnixPath})</li>
  * 	<li>File line writer to end ({@code writeAtEnd})</li>
@@ -667,6 +668,32 @@ public class FileUtil {
 			//Throw an IOException containing the details of whatever exception was caught
 			throw new IOException(e.getMessage(), e);
 		}
+	}
+	
+	/**
+	 * Derive path information such as filename and
+	 * containing directory from a full file path
+	 * @param pathIn The path to derive the info from
+	 * @return  <b>ArrayList&lt;String&gt;</b> The {@code ArrayList} holding the path information, with the first element holding the containing directory and the second element holding the filename
+	 */
+	public static ArrayList<String> splitPathPieces(String pathIn){
+		//Get the last index of any forward slash in the path and convert all backward slashes to forward slashes (removes unnecessary overhead)
+		int lastSlash = FileUtil.winToUnixPath(pathIn).lastIndexOf('/');
+
+		//Create strings to hold the containing directory for the given path
+		String pathDir = "";
+		
+		//Check if the last slash location is greater than 0
+		if(lastSlash >= 0){
+			//Add the containing directory onto its string ending at the last slash in the path
+			pathDir = pathIn.substring(0, lastSlash);
+		}
+		
+		//Get the end file in the path from the last slash to the end of the path
+		String pathFile = pathIn.substring(lastSlash + 1);
+		
+		//Return an ArrayList containing the elements
+		return new ArrayList<String>(Arrays.asList(pathDir, pathFile));
 	}
 	
 	/**
