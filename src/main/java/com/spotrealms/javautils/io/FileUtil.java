@@ -571,7 +571,7 @@ public class FileUtil {
 					}
 					//Check if the current line is a comment line and that comments shouldn't be ignored
 					if(commentLine && ignoreComments){
-						//Remove the corresponsing element from the HashMap
+						//Remove the corresponding element from the HashMap
 						matchedLines.remove((i + 1));
 					}
 				}
