@@ -674,7 +674,7 @@ public class FileUtil {
 	 * Derive path information such as filename and
 	 * containing directory from a full file path
 	 * @param pathIn The path to derive the info from
-	 * @return  <b>ArrayList&lt;String&gt;</b> The {@code ArrayList} holding the path information, with the first element holding the containing directory and the second element holding the filename
+	 * @return <b>ArrayList&lt;String&gt;</b> The {@code ArrayList} holding the path information, with the first element holding the containing directory and the second element holding the filename
 	 */
 	public static ArrayList<String> splitPathPieces(String pathIn){
 		//Get the last index of any forward slash in the path and convert all backward slashes to forward slashes (removes unnecessary overhead)

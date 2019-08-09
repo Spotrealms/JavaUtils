@@ -181,4 +181,15 @@ public class DirectoryUtil {
 			}
 		}
 	}
+	
+
+	/**
+	 * Remove the contents of a directory, with extension exclusions
+	 * @param tDir The target directory's relative path
+	 * @param recursiveDel Traverse sub-directories in addition to the target directory
+	 */
+	public static void purgeDir(String tDir, boolean recursiveDel){
+		//Redirect to the overloaded method with the missing parameters being filled by empty sets
+		purgeDir(tDir, new String[]{}, recursiveDel);
+	}
 }
