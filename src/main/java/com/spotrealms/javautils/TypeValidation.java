@@ -23,7 +23,6 @@ import com.spotrealms.javautils.math.MathUtil;
 //Import Java classes and dependencies
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
