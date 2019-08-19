@@ -22,6 +22,8 @@ import com.spotrealms.javautils.math.MathUtil;
 
 //Import Java classes and dependencies
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -243,7 +245,7 @@ public class TypeValidation {
 		 * to pass custom validation methods, but will
 		 * only be used when running {@code CUSTOMTYPE.validate}.
 		 * Due a limitation in Java regarding the 
-		 * overloading of abstract classes, this parameter 
+		 * overloading of abstract methods, this parameter 
 		 * will be wasted in every other case.
 		 * @param targetStr The input {@code String} to check
 		 * @param customType A custom validation method specified by the user
@@ -252,6 +254,22 @@ public class TypeValidation {
 		 */
 		public abstract boolean validate(String targetStr, arbitraryType customType);
 	}
+	
+	/**
+	 * Defines a list of all possible floating-point data
+	 * types that can be validated using the 
+	 * {@code strValidates} method
+	 * @see strValidates
+	 */
+	public static final ArrayList<allValidationTypes> allFloatTypes = new ArrayList<>(Arrays.asList(allValidationTypes.DOUBLE, allValidationTypes.FLOAT));
+	
+	/**
+	 * Defines a list of all possible integer data types
+	 * that can be validated using the {@code strValidates} 
+	 * method
+	 * @see strValidates
+	 */
+	public static final ArrayList<allValidationTypes> allIntegerTypes = new ArrayList<>(Arrays.asList(allValidationTypes.BYTE, allValidationTypes.INT, allValidationTypes.LONG, allValidationTypes.SHORT));
 	
 	/**
 	 * Check whether or not a {@code String} validates 

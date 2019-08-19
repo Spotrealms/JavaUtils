@@ -19,23 +19,23 @@
 package com.spotrealms.javautils.terminal;
 
 //Import first-party classes
-import com.spotrealms.javautils.terminal.TF.Color;
+import com.spotrealms.javautils.terminal.color.NColor;
 
 //TODO: Add JavaDoc
 
 public class SimpleLoggerConfig {
 	//Setup default color variables (has to be strings because extending classes may use something besides ANSI escape codes)
-	private static final String defaultInfoHeaderColor = Color.WHITE_BRIGHT.toString();
-	private static final String defaultInfoBodyColor = Color.WHITE.toString();
-	private static final String defaultWarnHeaderColor = Color.YELLOW.toString();
-	private static final String defaultWarnBodyColor = Color.YELLOW_BRIGHT.toString();
-	private static final String defaultErrorHeaderColor = Color.RED.toString();
-	private static final String defaultErrorBodyColor = Color.RED_BRIGHT.toString();
-	private static final String defaultSuccessHeaderColor = Color.GREEN.toString();
-	private static final String defaultSuccessBodyColor = Color.GREEN_BRIGHT.toString();
-	private static final String defaultDebugHeaderColor = Color.MAGENTA.toString();
-	private static final String defaultDebugBodyColor = Color.MAGENTA_BRIGHT.toString();
-	private static final String defaultResetColor = Color.RESET.toString();
+	private static final String defaultInfoHeaderColor = NColor.WHITE_BRIGHT.toString();
+	private static final String defaultInfoBodyColor = NColor.WHITE.toString();
+	private static final String defaultWarnHeaderColor = NColor.YELLOW.toString();
+	private static final String defaultWarnBodyColor = NColor.YELLOW_BRIGHT.toString();
+	private static final String defaultErrorHeaderColor = NColor.RED.toString();
+	private static final String defaultErrorBodyColor = NColor.RED_BRIGHT.toString();
+	private static final String defaultSuccessHeaderColor = NColor.GREEN.toString();
+	private static final String defaultSuccessBodyColor = NColor.GREEN_BRIGHT.toString();
+	private static final String defaultDebugHeaderColor = NColor.MAGENTA.toString();
+	private static final String defaultDebugBodyColor = NColor.MAGENTA_BRIGHT.toString();
+	private static final String defaultResetColor = NColor.RESET.toString();
 	
 	//Setup color variables
 	private String infoHeaderColor;
