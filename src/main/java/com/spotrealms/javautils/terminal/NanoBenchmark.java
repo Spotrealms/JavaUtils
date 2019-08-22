@@ -20,6 +20,7 @@ package com.spotrealms.javautils.terminal;
 
 //Import Java classes and dependencies
 import java.math.BigDecimal;
+import java.util.concurrent.TimeUnit;
 
 //TODO: Add JavaDoc
 
@@ -28,10 +29,10 @@ public class NanoBenchmark {
 	private long starterTime;
 	private long elapsedTime;
 	private long nanoOffset;
-	private measPrecision benchPrecision;
+	private TimeUnit benchPrecision;
 
 	//Class constructor
-	public NanoBenchmark(measPrecision benchPrecision){
+	public NanoBenchmark(TimeUnit benchPrecision){
 		//Assign the class variables from the constructor's parameters
 		this.benchPrecision = benchPrecision;
 		
@@ -52,13 +53,15 @@ public class NanoBenchmark {
 	
 	public NanoBenchmark(){
 		//Redirect to the overloaded constructor with unimplemented parameters being substituted by their default values
-		this(measPrecision.MILLISEC);
+		this(TimeUnit.MILLISECONDS);
 	}
 	
 	//Define precision levels
+	/*
 	public enum measPrecision {
 		NANOSEC, MICROSEC, MILLISEC, SEC;
 	}
+	*/
 	
 	public void start(){
 		//Get the current system timestamp using the precision given upon instantiation
@@ -84,19 +87,19 @@ public class NanoBenchmark {
 	private long getCurrentTimestamp(){
 		//Check the precision level
 		switch(benchPrecision){
-			case NANOSEC:
+			case NANOSECONDS:
 				//Return the current system timestamp, in nanoseconds, with offset
 				return (nanoOffset + System.nanoTime());
 			
-			case MICROSEC:
+			case MICROSECONDS:
 				//Return the current system timestamp, in microseconds, with offset
 				return ((nanoOffset + System.nanoTime()) / 1000);
 			
-			case MILLISEC:
+			case MILLISECONDS:
 				//Return the current system timestamp, in milliseconds
 				return System.currentTimeMillis();
 				
-			case SEC:
+			case SECONDS:
 				//Return the current system timestamp, in seconds
 				return (System.currentTimeMillis() / 1000);
 				
