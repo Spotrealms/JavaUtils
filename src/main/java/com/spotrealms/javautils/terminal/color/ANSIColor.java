@@ -177,6 +177,22 @@ public class ANSIColor {
 	 * See <a href="https://jonasjacek.github.io/colors/">this site</a>
 	 * for a complete list of codes that can be used in 
 	 * this method.
+	 * @param ansiCode The ANSI code that will be used to generate the color (0-255)
+	 * @return <b>String</b> The assembled ANSI escape sequence
+	 */
+	public static String get8Color(int ansiCode){
+		//Redirect back to the overloaded method and return the output
+		return get8Color(ansiCode, false);
+	}
+	
+	/**
+	 * Generates color in the terminal via the 8-bit
+	 * color method. Any text that follows this method 
+	 * will have the corresponding color applied that 
+	 * is set via the parameters for this method.
+	 * See <a href="https://jonasjacek.github.io/colors/">this site</a>
+	 * for a complete list of codes that can be used in 
+	 * this method.
 	 * @param foregroundAnsiCode The ANSI code that will be used to generate the foreground color (0-255)
 	 * @param backgroundAnsiCode The ANSI code that will be used to generate the background color (0-255)
 	 * @return <b>String</b> The assembled ANSI escape sequence
