@@ -305,6 +305,22 @@ public class ANSIColor {
 		//Redirect back to the overloaded method and return the output
 		return get24Color(Integer.parseInt(redVal), Integer.parseInt(greenVal), Integer.parseInt(blueVal), isBackground);
 	}
+	/**
+	 * Generates color in the terminal via the 24-bit
+	 * color method. Any text that follows this method 
+	 * will have the corresponding color applied that 
+	 * is set via the parameters for this method.
+	 * Standard 6, as well as 3, digit CSS color codes
+	 * can be used with this method. See <a href="https://www.w3schools.com/colors/colors_picker.asp">this site</a>
+	 * for a color picker that can generate CSS
+	 * colors for use in this method.
+	 * @param colorCode The CSS code that will be used to generate the color (#000000-#FFFFFF/#000-#FFF)
+	 * @return <b>String</b> The assembled ANSI escape sequence
+	 */
+	public static String get24Color(String colorCode){
+		//Redirect back to the overloaded method and return the output
+		return get24Color(colorCode, false);
+	}
 	
 	/**
 	 * Generates color in the terminal via the 24-bit
