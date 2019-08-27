@@ -305,6 +305,7 @@ public class ANSIColor {
 		//Redirect back to the overloaded method and return the output
 		return get24Color(Integer.parseInt(redVal), Integer.parseInt(greenVal), Integer.parseInt(blueVal), isBackground);
 	}
+	
 	/**
 	 * Generates color in the terminal via the 24-bit
 	 * color method. Any text that follows this method 
