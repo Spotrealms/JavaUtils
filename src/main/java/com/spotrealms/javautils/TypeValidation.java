@@ -18,6 +18,7 @@
 
 package com.spotrealms.javautils;
 
+//Import first-party classes
 import com.spotrealms.javautils.math.MathUtil;
 
 //Import Java classes and dependencies
