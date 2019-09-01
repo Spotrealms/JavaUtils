@@ -34,7 +34,7 @@ import static java.nio.file.StandardWatchEventKinds.*;
 
 /**
  * A wrapper class for Java 7's {@code WatchService}
- * that adds asynchronous calls to external methods
+ * that adds asynchronous callbacks to external methods
  * and threading. To use this class, it must be 
  * extended by another class and all defined abstract 
  * methods should be defined in the user's class. Once
