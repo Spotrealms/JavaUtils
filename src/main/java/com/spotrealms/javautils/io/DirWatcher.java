@@ -48,7 +48,7 @@ import static java.nio.file.StandardWatchEventKinds.*;
  *   thread.start();
  *  }
  * </pre>
- * In the user class's overriden {@code run()} method:
+ * In the user class's overridden {@code run()} method:
  * <pre style="margin:0; padding:0">
  *  &#64;Override
  *  public void run(){
