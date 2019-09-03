@@ -363,6 +363,66 @@ public class StringUtil {
 	}
 	
 	/**
+	 * Splits a {@code String} according to a regex, 
+	 * keeping the delimiters after the elements 
+	 * containing each of the split {@code String}
+	 * elements
+	 * @author Luigi Plinge
+	 * @see <a href="https://coderanch.com/t/545716/java/split-string-delimiters#2476300">https://coderanch.com/t/545716/java/split-string-delimiters#2476300</a>
+	 * @param inputStr The input {@code String} to split
+	 * @param regexStr The regular expression upon which to split the input
+	 * @param strOffset Shifts the split point by this number of characters to the left: should be equal or less than the splitter length
+	 * @return <b>String[]</b> An array of {@code Strings}
+	 */
+	public static String[] splitAndKeep(String inputStr, String regexStr, int strOffset){
+		//Create an ArrayList to hold the resulting array
+		ArrayList<String> splitStr = new ArrayList<String>();
+			
+		//Compile the regex pattern and create a matcher to find the regex matches in the string
+		Matcher regMatcher = Pattern.compile(regexStr).matcher(inputStr);
+			
+		//Create an integer to keep track of the position in thr string
+		int strPos = 0;
+			
+		//Loop while a match is found
+		while(regMatcher.find()){
+			//Add the found item from the regex matcher onto the ArrayList (from the current position to the difference of the match end and the offset) and remove all of the regex matches to avoid duplicating the delimiter
+			splitStr.add(inputStr.substring(strPos, regMatcher.end() - strOffset).replaceAll(regexStr, ""));
+				
+			//Add the delimiter onto the ArrayList (from the start of the match to the difference of the match end and the offset)
+			splitStr.add(inputStr.substring(regMatcher.start(), regMatcher.end() - strOffset));
+				
+			//Set the string position to be the difference of the match end and the offset
+			strPos = (regMatcher.end() - strOffset);
+		}
+			
+		//Check if the position is less than the length of the input
+		if(strPos < inputStr.length()){
+			//Add the input string to the array starting at the current string position
+			splitStr.add(inputStr.substring(strPos));
+		}
+			
+		//Convert the ArrayList to an array of strings and return it
+		return splitStr.toArray(new String[splitStr.size()]);
+	}
+		 
+	/**
+	 * Splits a {@code String} according to a regex, 
+	 * keeping the delimiters after the elements 
+	 * containing each of the split {@code String}
+	 * elements
+	 * @author Luigi Plinge
+	 * @see <a href="https://coderanch.com/t/545716/java/split-string-delimiters#2476300">https://coderanch.com/t/545716/java/split-string-delimiters#2476300</a>
+	 * @param inputStr The input {@code String} to split
+	 * @param regexStr The regular expression upon which to split the input
+	 * @return <b>String[]</b> An array of {@code Strings}
+	 */
+	public static String[] splitAndKeep(String inputStr, String regexStr){
+		//Redirect to the overloaded method
+		return splitAndKeep(inputStr, regexStr, 0);
+	}
+	
+	/**
 	 * Add ordinal suffixes to numbers (1st, 2nd, 3rd, etc)
 	 * @param intIn The number to add the suffix to
 	 * @return <b>String</b> The resulting number with ordinal suffix
