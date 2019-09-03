@@ -23,6 +23,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -188,6 +189,22 @@ public class StringUtil {
 		
 		//Return false because the input string doesn't equal any of the equal targets
 		return false;
+	}
+	
+	/**
+	 * Check if a {@code String} equals any element in
+	 * a given {@code ArrayList}. Useful in cases where
+	 * a {@code String} can equal multiple objects.
+	 * @param tStr The {@code String} to use in the operation
+	 * @param equalTarget A {@code String} that the input {@code String} should equal
+	 * @param ignoreCase Specifies whether or not to ignore case in the comparison operation
+	 * @param useRegex Specifies whether or not to match lines by using the {@code ArrayList} as regex patterns
+	 * @param <T> Allow generic types and objects to be used
+	 * @return <b>boolean</b> The status as to whether or not the input {@code String} equals any object in the passed {@code ArrayList}
+	 */
+	public static <T> boolean equalsAny(String tStr, String equalTarget, boolean ignoreCase, boolean useRegex){
+		//Redirect to the overloaded method
+		return equalsAny(tStr, new ArrayList<String>(Arrays.asList(equalTarget)), ignoreCase, useRegex);
 	}
 	
 	public static String escAllChars(String escStr){

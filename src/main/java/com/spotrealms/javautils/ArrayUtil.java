@@ -27,7 +27,9 @@ import java.util.List;
 
 //TODO: Finish up JavaDoc
 
-public class ArrayUtil {	
+public class ArrayUtil {
+	
+	
 	/**
 	 * Create a grammatical list in a {@code String} from a 
 	 * primitive array of arbitrary types
