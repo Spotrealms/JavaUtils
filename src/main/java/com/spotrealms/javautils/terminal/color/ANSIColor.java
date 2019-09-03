@@ -269,7 +269,6 @@ public class ANSIColor {
 				String curDigit = String.valueOf(colorCode.charAt(i));
 				
 				//Dupe the char and append the digit and its duplicate onto the StringBuilder
-				//tempCode.append(StringUtil.cloneStr(curDigit, 1));
 				tempCode.insert(codePos, (StringUtil.cloneStr(curDigit, 1)));
 				
 				//Increment the position integer by two (one for the new char and one for the increment of i
