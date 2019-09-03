@@ -251,6 +251,31 @@ public class ArrayUtil {
 	}
 	
 	/**
+	 * Deletes certain elements from a given {@code ArrayList}
+	 * given an array of the indexes of those items
+	 * @param tArr The {@code ArrayList} to remove the elements from
+	 * @param remIndexes An {@code Array} containing the indexes of the elements to remove
+	 * @param <T> Allow generic types and objects to be used
+	 * @return <b>ArrayList&lt;T&gt;</b> The cleaned input {@code ArrayList}
+	 */
+	public static <T> ArrayList<T> removeAtIndexes(ArrayList<T> tArr, int[] remIndexes){
+		//Loop over the  index array
+		for(int i=0; i<remIndexes.length; i++){
+			//Remove the current element from the input array
+			tArr.remove(remIndexes[i]);
+			
+			//Loop over the index array again
+			for(int ii=0; ii<remIndexes.length; ii++){
+				//Decrement each index by 1
+				remIndexes[i] = (remIndexes[ii]--);
+			}
+		}
+		
+		//Return the parsed ArrayList
+		return tArr;
+	}
+	
+	/**
 	 * Shuffle a generic arbitrary-dimensional {@code List}
 	 * using the Fisher-Yates shuffling algorithm
 	 * @see <a href="https://bost.ocks.org/mike/shuffle/">https://bost.ocks.org/mike/shuffle/</a>
