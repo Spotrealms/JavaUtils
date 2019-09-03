@@ -256,10 +256,9 @@ public class ArrayUtil {
 	 * @param tArr The {@code ArrayList} to remove the elements from
 	 * @param remIndexes An {@code Array} containing the indexes of the elements to remove
 	 * @param <T> Allow generic types and objects to be used
-	 * @return <b>ArrayList&lt;T&gt;</b> The cleaned input {@code ArrayList}
 	 */
-	public static <T> ArrayList<T> removeAtIndexes(ArrayList<T> tArr, int[] remIndexes){
-		//Loop over the  index array
+	public static <T> void removeAtIndexes(ArrayList<T> tArr, int[] remIndexes){
+		//Loop over the index array
 		for(int i=0; i<remIndexes.length; i++){
 			//Remove the current element from the input array
 			tArr.remove(remIndexes[i]);
@@ -270,9 +269,6 @@ public class ArrayUtil {
 				remIndexes[i] = (remIndexes[ii]--);
 			}
 		}
-		
-		//Return the parsed ArrayList
-		return tArr;
 	}
 	
 	/**
