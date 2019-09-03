@@ -23,12 +23,62 @@ import com.spotrealms.javautils.math.MathUtil;
 
 //Import Java classes and dependencies
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 //TODO: Finish up JavaDoc
 
 public class ArrayUtil {
+	/**
+	 * Generates a list of all the indexes in a given 
+	 * {@code ArrayList} where an element matches a given 
+	 * regex {@code String}
+	 * @param tArray The {@code ArrayList} to search through
+	 * @param huntTarget The {@code String} containing the regex to use on the input {@code ArrayList}
+	 * @param ignoreCase Set whether or not to ignore the case of hunt
+	 * @param <T> Allow generic types and objects to be used
+	 * @return <b>int[]</b> A list of all the indexes of the matched elements
+	 */
+	public static <T> int[] allIndexesOf(ArrayList<T> tArray, String huntTarget, boolean ignoreCase){
+		//Create an ArrayList to hold the indexes
+		ArrayList<Integer> allIndexes = new ArrayList<>();
+		
+		//Loop over the input ArrayList
+		for(int i=0; i<tArray.size(); i++){
+			//Check if the current element equals the input string
+			if(StringUtil.equalsAny(tArray.get(i).toString(), huntTarget, ignoreCase, true)){
+				//Add the current index to the index ArrayList
+				allIndexes.add(i);
+			}
+		}
+		
+		//Check if the index list is empty
+		if(allIndexes.isEmpty()){
+			//Add -1 into the index ArrayList
+			allIndexes.add(-1);
+		}
+		
+		//Convert the index ArrayList to an array of ints and return it (Java >= 8 is required)
+		return allIndexes.stream().mapToInt(Integer::intValue).toArray();
+	}
 	
+	/**
+	 * Generates a list of all the indexes in a given 
+	 * {@code Array} where an element matches a given 
+	 * regex {@code String}
+	 * @param tArray The {@code Array} to search through
+	 * @param huntTarget The {@code String} containing the regex to use on the input {@code Array}
+	 * @param ignoreCase Set whether or not to ignore the case of hunt
+	 * @param <T> Allow generic types and objects to be used
+	 * @return <b>int[]</b> A list of all the indexes of the matched elements
+	 */
+	public static <T> int[] allIndexesOf(T[] tArray, String huntTarget, boolean ignoreCase){
+		//Convert the input array to an ArrayList
+		ArrayList<T> convertedList = new ArrayList<>(Arrays.asList(tArray));
+		
+		//Redirect to the overloaded method
+		return allIndexesOf(convertedList, huntTarget, ignoreCase);
+	}
 	
 	/**
 	 * Create a grammatical list in a {@code String} from a 
