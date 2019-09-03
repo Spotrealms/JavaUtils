@@ -260,13 +260,20 @@ public class ANSIColor {
 			//Create a StringBuilder for temporary storage of the color code
 			StringBuilder tempCode = new StringBuilder(colorCode);
 			
+			//Create an integer to keep track of the positon in the StringBuilder
+			int codePos = 0;
+			
 			//Loop through the code
 			for(int i=0; i<colorCode.length(); i++){
 				//Get the current char
 				String curDigit = String.valueOf(colorCode.charAt(i));
 				
 				//Dupe the char and append the digit and its duplicate onto the StringBuilder
-				tempCode.append(StringUtil.cloneStr(curDigit, 1));
+				//tempCode.append(StringUtil.cloneStr(curDigit, 1));
+				tempCode.insert(codePos, (StringUtil.cloneStr(curDigit, 1)));
+				
+				//Increment the position integer by two (one for the new char and one for the increment of i
+				codePos += 2;
 			}
 			
 			//Replace the color code with the temporary color code string
