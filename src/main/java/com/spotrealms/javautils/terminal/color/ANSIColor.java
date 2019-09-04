@@ -260,7 +260,7 @@ public class ANSIColor {
 			//Create a StringBuilder for temporary storage of the color code
 			StringBuilder tempCode = new StringBuilder(colorCode);
 			
-			//Create an integer to keep track of the positon in the StringBuilder
+			//Create an integer to keep track of the position in the StringBuilder
 			int codePos = 0;
 			
 			//Loop through the code
