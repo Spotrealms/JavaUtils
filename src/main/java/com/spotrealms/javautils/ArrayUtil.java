@@ -81,6 +81,41 @@ public class ArrayUtil {
 	}
 	
 	/**
+	 * Generates a {@code String} containing all
+	 * of the elements of a primitive {@code Array}
+	 * in the same style as printing an {@code ArrayList}
+	 * @param arrayIn The {@code Array} to create the {@code String} from
+	 * @param elemDelim The seperator to use in the resulting {@code String}
+	 * @param <T> Allow generic types and objects to be used
+	 * @return <b>String</b> The resulting list of {@code Array} elements
+	 */
+	public static <T> String arrayToStr(T[] arrayIn, String elemDelim){
+		//Create a StringBuilder for later
+		StringBuilder arrayToStr = new StringBuilder();
+		
+		//Append the opening bracket onto the StringBuilder
+		arrayToStr.append("[");
+		
+		//Loop over the input array
+		for(int i=0; i<arrayIn.length; i++){
+			//Append the current term onto the StringBuilder
+			arrayToStr.append(arrayIn[i]);
+			
+			//Check if the iterator is at the end of the list
+			if(i < (arrayIn.length - 1)){
+				//Append the delimiter onto the StringBuilder
+				arrayToStr.append(elemDelim);
+			}
+		}
+		
+		//Append the closing bracket onto the StringBuilder
+		arrayToStr.append("]");
+		
+		//Return the StringBuilder as a string
+		return (arrayToStr.toString());
+	}
+	
+	/**
 	 * Create a grammatical list in a {@code String} from a 
 	 * primitive array of arbitrary types
 	 * @param tArr The primitive array of arbitrary values to create the list from
@@ -269,6 +304,34 @@ public class ArrayUtil {
 				remIndexes[i] = (remIndexes[ii]--);
 			}
 		}
+	}
+	
+	/**
+	 * Deletes certain elements from a given {@code Array}
+	 * given an array of the indexes of those items
+	 * @param tArr The {@code Array} to remove the elements from
+	 * @param remIndexes An {@code Array} containing the indexes of the elements to remove
+	 * @param <T> Allow generic types and objects to be used
+	 * @return <b>Object[]</b> The filtered {@code Array} (can be of type Object because ArrayLists can't hold primitive types)
+	 */
+	public static <T> Object[] removeAtIndexes(T[] tArr, int[] remIndexes){
+		//Convert the input array to an ArrayList
+		ArrayList<T> convArr = new ArrayList<>(Arrays.asList(tArr));
+		
+		//Remove the elements from the ArrayList
+		removeAtIndexes(convArr, remIndexes);
+		
+		//Create an array that is the same size as the ArrayList
+		Object[] newPrimArray = new Object[convArr.size()];
+		
+		//Loop over the new array
+		for(int i=0; i<newPrimArray.length; i++){
+			//Add the current ArrayList element to the array
+			newPrimArray[i] = convArr.get(i);
+		}
+		
+		//Return the filled array
+		return newPrimArray;
 	}
 	
 	/**
