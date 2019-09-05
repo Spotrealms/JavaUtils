@@ -354,7 +354,9 @@ public class StringUtil {
 	 * Compiles a list of the indexes in a 
 	 * given {@code String} in which a given
 	 * regular expression pattern (regexp) 
-	 * is found
+	 * is found. The number of regex matches
+	 * can also be found simply by using
+	 * {@code regexIndexes.length}
 	 * @param huntStr The {@code String} in which to search for the pattern
 	 * @param toFind The REGEX pattern to use on the input {@code String}
 	 * @return <b>int[]</b> A list of indexes in the input {@code String} where the regex matches
