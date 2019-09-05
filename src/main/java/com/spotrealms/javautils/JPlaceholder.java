@@ -20,13 +20,21 @@ package com.spotrealms.javautils;
 
 //Import first-party classes
 import com.spotrealms.javautils.exception.KeyNotFoundException;
+import com.spotrealms.javautils.terminal.color.ANSIColor;
+import com.spotrealms.javautils.terminal.color.NColor;
 
 //Import Java classes and dependencies
-import java.util.function.BiFunction;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.function.BiFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 //TODO: Finish up JavaDoc
 
@@ -248,47 +256,205 @@ public class JPlaceholder {
 	public static LinkedHashMap<String, Object> getPlValues(String inputStr, String plPrefix, String plSuffix){
 		//Setup the variable to hold the placeholder values and embedded data
 		LinkedHashMap<String, Object> placeholderData = new LinkedHashMap<>();
-
+		
 		//Set the pattern to use on the string based on the expected syntax of the placeholder (${placeholder-name <placeholder data>})
-		//String plRegex = "\\$\\{(\\w+)(.*?)\\}";
-		String plRegex = (StringUtil.escAllChars(plPrefix) + "(\\w+)(.*?)" + StringUtil.escAllChars(plSuffix));
+		//String plRegex = ("\\$\\{|\\}");
+		String plRegex = (StringUtil.escAllChars(plPrefix) + "|" + StringUtil.escAllChars(plSuffix));
+				
+		//Get the input string as an ArrayList, keeping the delimiters in the array
+		ArrayList<String> splitStr = new ArrayList<>(Arrays.asList(StringUtil.splitAndKeep(inputStr, plRegex)));
+				
+		//Get the indexes of the prefixes and suffixes
+		SimpleEntry<int[], int[]> psIndexes = getPSIndexes(inputStr, plRegex, plPrefix, plSuffix);
+				
+		//Pull out each of the embedded arrays
+		int[] allPrefixes = psIndexes.getKey();
+		int[] allSuffixes = psIndexes.getValue();
+		
+		//Check if the prefix and suffix arrays are equal in length
+		if(allPrefixes.length == allSuffixes.length){
+			//Create strings to hold the current and previous results
+			String prevStr = "";
+			String curStr = "";
+			
+			//Loop over the list of prefixes and suffixes (both should be the same, so it doesn't matter which one gets looped over)
+			for(int x=0; x<allPrefixes.length; x++){
+				//Check if the current prefix and suffix index is at least 0
+				if((allPrefixes[x] >= 0) && (allSuffixes[x] >= 0)){
+					//Loop over the split string, starting at the current index of a prefix and ending at the p current index of a suffix
+					for(int y=(allPrefixes[x] + 1); y<(allSuffixes[x]); y++){
+						//Concat the previous element and the current element in the split string
+						curStr += splitStr.get(y);
+					}
+					
+					//Check if the current string equals the previous string, starting from the first space char
+					if(!(curStr.replaceAll(plRegex, "").equals(prevStr.substring(prevStr.indexOf(" ") + 1).replaceAll(plRegex, "")))){
+						//Create strings to hold the current key and value
+						String curKey = "";
+						String curVal = "";
 
-		//Setup the pattern to use for the matcher
-		Pattern plPtn = Pattern.compile(plRegex);
-		    
-		//Create the matcher to use on the input string
-		Matcher plMatch = plPtn.matcher(inputStr);
-		    
-		//Loop through the matcher finds
-		while(plMatch.find()){
-			//Get the current matched key
-			String curKey = plMatch.group(1);
+						//Check if the current string contains a space (indicates the existence of a keypair)
+						if(curStr.indexOf(" ") >= 0){
+							//Get the current key from current string, starting from the beginning and going to the index of the first space char
+							curKey = (curStr.substring(0, curStr.indexOf(" ")));
+							
+							//Get the current value from the current string starting at the next char after the index of the first space char
+							curVal = (curStr.substring(curStr.indexOf(" ") + 1));
+							
+							//Check if the value string starts with the placeholder and a letter (indicates the presence of nested placeholders)
+							if(curVal.substring(0, (plPrefix.length() + 1)).matches("^" + StringUtil.escAllChars(plPrefix) + "[A-Za-z]" + "$")){
+								//Count the number of regex matches in the string
+								int prefixCount = (StringUtil.regexIndexes(curVal, (StringUtil.escAllChars(plPrefix) + "[A-Za-z]{1}")).length);
 
-			//Get the current matched value
-			String curValue = (plMatch.group(2));
+								//Add the suffix onto the end of the value however many times the prefix was found (balances everything out)
+								curVal += (StringUtil.cloneStr(plSuffix, prefixCount));
+							}
+						}
+						else {
+							//Set the key to be the entirety of the current string instead
+							curKey = curStr;
+						}
+						
+						//Add the keypair to the placeholder data LinkedHashMap
+						placeholderData.put(curKey, curVal);
+					}
 
-			//Check if the value is empty (avoids out of bounds exceptions when trying to remove the leading space in the value)
-			if(!(curValue.isEmpty())){
-				//Remove the space before the value
-				curValue = curValue.substring(1, curValue.length());
-
-				//Check if the value contains a nested placeholder (a prefix will indicate this)
-				if(curValue.contains(plPrefix)){
-					//Count the number of occurrences in the string
-					int prefixOccurrances = StringUtil.countInStr(curValue, plPrefix);
-
-					//Append the suffix to the end of the value for however many times the prefix appears
-					curValue = (curValue + StringUtil.cloneStr(plSuffix, prefixOccurrances));
+					//Replace the previous result with the current result
+					prevStr = curStr;
+					
+					//Empty the current string in preparation for the next iteration
+					curStr = "";
 				}
 			}
-
-			//Populate the final HashMap with the found values in the placeholder
-			placeholderData.put(curKey, curValue);
 		}
 
-		//Return the populated HashMap
+		//Return the filled placeholder data LinkedHashMap
 		return placeholderData;
 	}
+	
+	/**
+	 * Highlights all of the placeholders that have
+	 * been found in a given {@code String}, with the
+	 * prefixes being highlighted in green and the 
+	 * suffixes being highlighted in red. This method
+	 * is mostly for debugging purposes
+	 * @param inputStr The {@code String} to highlight the prefixes and suffixes in
+	 * @param plPrefix The prefix to highlight
+	 * @param plSuffix The suffix to highlight
+	 * @return <b>@code String</b> The input containing the highlighted prefixes and suffixes
+	 */
+	public static String highPlaceholders(String inputStr, String plPrefix, String plSuffix){
+		//Set the pattern to use on the string based on the expected syntax of the placeholder (${placeholder-name <placeholder data>})
+		//String plRegex = ("\\$\\{|\\}");
+		String plRegex = (StringUtil.escAllChars(plPrefix) + "|" + StringUtil.escAllChars(plSuffix));
+		
+		//Get the input string as an ArrayList, keeping the delimiters in the array
+		ArrayList<String> splitStr = new ArrayList<>(Arrays.asList(StringUtil.splitAndKeep(inputStr, plRegex)));
+		
+		//Get the indexes of the prefixes and suffixes
+		SimpleEntry<int[], int[]> psIndexes = getPSIndexes(inputStr, plRegex, plPrefix, plSuffix);
+		
+		//Pull out each of the embedded arrays
+		int[] allPrefixes = psIndexes.getKey();
+		int[] allSuffixes = psIndexes.getValue();
+
+		//Loop over the list of prefixes
+		for(int i=0; i<allPrefixes.length; i++){
+			//Check if the current index is at least 0
+			if(allPrefixes[i] >= 0){
+				//Color the current prefix green
+				splitStr.set(allPrefixes[i], (ANSIColor.get24Color("#0F0") + splitStr.get(allPrefixes[i]) + NColor.RESET));
+			}
+		}
+		
+		//Loop over the list of suffixes
+		for(int i=0; i<allSuffixes.length; i++){
+			//Check if the current index is at least 0
+			if(allSuffixes[i] >= 0){
+				//Color the current suffix red
+				splitStr.set(allSuffixes[i], (ANSIColor.get24Color("#F00") + splitStr.get(allSuffixes[i]) + NColor.RESET));
+			}
+		}
+
+		//Create a StringBuilder for later
+		StringBuilder recoloredStr = new StringBuilder();
+		
+		//Loop through the ArrayList
+		for(String arrayElem : splitStr){
+			//Add on the current element
+			recoloredStr.append(arrayElem);
+		}
+		
+		//Return the StringBuilder as a string
+		return recoloredStr.toString();
+	}
+	
+	/**
+	 * Fetches a list of all of the indexes of 
+	 * the placeholder prefixes and suffixes in 
+	 * a given {@code String}
+	 * @param inputStr The {@code String} to highlight the prefixes and suffixes in
+	 * @param plRegex The regex to use when finding the placeholders
+	 * @param plPrefix The prefix to highlight
+	 * @param plSuffix The suffix to highlight
+	 * @param fixMissing Set whether or not to correct the amount of found prefixes and suffixes (in case of unbalanced opening and closing brackets/parentheses)
+	 * @return <b>SimpleEntry&lt;int[], int[]&gt;</b> A {@code SimpleEntry} containing an array of the prefix indexes in the key and an array of the suffix indexes in the value
+	 */
+	private static SimpleEntry<int[], int[]> getPSIndexes(String inputStr, String plRegex, String plPrefix, String plSuffix){
+		//Get the input string as an ArrayList, keeping the delimiters in the array
+		ArrayList<String> splitStr = new ArrayList<>(Arrays.asList(StringUtil.splitAndKeep(inputStr, plRegex)));
+				
+		//Get the indexes of all prefixes and suffixes as ArrayLists	
+		ArrayList<Integer> allPrefixes = new ArrayList<>(Arrays.stream(ArrayUtil.allIndexesOf(splitStr, StringUtil.escAllChars(plPrefix), true)).boxed().collect(Collectors.toList()));
+		ArrayList<Integer> allSuffixes = new ArrayList<>(Arrays.stream(ArrayUtil.allIndexesOf(splitStr, StringUtil.escAllChars(plSuffix), true)).boxed().collect(Collectors.toList()));
+		
+		//Check if any number mismatches should be corrected and that there are inconsistencies to begin with
+		if((allPrefixes.size() != allSuffixes.size())){
+			//Create an integer to hold the balance status
+			int balVar = 0;
+			
+			//Loop over the split string array
+			for(int i=0; i<splitStr.size(); i++){
+				//Check if the current element is a prefix
+				if(splitStr.get(i).equalsIgnoreCase(plPrefix)){
+					//Increment the balance variable
+					balVar++;
+				}
+				
+				//Check if the current element is a suffix
+				if(splitStr.get(i).equalsIgnoreCase(plSuffix)){
+					//Decrement the balance variable
+					balVar--;
+				}
+				
+				//Loop while the balance indicates a prefix skew, the current element is another prefix, and the element two places ago is not another prefix (follows pattern of a placeholder)
+				while(((balVar > 1) && (splitStr.get(i).equalsIgnoreCase(plPrefix))) && (!(splitStr.get(i - 2).equalsIgnoreCase(plPrefix)))){
+					//Remove the second prefix
+					allPrefixes.remove(1);
+					
+					//Balance everything out
+					balVar--;
+				}
+				
+				//Loop while the balance indicates a suffix skew and the current element is another suffix (follows pattern of a placeholder)
+				while((balVar < 0) && (splitStr.get(i).equalsIgnoreCase(plSuffix))){
+					//Remove the second-to-last suffix
+					allSuffixes.remove(allSuffixes.size() - 2);
+					
+					//Balance everything out
+					balVar++;
+				}	
+			}
+		}
+			
+		//Sort the prefix and suffix ArrayLists in ascending order
+		Collections.sort(allPrefixes);
+		Collections.sort(allSuffixes);
+		
+		//Create a SimpleEntry, populate it, and return it
+		return (new SimpleEntry<>((allPrefixes.stream().filter(Objects::nonNull).mapToInt(Integer::intValue).toArray()), (allSuffixes.stream().filter(Objects::nonNull).mapToInt(Integer::intValue).toArray())));
+	}
+	
 	
 	//TODO: Move to JUnit test instead of declaring it here in the class itself
 	
