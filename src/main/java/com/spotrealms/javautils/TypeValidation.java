@@ -66,166 +66,256 @@ public class TypeValidation {
 	 * the programmer to specify a custom validation method
 	 * to execute in that case (this is done via a functional
 	 * interface, which requires Java SE &gt;= 1.8).
-	 * @see arbitraryType
+	 * @see ArbitraryType
 	 */
-	public static enum allValidationTypes {
+	public static enum AllValidationTypes {
 		/**
 		 * Represents a boolean
-		 * @see allValidationTypes
+		 * @see AllValidationTypes
 		 */
 		BOOLEAN {
 			/**
 			 * {@inheritDoc}
-			 * @see allValidationTypes
+			 * @see AllValidationTypes
 			 */
 			@Override
-			public boolean validate(String targetStr, arbitraryType customType){
+			public boolean validate(String targetStr, ArbitraryType customType){
 				//Return the result of the corresponding validation method
 				return isBool(targetStr);
+			}
+
+			/**
+			 * {@inheritDoc}
+			 * @see AllValidationTypes
+			 */
+			@Override
+			public Object defaultValue(Object defaultValue){
+				//Default value of a boolean is false, so return false
+				return false;
 			}
 		},
 
 		/**
 		 * Represents a byte
-		 * @see allValidationTypes
+		 * @see AllValidationTypes
 		 */
 		BYTE {
 			/**
 			 * {@inheritDoc}
-			 * @see allValidationTypes
+			 * @see AllValidationTypes
 			 */
 			@Override
-			public boolean validate(String targetStr, arbitraryType customType){
+			public boolean validate(String targetStr, ArbitraryType customType){
 				//Return the result of the corresponding validation method
 				return isByte(targetStr);
+			}
+
+			/**
+			 * {@inheritDoc}
+			 * @see AllValidationTypes
+			 */
+			@Override
+			public Object defaultValue(Object defaultValue){
+				//Default value of a byte is 0, so return 0
+				return 0;
 			}
 		},
 
 		/**
 		 * Represents a character
-		 * @see allValidationTypes
+		 * @see AllValidationTypes
 		 */
 		CHAR {
 			/**
 			 * {@inheritDoc}
-			 * @see allValidationTypes
+			 * @see AllValidationTypes
 			 */
 			@Override
-			public boolean validate(String targetStr, arbitraryType customType){
+			public boolean validate(String targetStr, ArbitraryType customType){
 				//Return the result of the corresponding validation method
 				return isChar(targetStr);
+			}
+
+			/**
+			 * {@inheritDoc}
+			 * @see AllValidationTypes
+			 */
+			@Override
+			public Object defaultValue(Object defaultValue){
+				//Default value of a char is \u0000, so return \u0000
+				return '\u0000';
 			}
 		},
 
 		/**
 		 * Represents a double
-		 * @see allValidationTypes
+		 * @see AllValidationTypes
 		 */
 		DOUBLE {
 			/**
 			 * {@inheritDoc}
-			 * @see allValidationTypes
+			 * @see AllValidationTypes
 			 */
 			@Override
-			public boolean validate(String targetStr, arbitraryType customType){
+			public boolean validate(String targetStr, ArbitraryType customType){
 				//Return the result of the corresponding validation method
 				return isDouble(targetStr);
+			}
+
+			/**
+			 * {@inheritDoc}
+			 * @see AllValidationTypes
+			 */
+			@Override
+			public Object defaultValue(Object defaultValue){
+				//Default value of a double is 0.0, so return 0.0
+				return 0.0D;
 			}
 		},
 
 		/**
 		 * Represents a float
-		 * @see allValidationTypes
+		 * @see AllValidationTypes
 		 */
 		FLOAT {
 			/**
 			 * {@inheritDoc}
-			 * @see allValidationTypes
+			 * @see AllValidationTypes
 			 */
 			@Override
-			public boolean validate(String targetStr, arbitraryType customType){
+			public boolean validate(String targetStr, ArbitraryType customType){
 				//Return the result of the corresponding validation method
 				return isFloat(targetStr);
+			}
+
+			/**
+			 * {@inheritDoc}
+			 * @see AllValidationTypes
+			 */
+			@Override
+			public Object defaultValue(Object defaultValue){
+				//Default value of a float is 0.0, so return 0.0
+				return 0.0F;
 			}
 		},
 
 		/**
 		 * Represents an integer
-		 * @see allValidationTypes
+		 * @see AllValidationTypes
 		 */
 		INT {
 			/**
 			 * {@inheritDoc}
-			 * @see allValidationTypes
+			 * @see AllValidationTypes
 			 */
 			@Override
-			public boolean validate(String targetStr, arbitraryType customType){
+			public boolean validate(String targetStr, ArbitraryType customType){
 				//Return the result of the corresponding validation method
 				return isInt(targetStr);
+			}
+
+			/**
+			 * {@inheritDoc}
+			 * @see AllValidationTypes
+			 */
+			@Override
+			public Object defaultValue(Object defaultValue){
+				//Default value of an integer is 0, so return 0
+				return 0;
 			}
 		},
 
 		/**
 		 * Represents a long integer
-		 * @see allValidationTypes
+		 * @see AllValidationTypes
 		 */
 		LONG {
 			/**
 			 * {@inheritDoc}
-			 * @see allValidationTypes
+			 * @see AllValidationTypes
 			 */
 			@Override
-			public boolean validate(String targetStr, arbitraryType customType){
+			public boolean validate(String targetStr, ArbitraryType customType){
 				//Return the result of the corresponding validation method
 				return isLong(targetStr);
+			}
+
+			/**
+			 * {@inheritDoc}
+			 * @see AllValidationTypes
+			 */
+			@Override
+			public Object defaultValue(Object defaultValue){
+				//Default value of a long is 0, so return 0
+				return 0L;
 			}
 		},
 
 		/**
 		 * Represents a short integer
-		 * @see allValidationTypes
+		 * @see AllValidationTypes
 		 */
 		SHORT {
 			/**
 			 * {@inheritDoc}
-			 * @see allValidationTypes
+			 * @see AllValidationTypes
 			 */
 			@Override
-			public boolean validate(String targetStr, arbitraryType customType){
+			public boolean validate(String targetStr, ArbitraryType customType){
 				//Return the result of the corresponding validation method
 				return isShort(targetStr);
+			}
+
+			/**
+			 * {@inheritDoc}
+			 * @see AllValidationTypes
+			 */
+			@Override
+			public Object defaultValue(Object defaultValue){
+				//Default value of a short is 0, so return 0
+				return 0;
 			}
 		},
 
 		/**
 		 * Represents a JSON object
-		 * @see allValidationTypes
+		 * @see AllValidationTypes
 		 */
 		JSON {
 			/**
 			 * {@inheritDoc}
-			 * @see allValidationTypes
+			 * @see AllValidationTypes
 			 */
 			@Override
-			public boolean validate(String targetStr, arbitraryType customType){
+			public boolean validate(String targetStr, ArbitraryType customType){
 				//Return the result of the corresponding validation method
 				return isValidJSON(targetStr);
+			}
+
+			/**
+			 * {@inheritDoc}
+			 * @see AllValidationTypes
+			 */
+			@Override
+			public Object defaultValue(Object defaultValue){
+				//Default JSON value is a blank file, so return a new JSON object (avoids NPEs)
+				return (new JSONObject("{}"));
 			}
 		},
 
 		/**
 		 * Represents a custom object type that can 
 		 * be specified by the programmer
-		 * @see arbitraryType
-		 * @see allValidationTypes
+		 * @see ArbitraryType
+		 * @see AllValidationTypes
 		 */
 		CUSTOMTYPE {
 			/**
 			 * {@inheritDoc}
-			 * @see allValidationTypes
+			 * @see AllValidationTypes
 			 */
 			@Override
-			public boolean validate(String targetStr, arbitraryType customType){
+			public boolean validate(String targetStr, ArbitraryType customType){
 				//Check if the interface exists (was passed)
 				if(customType != null){
 					//Return either true or false depending on the output of the validation method
@@ -236,23 +326,56 @@ public class TypeValidation {
 					return false;
 				}
 			}
+
+			/**
+			 * {@inheritDoc}
+			 * @see AllValidationTypes
+			 */
+			@Override
+			public Object defaultValue(Object defaultValue){
+				//Return the parameter specified in the defaultValue parameter
+				return defaultValue;
+			}
 		};
 
 		/**
-		 * Defines a validation method that is
-		 * associated with a specific data type.
-		 * The {@code customType} parameter is used
-		 * to pass custom validation methods, but will
+		 * Returns true/false depending on whether
+		 * or not a given {@code String} can successfully
+		 * validate to the given data type that 
+		 * this method is associated with. The
+		 * {@code customType} parameter is used to
+		 * pass custom validation methods, but will
 		 * only be used when running {@code CUSTOMTYPE.validate}.
 		 * Due a limitation in Java regarding the 
 		 * overloading of abstract methods, this parameter 
-		 * will be wasted in every other case.
+		 * will be wasted in every other case. Set 
+		 * this parameter to {@code null} when not 
+		 * running {@code CUSTOMTYPE.defaultValue}
 		 * @param targetStr The input {@code String} to check
-		 * @param customType A custom validation method specified by the user
+		 * @param customType A custom validation method specified by the user (will only be used if the associated type is the custom type, set it to {@code null} otherwise)
 		 * @return <b>boolean</b> The status of whether or not the input {@code String} is valid for that type
-		 * @see arbitraryType
+		 * @see ArbitraryType
 		 */
-		public abstract boolean validate(String targetStr, arbitraryType customType);
+		public abstract boolean validate(String targetStr, ArbitraryType customType);
+		
+		/**
+		 * Defines the default value for a given type.
+		 * Will be different depending on what data
+		 * type this method is associated with. The 
+		 * {@code defaultValue} parameter is used to 
+		 * pass different default values, but will only 
+		 * be used when running {@code CUSTOMTYPE.defaultValue}.
+		 * Due a limitation in Java regarding the 
+		 * overloading of abstract methods, this parameter 
+		 * will be wasted in every other case. Set this parameter
+		 * to {@code null} when not running {@code CUSTOMTYPE.defaultValue}
+		 * See "Default Values" on the linked documentation
+		 * page.
+		 * @param defaultValue Defines the default value for an arbitrary type (will only be used if the associated type is the custom type, set it to {@code null} otherwise)
+		 * @return <b>Object</b> The default value for a given data type (the actual type the resulting {@code Object} is varies depending on the associated data type)
+		 * @see <a href="https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html">https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html</a>
+		 */
+		public abstract Object defaultValue(Object defaultValue);
 	}
 	
 	/**
@@ -261,7 +384,7 @@ public class TypeValidation {
 	 * {@code strValidates} method
 	 * @see strValidates
 	 */
-	public static final ArrayList<allValidationTypes> allFloatTypes = new ArrayList<>(Arrays.asList(allValidationTypes.DOUBLE, allValidationTypes.FLOAT));
+	public static final ArrayList<AllValidationTypes> allFloatTypes = new ArrayList<>(Arrays.asList(AllValidationTypes.DOUBLE, AllValidationTypes.FLOAT));
 	
 	/**
 	 * Defines a list of all possible integer data types
@@ -269,7 +392,7 @@ public class TypeValidation {
 	 * method
 	 * @see strValidates
 	 */
-	public static final ArrayList<allValidationTypes> allIntegerTypes = new ArrayList<>(Arrays.asList(allValidationTypes.BYTE, allValidationTypes.INT, allValidationTypes.LONG, allValidationTypes.SHORT));
+	public static final ArrayList<AllValidationTypes> allIntegerTypes = new ArrayList<>(Arrays.asList(AllValidationTypes.BYTE, AllValidationTypes.INT, AllValidationTypes.LONG, AllValidationTypes.SHORT));
 	
 	/**
 	 * Check whether or not a {@code String} validates 
@@ -419,7 +542,6 @@ public class TypeValidation {
 		}
 	}
 	
-
 	/**
 	 * Check whether or not a {@code String} validates 
 	 * to {@code JSON}
@@ -452,7 +574,7 @@ public class TypeValidation {
 	 * Defines a method for testing if a {@code String} 
 	 * validates to an arbitrary type (types that aren't 
 	 * defined in any methods in this class). This option
-	 * can be selected by passing {@code allValidationTypes.CUSTOMTYPE}
+	 * can be selected by passing {@code AllValidationTypes.CUSTOMTYPE}
 	 * to the {@code strValidates} method in the {@code expectedType}
 	 * parameter. <br>
 	 * After creating a class that implements this interface, 
@@ -462,9 +584,14 @@ public class TypeValidation {
 	 * Example of creating a class that implements 
 	 * this interface:
 	 * <pre>
-	 * public static class testValidator implements arbitraryType {
+	 * public static class testValidator implements ArbitraryType {
 	 *  &#64;Override
      *  public boolean strIsValid(String strIn){
+	 *   //Do stuff
+	 *   return true;
+	 *  }
+	 *  &#64;Override
+     *  public Object getDefaultValue(){
 	 *   //Do stuff
 	 *   return true;
 	 *  }
@@ -480,9 +607,9 @@ public class TypeValidation {
 	 * not needed for this class and method, as it simply
 	 * only exists to validate input {@code Strings}, and
 	 * requires no instance variables to operate.
-	 * @see allValidationTypes
+	 * @see AllValidationTypes
 	 */
-	public interface arbitraryType {
+	public interface ArbitraryType {
 		/**
 		 * Check whether or not a {@code String} validates 
 		 * to an object of an arbitrary type
@@ -490,6 +617,13 @@ public class TypeValidation {
 		 * @return <b>boolean</b> The status of whether or not the input {@code String} validates
 		 */
 		public boolean strIsValid(String strIn);
+		
+		/**
+		 * Defines the default value that an object
+		 * of an arbitrary type will return on creation
+		 * @return <b>Object</b> The default value that the arbitrary type possesses on creation
+		 */
+		public Object getDefaultValue();
 	}
 	
 	/**
@@ -505,13 +639,13 @@ public class TypeValidation {
 	 * @param customTypes An {@code ArrayList} containing custom validation method(s) specified by the user
 	 * @return <b>boolean</b> The status of whether or not the input {@code String} validates
 	 */
-	public static boolean strValidates(String targetStr, ArrayList<allValidationTypes> expectedTypes, ArrayList<arbitraryType> customTypes){
+	public static boolean strValidates(String targetStr, ArrayList<AllValidationTypes> expectedTypes, ArrayList<ArbitraryType> customTypes){
 		//Loop through all entries in the provided ArrayList
-		for(allValidationTypes currentExpectedType : expectedTypes){
+		for(AllValidationTypes currentExpectedType : expectedTypes){
 			//Check if the current type to check is the custom type
-			if(currentExpectedType == allValidationTypes.CUSTOMTYPE){
+			if(currentExpectedType == AllValidationTypes.CUSTOMTYPE){
 				//Loop through the ArrayList containing the custom validation methods
-				for(arbitraryType customType : customTypes){
+				for(ArbitraryType customType : customTypes){
 					//Run the current custom validation method against the input string and get the result as a boolean
 					boolean currentCustomMethodResult = currentExpectedType.validate(targetStr, customType);
 					
@@ -561,9 +695,9 @@ public class TypeValidation {
 	 * @param customType A custom validation method specified by the user
 	 * @return <b>boolean</b> The status of whether or not the input {@code String} validates
 	 */
-	public static boolean strValidates(String targetStr, ArrayList<allValidationTypes> expectedTypes, arbitraryType customType){
+	public static boolean strValidates(String targetStr, ArrayList<AllValidationTypes> expectedTypes, ArbitraryType customType){
 		//Create a new ArrayList to hold the singular custom validation method
-		ArrayList<arbitraryType> customTypes = new ArrayList<>();
+		ArrayList<ArbitraryType> customTypes = new ArrayList<>();
 		
 		//Add the singular expected type to the ArrayList
 		customTypes.add(customType);
@@ -584,9 +718,9 @@ public class TypeValidation {
 	 * @param customTypes An {@code ArrayList} containing custom validation method(s) specified by the user
 	 * @return <b>boolean</b> The status of whether or not the input {@code String} validates
 	 */
-	public static boolean strValidates(String targetStr, allValidationTypes expectedType, ArrayList<arbitraryType> customTypes){
+	public static boolean strValidates(String targetStr, AllValidationTypes expectedType, ArrayList<ArbitraryType> customTypes){
 		//Create a new ArrayList to hold the singular expected type passed
-		ArrayList<allValidationTypes> expectedTypes = new ArrayList<>();
+		ArrayList<AllValidationTypes> expectedTypes = new ArrayList<>();
 		
 		//Add the singular expected type to the ArrayList
 		expectedTypes.add(expectedType);
@@ -607,7 +741,7 @@ public class TypeValidation {
 	 * @param customType A custom validation method specified by the user
 	 * @return <b>boolean</b> The status of whether or not the input {@code String} validates
 	 */
-	public static boolean strValidates(String targetStr, allValidationTypes expectedType, arbitraryType customType){
+	public static boolean strValidates(String targetStr, AllValidationTypes expectedType, ArbitraryType customType){
 		//Redirect to the overloaded method
 		return strValidates(targetStr, expectedType, customType);
 	}
@@ -619,9 +753,9 @@ public class TypeValidation {
 	 * @param expectedTypes An {@code ArrayList} containing the type(s) the input {@code String} is expected to be
 	 * @return <b>boolean</b> The status of whether or not the input {@code String} validates
 	 */
-	public static boolean strValidates(String targetStr, ArrayList<allValidationTypes> expectedTypes){
+	public static boolean strValidates(String targetStr, ArrayList<AllValidationTypes> expectedTypes){
 		//Redirect to the overloaded method
-		return strValidates(targetStr, expectedTypes, new ArrayList<arbitraryType>());
+		return strValidates(targetStr, expectedTypes, new ArrayList<ArbitraryType>());
 	}
 	
 	/**
@@ -631,9 +765,9 @@ public class TypeValidation {
 	 * @param expectedType The type the input {@code String} is expected to be
 	 * @return <b>boolean</b> The status of whether or not the input {@code String} validates
 	 */
-	public static boolean strValidates(String targetStr, allValidationTypes expectedType){
+	public static boolean strValidates(String targetStr, AllValidationTypes expectedType){
 		//Redirect to the overloaded method
-		return strValidates(targetStr, expectedType, new ArrayList<arbitraryType>());
+		return strValidates(targetStr, expectedType, new ArrayList<ArbitraryType>());
 	}
 	
 	/**
