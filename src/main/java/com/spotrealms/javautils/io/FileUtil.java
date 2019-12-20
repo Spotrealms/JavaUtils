@@ -37,6 +37,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -57,6 +58,7 @@ import java.util.regex.Matcher;
  * 	<li>Class execution path getter ({@code getExecPath})</li>
  * 	<li>File extension parsing ({@code getExtension} / <b>Deprecated!</b> Use {@code getFileProps} instead.)</li>
  * 	<li>File property parsing ({@code getFileProps})</li>
+ *  <li>File hash computator ({@code getHash})</li>
  * 	<li>File relative path getter ({@code getRelativePath})</li>
  * 	<li>File line matcher ({@code findLines})</li>
  * 	<li>File path normalizer ({@code normalizePath})</li>
@@ -374,6 +376,47 @@ public class FileUtil {
 		
 		//Return the file properties as an ArrayList
 		return fileProps;
+	}
+	
+	/**
+	 * Computes the hash of a {@code File} given a specific
+	 * {@code MessageDigest} type
+	 * @param mDigest The hashing algorithm to use on the file
+	 * @param targetFile The target {@code File} to compute the hash of
+	 * @return <b>String</b> The resulting hash of the input {@code File}
+	 * @throws IOException Thrown if there was an error reading the {@code File}
+	 */
+	public static String getHash(MessageDigest mDigest, File targetFile) throws IOException {
+		//Get file input stream for reading the file content
+		FileInputStream fileIn = new FileInputStream(targetFile);
+		 
+		//Create byte array to read data in chunks
+		byte[] byteArray = new byte[1024];
+		int bytesCount = 0;
+		  
+		//Read file data and update in message digest
+		while((bytesCount = fileIn.read(byteArray)) != -1){
+			//Update the digest's file bytes
+			mDigest.update(byteArray, 0, bytesCount);
+		}
+		 
+		//Close the stream to save on resources
+		fileIn.close();
+		 
+		//Get the hash's bytes
+		byte[] digestBytes = mDigest.digest();
+		 
+		//Create a StringBuilder to hold the file's hash
+		StringBuilder fileHash = new StringBuilder();
+		
+		//Loop over the message digest byte array
+		for(int i=0; i<digestBytes.length ;i++){
+			//Convert the byte to hexadecimal and append it onto the StringBuilder
+			fileHash.append(Integer.toString((digestBytes[i] & 0xff) + 0x100, 16).substring(1));
+		}
+		 
+		//Return complete hash as a string
+		return (fileHash.toString());
 	}
 	
 	/**
