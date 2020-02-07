@@ -400,7 +400,7 @@ public class StringUtil {
 		//Compile the regex pattern and create a matcher to find the regex matches in the string
 		Matcher regMatcher = Pattern.compile(regexStr).matcher(inputStr);
 			
-		//Create an integer to keep track of the position in thr string
+		//Create an integer to keep track of the position in the string
 		int strPos = 0;
 			
 		//Loop while a match is found
