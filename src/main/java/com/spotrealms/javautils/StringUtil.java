@@ -27,8 +27,11 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-//TODO: Finish up JavaDoc
-
+/**
+ * A collection of methods for working
+ * with strings
+ * @author Spotrealms
+ */
 public class StringUtil {
 	/**
 	 * Clean strings of certain types of characters
@@ -40,9 +43,9 @@ public class StringUtil {
 	 * 	<li>Remove all non-printable Unicode characters ({@code PRINT})</li>
 	 * 	<li>Use all of the above filters on the string ({@code ALL})</li>
 	 * </ul>
-	 * @param textIn - The string to filter
-	 * @param cleanMode - The mode to use on the string (see above list of valid codes)
-	 * @return <b>String</b> - The resulting cleaned string
+	 * @param textIn The string to filter
+	 * @param cleanMode The mode to use on the string (see above list of valid codes)
+	 * @return <b>String</b> The resulting cleaned string
 	 */
 	public static String cleanText(String textIn, String cleanMode){
 		//Variable declaration
@@ -96,6 +99,12 @@ public class StringUtil {
 		return textIn.trim();
 	}
 	
+	/**
+	 * Clones a {@code String} x amount of times
+	 * @param cloneTarget The string to clone
+	 * @param cloneCount The amount of times to clone the target
+	 * @return <b>String</b> The new cloned string
+	 */
 	public static String cloneStr(String cloneTarget, int cloneCount){
 		//Initialization
 		String outStr = "";
@@ -117,8 +126,8 @@ public class StringUtil {
 	
 	/**
 	 * Decode a URL-encoded String into standard UTF-8 characters
-	 * @param encodedURL - The string to be decoded
-	 * @return <b>String</b> - The resulting decoded string
+	 * @param encodedURL The string to be decoded
+	 * @return <b>String</b> The resulting decoded string
 	 * @throws UnsupportedEncodingException If the encoded URL passed to the method is of an invalid encoding
 	 */
 	public static String decodeURL(String encodedURL) throws UnsupportedEncodingException {
@@ -139,8 +148,8 @@ public class StringUtil {
 	
 	/**
 	 * Encode a UTF-8 String into valid characters for URLs and forms
-	 * @param decodedURL - The string to be encoded
-	 * @return <b>String</b> - The resulting encoded string
+	 * @param decodedURL The string to be encoded
+	 * @return <b>String</b> The resulting encoded string
 	 * @throws UnsupportedEncodingException If the decoded URL passed to the method is of an invalid encoding
 	 */
 	public static String encodeURL(String decodedURL) throws UnsupportedEncodingException {
@@ -302,18 +311,7 @@ public class StringUtil {
 		//Return the last matched index in the input String
 		return lastIndexOfRegex(huntStr.substring(0, fromIndex), toFind);
 	}
-	
-	public String native2Ascii(String text) {
-		if(text == null) {
-			return text;
-		}
-		StringBuilder sb = new StringBuilder();
-		for(char ch : text.toCharArray()){
-			sb.append(native2Ascii(ch));
-		}
-		return sb.toString();
-	}
-	
+
 	/**
 	 * Check if an input {@code String} contains
 	 * a given regex pattern
@@ -327,27 +325,6 @@ public class StringUtil {
 		
 		//Check if the length is at least one and return the status as a boolean
 		return (allMatches.length >= 1);
-	}
-
-	public String native2Ascii(char ch){
-		if(ch > '\u007f'){
-			StringBuilder sb = new StringBuilder();
-			// write \udddd
-			sb.append("\\u");
-			StringBuffer hex = new StringBuffer(Integer.toHexString(ch));
-			hex.reverse();
-			int length = 4 - hex.length();
-			for(int j = 0; j < length; j++){
-				hex.append('0');
-			}
-			for(int j = 0; j < 4; j++){
-				sb.append(hex.charAt(3 - j));
-			}
-			return sb.toString();
-		} 
-		else {
-			return Character.toString(ch);
-		}
 	}
 	
 	/**
