@@ -183,6 +183,47 @@ public class ArrayUtil {
 	}
 	
 	/**
+	 * Counts the number of times an item
+	 * appears in an {@code ArrayList}
+	 * @param arrItem The item to search for
+	 * @param tArrList The ArrayList to search the target element for
+	 * @param <T> Allow generic types to be used
+	 * @return <b>int</b> The number of times the array item appears in the array
+	 */
+	public static <T> int dupeCount(T arrItem, ArrayList<T> tArrList){
+		//Create an integer to keep track of the match count
+		int matched = 0;
+		
+		//Loop over the input ArrayList
+		for(T curObj : tArrList){
+			//Check if the current element equals the target item
+			if(curObj.equals(arrItem)){
+				//Increment the matched counter
+				matched++;
+			}
+		}
+			
+		//Return the number of matches there were
+		return matched;
+	}
+	
+	/**
+	 * Counts the number of times an item
+	 * appears in an array
+	 * @param arrItem The item to search for
+	 * @param tArrList The array to search the target element for
+	 * @param <T> Allow generic types to be used
+	 * @return <b>int</b> The number of times the array item appears in the array
+	 */
+	public static <T> int dupeCount(T arrItem, T[] tArr){
+		//Convert the generic array to a generic ArrayList
+		ArrayList<T> genArrList = new ArrayList<>(Arrays.asList(tArr));
+				
+		//Pass the ArrayList to the overloaded dupeCount method and return the result
+		return (dupeCount(arrItem, genArrList));
+	}
+	
+	/**
 	 * Get a random element from a generic 
 	 * arbitrary-dimensional {@code List} using 
 	 * a random number generator
