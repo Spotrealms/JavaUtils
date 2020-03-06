@@ -119,6 +119,62 @@ public class StringUtil {
 		return outStr;
 	}
 	
+	/**
+	 * Check if a {@code String} contains any element in
+	 * a given {@code ArrayList}. Useful in cases where
+	 * a {@code String} can contain multiple objects.
+	 * @param tStr The {@code String} to use in the operation
+	 * @param contTargets A list of all objects that the input {@code String} can contain
+	 * @param ignoreCase Specifies whether or not to ignore case in the comparison operation
+	 * @param <T> Allow generic types and objects to be used
+	 * @return <b>boolean</b> The status as to whether or not the input {@code String} contains any object in the passed {@code ArrayList}
+	 */
+	public static <T> boolean containsAny(String tStr, ArrayList<T> contTargets, boolean ignoreCase){
+		//Loop through the ArrayList of targets
+		for(Object curTarget : contTargets){
+			//Check if case should be ignored
+			if(ignoreCase){
+				//Transform both the target element and the input string to lowercase
+				tStr = (tStr.toLowerCase());
+				curTarget = (curTarget.toString().toLowerCase());
+			}
+			
+			//Check if the input string contains the target element
+			if(tStr.contains(curTarget.toString())){
+				//Return true because the string contains at least one contain target
+				return true;
+			}
+		}
+		
+		//Return false because the input string doesn't contain any of the contain targets
+		return false;
+	}
+	
+	/**
+	 * Check if a {@code String} contains any element in
+	 * a given array. Useful in cases where a {@code String} 
+	 * can contain multiple objects.
+	 * @param tStr The {@code String} to use in the operation
+	 * @param contTargets An array of all objects that the input {@code String} can contain
+	 * @param ignoreCase Specifies whether or not to ignore case in the comparison operation
+	 * @param <T> Allow generic types and objects to be used
+	 * @return <b>boolean</b> The status as to whether or not the input {@code String} contains any object in the passed {@code ArrayList}
+	 */
+	public static <T> boolean containsAny(String tStr, T[] contTargets, boolean ignoreCase){
+		//Convert the generic array to a generic ArrayList
+		ArrayList<T> genArrList = new ArrayList<>(Arrays.asList(contTargets));
+		
+		//Pass the ArrayList to the overloaded equalsAny method and return the result
+		return (containsAny(tStr, genArrList, ignoreCase));
+	}
+	
+	/**
+	 * Counts the number of times a {@code String}
+	 * appears inside of a bigger {@code String}
+	 * @param huntStr The string to test
+	 * @param targetStr The string to look for
+	 * @return <b>int</b> The number of times the target string appears in the hunt string
+	 */
 	public static int countInStr(String huntStr, String targetStr){
 		//Count the number of times targetStr appears in huntStr
 		return (huntStr.length() - huntStr.replace(targetStr, "").length()) / targetStr.length();
@@ -175,8 +231,8 @@ public class StringUtil {
 			//Check if case should be ignored
 			if(ignoreCase){
 				//Transform both the target element and the input string to lowercase
-				tStr = tStr.toLowerCase();
-				curTarget = curTarget.toString().toLowerCase();
+				tStr = (tStr.toLowerCase());
+				curTarget = (curTarget.toString().toLowerCase());
 			}
 			
 			//Check if regex should be used
@@ -198,6 +254,25 @@ public class StringUtil {
 		
 		//Return false because the input string doesn't equal any of the equal targets
 		return false;
+	}
+	
+	/**
+	 * Check if a {@code String} equals any element in
+	 * a given array. Useful in cases where a {@code String}
+	 * can equal multiple objects.
+	 * @param tStr The {@code String} to use in the operation
+	 * @param equalTargets An array of all objects that the input {@code String} can equal
+	 * @param ignoreCase Specifies whether or not to ignore case in the comparison operation
+	 * @param useRegex Specifies whether or not to match lines by using the {@code ArrayList} as regex patterns
+	 * @param <T> Allow generic types and objects to be used
+	 * @return <b>boolean</b> The status as to whether or not the input {@code String} equals any object in the passed {@code ArrayList}
+	 */
+	public static <T> boolean equalsAny(String tStr, T[] equalTargets, boolean ignoreCase, boolean useRegex){
+		//Convert the generic array to a generic ArrayList
+		ArrayList<T> genArrList = new ArrayList<>(Arrays.asList(equalTargets));
+		
+		//Pass the ArrayList to the overloaded equalsAny method and return the result
+		return (equalsAny(tStr, genArrList, ignoreCase, useRegex));
 	}
 	
 	/**
