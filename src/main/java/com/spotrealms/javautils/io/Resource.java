@@ -21,12 +21,12 @@ package com.spotrealms.javautils.io;
 //Import Java classes and dependencies
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 /**
@@ -100,34 +100,25 @@ public class Resource {
 	public static <T> File getResourceAsFile(Class<T> execClass, String resourcePath) throws IOException {
 		//Convert the resource file path to its UNIX counterpart, as getResourceAsStream will be null if the path includes backslashes
 		resourcePath = FileUtil.winToUnixPath(resourcePath);
-		
-		//Get the resource as an InputStream
-		InputStream streamIn = getResourceAsStream(execClass, resourcePath);
-			
-		//Check if the stream is null (file not found)
-		if(streamIn == null){
+
+		//Create a file object to store the temporary file's data
+		File tempFile = null;
+
+		//Derive an InputStream from the class resource and begin the export process
+		try(InputStream streamIn = getResourceAsStream(execClass, resourcePath)){
+			//Create the file, but mark it for deletion on exit because the file is only temporary
+			tempFile = (File.createTempFile(String.valueOf(streamIn.hashCode()), ".tmp"));
+			tempFile.deleteOnExit();
+
+			//Convert the InputStream to file and copy its contents to the temporary file
+			Files.copy(streamIn, Paths.get(tempFile.getAbsolutePath()), StandardCopyOption.REPLACE_EXISTING);
+		} 
+		catch(IOException ex){
+			//Return null if there was an error
 			return null;
 		}
 
-		//Create the file, but mark it for deletion on exit because the file is only temporary
-		File tempFile = File.createTempFile(String.valueOf(streamIn.hashCode()), ".tmp");
-		tempFile.deleteOnExit();
-
-		//Create a FileOutputStream
-		FileOutputStream contentsOut = new FileOutputStream(tempFile);
-		
-		//Create the buffer and byte counter for the file writing process
-		byte[] buffer = new byte[1024];
-		int bytesRead;
-		
-		//Loop through the InputStream's contents
-		while((bytesRead = streamIn.read(buffer)) != -1){
-			//Write the contents of the stream byte-by-byte to the file
-			contentsOut.write(buffer, 0, bytesRead);
-		}
-		
-		//Return the resulting file and close the FileOutputStream
-		contentsOut.close();
+		//Return the resulting file
 		return tempFile;
 	}
 	
