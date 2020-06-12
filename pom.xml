@@ -15,6 +15,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	
+	<!-- Set software license -->
 	<licenses>
 		<license>
 			<name>GNU Lesser General Public License, Version 3.0</name>
@@ -23,6 +24,7 @@
 		</license>
 	</licenses>
 	
+	<!-- Dependencies -->
 	<dependencies>
 		<!-- Json.org JSON -->
 		<dependency>
