@@ -44,6 +44,18 @@ target/
 
 
 #################
+## IntelliJ & Gradle
+#################
+
+.idea/
+.gradle/
+build/
+*.iml
+*.log.*
+gradle.properties
+
+
+#################
 ## Visual Studio
 #################
 
