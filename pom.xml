@@ -26,11 +26,12 @@
 	
 	<!-- Dependencies -->
 	<dependencies>
-		<!-- Json.org JSON -->
+		<!-- Json.org JSON (user-provided if they use the JSON type validator) -->
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
-			<version>20190722</version>
+			<version>20200518</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 	
@@ -46,13 +47,13 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.1.2</version>
+				<version>3.2.0</version>
 			</plugin>
 			<!-- Generate JavaDoc JAR (deprecates old method of including java files in the JAR, which is stupid and takes up too much space) -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.1.1</version>
+				<version>3.2.0</version>
 				<executions>
 					<execution>
 						<id>attach-javadocs</id>
@@ -66,7 +67,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>3.1.0</version>
+				<version>3.2.0</version>
 				<executions>
 					<execution>
 						<id>attach-sources</id>
@@ -80,7 +81,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.2.1</version>
+				<version>3.2.4</version>
 					<executions>
 					<execution>
 						<phase>package</phase>
