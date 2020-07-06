@@ -23,6 +23,7 @@ import com.spotrealms.javautils.terminal.color.NColor;
 
 //TODO: Add JavaDoc
 
+@Deprecated
 public class SimpleLoggerConfig {
 	//Setup default color variables (has to be strings because extending classes may use something besides ANSI escape codes)
 	private static final String defaultInfoHeaderColor = NColor.WHITE_BRIGHT.toString();

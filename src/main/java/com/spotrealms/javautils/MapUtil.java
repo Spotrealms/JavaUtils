@@ -25,7 +25,12 @@ import com.spotrealms.javautils.math.MathUtil;
 import java.util.Map;
 
 //TODO: Finish up JavaDoc
-
+@Deprecated 
+/**
+ * DEPRECATED: This class has been deprecated. The methods
+ * in this class should be implemented on a case-by-case basis
+ * @author Spotrealms
+ */
 public class MapUtil {
 	/**
 	 * Get a random element from a generic 

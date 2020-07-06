@@ -13,6 +13,7 @@ import java.util.Locale;
 import java.util.Map;
 //TODO: Add JavaDoc
 
+@Deprecated
 public class SimpleLogger {
 	//Setup class variables
 	private final SimpleLoggerConfig simpleLoggerConfig;
@@ -126,7 +127,7 @@ public class SimpleLogger {
 		String[] logColors = {lHeaderColor, lBodyColor, lResetColor};
 				
 		//Check if the log format is unfilled
-		if(StringUtil.isNull(formatOverride)){
+		if(formatOverride != null){
 			//Format and return the completed log message with the default log format syntax
 			return (formatLogOutput(logMessage, aHeader, logColors, logType, logFormat));
 		}
@@ -153,7 +154,7 @@ public class SimpleLogger {
 		String logTimestamp;
 		
 		//Check if the timestamp format is empty
-		if(StringUtil.isNull(timestampFormat)){
+		if(timestampFormat != null){
 			//Get the date format from the user's locale
 			DateFormat dateFormat = DateFormat.getDateTimeInstance(
 				DateFormat.DEFAULT, DateFormat.DEFAULT, Locale.getDefault()
