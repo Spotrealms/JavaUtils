@@ -50,7 +50,7 @@ public class InvalidArrayException extends RuntimeException {
 	 */
 	private static String generateResponse(String errorMessage, String[] expectedType){
 		//Collect the valid array types into a String for processing
-		String validList = ArrayUtil.createListFromArr(expectedType, 'O', ',', ' ');
+		String validList = ArrayUtil.toGrammaticalList(expectedType, 'O', ',', ' ');
 				
 		//Create the response message
 		String finalMsg = errorMessage + " The expected array must be of the following types: " + validList + ".";

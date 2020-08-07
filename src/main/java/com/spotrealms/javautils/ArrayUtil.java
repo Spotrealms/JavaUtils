@@ -116,73 +116,6 @@ public class ArrayUtil {
 	}
 	
 	/**
-	 * Create a grammatical list in a {@code String} from a 
-	 * primitive array of arbitrary types
-	 * @param tArr The primitive array of arbitrary values to create the list from
-	 * @param listType A character representing the list type (A - and, N - nor, O - or)
-	 * @param listSep The separator to use in the final list (commas are usually preferred)
-	 * @param spChar The whitespace character to use in the list (a space is usually preferred)
-	 * @param <T> Allow generic types and objects to be used
-	 * @return <b>String</b> The resulting list in a {@code String}
-	 */
-	public static <T> String createListFromArr(T[] tArr, char listType, char listSep, char spChar){
-		//Create a StringBuilder to hold the list and a String to hold the list type
-		StringBuilder finalList = new StringBuilder("");
-		String listTypeStr = "";
-		
-		//Determine the type of list to create
-		switch(Character.toUpperCase(listType)){
-			//"AND" list
-			case 'A':
-				listTypeStr = "and";
-			break;
-			//"NOR" list
-			case 'N':	
-				listTypeStr = "nor";
-			break;
-			//"OR" list
-			case 'O':	
-				listTypeStr = "or";
-			break;
-		}
-		
-		//Check if the array length is more than two
-		if(tArr.length > 2){
-			//Loop through the entire array
-			for(int i=0; i < tArr.length; i++){
-				//Check if the iterator is not at the end of the array
-				if(i < (tArr.length - 1)){
-					//Append the element at position i to the string
-					finalList.append(tArr[i]); 
-				
-					//Check if the next element isn't the last
-					if(!(i == (tArr.length - 2))){
-						//Add the separator followed by a space
-						finalList.append(String.valueOf(listSep) + String.valueOf(spChar));
-					}
-				}
-				//Check if the iterator is at the end of the array
-				else if(i == (tArr.length - 1)){
-					//Append the final element of the list and the list type indication
-					finalList.append(String.valueOf(listSep) + String.valueOf(spChar) + listTypeStr + String.valueOf(spChar) + tArr[i]);
-				}
-			}
-		}
-		//Check if the array length is two
-		else if(tArr.length == 2){
-			//Add the first and then the second element with the list type in between
-			finalList.append(tArr[0] + String.valueOf(spChar) + listTypeStr + String.valueOf(spChar) + tArr[1]);
-		}
-		//Default to just adding the first array element
-		else {
-			finalList.append(tArr[0]);
-		}
-		
-		//Return the resulting StringBuilder as a String
-		return finalList.toString();
-	}
-	
-	/**
 	 * Counts the number of times an item
 	 * appears in an {@code ArrayList}
 	 * @param tArrList The ArrayList to search the target element for
@@ -301,31 +234,6 @@ public class ArrayUtil {
 		return (objToCheck != null && objToCheck.getClass().isArray());
 	}
 	
-	public static <T> String listToStr(List<T> targetList, String arrElemDelimiter){
-		//Create a StringBuilder for later
-		StringBuilder outputStr = new StringBuilder();
-		
-		//Loop through the list
-		for(int i=0; i<targetList.size(); i++){
-			//Append the current element to the StringBuilder (must be converted to a string first)
-			outputStr.append(targetList.get(i).toString());
-			
-			//Check if the current element in the List is not the last one
-			if(i < (targetList.size() - 1)){
-				//Append the delimiter on the end of the StringBuilder
-				outputStr.append(arrElemDelimiter);
-			}
-		}
-		
-		//Output the StringBuilder as a string
-		return outputStr.toString();
-	}
-	
-	public static <T> String listToStr(List<T> targetList){
-		//Redirect to the overloaded method
-		return listToStr(targetList, "");
-	}
-	
 	/**
 	 * Deletes certain elements from a given {@code ArrayList}
 	 * given an array of the indexes of those items
@@ -373,6 +281,73 @@ public class ArrayUtil {
 		
 		//Return the filled array
 		return newPrimArray;
+	}
+	
+	/**
+	 * Creates a grammatical list in a {@code String} from a 
+	 * primitive array of arbitrary types
+	 * @param tArr The primitive array of arbitrary values to create the list from
+	 * @param listType A character representing the list type (A - and, N - nor, O - or)
+	 * @param listSep The separator to use in the final list (commas are usually preferred)
+	 * @param spChar The whitespace character to use in the list (a space is usually preferred)
+	 * @param <T> Allow generic types and objects to be used
+	 * @return <b>String</b> The resulting list in a {@code String}
+	 */
+	public static <T> String toGrammaticalList(T[] tArr, char listType, char listSep, char spChar){
+		//Create a StringBuilder to hold the list and a String to hold the list type
+		StringBuilder finalList = new StringBuilder("");
+		String listTypeStr = "";
+		
+		//Determine the type of list to create
+		switch(Character.toUpperCase(listType)){
+			//"AND" list
+			case 'A':
+				listTypeStr = "and";
+			break;
+			//"NOR" list
+			case 'N':	
+				listTypeStr = "nor";
+			break;
+			//"OR" list
+			case 'O':	
+				listTypeStr = "or";
+			break;
+		}
+		
+		//Check if the array length is more than two
+		if(tArr.length > 2){
+			//Loop through the entire array
+			for(int i=0; i < tArr.length; i++){
+				//Check if the iterator is not at the end of the array
+				if(i < (tArr.length - 1)){
+					//Append the element at position i to the string
+					finalList.append(tArr[i]); 
+				
+					//Check if the next element isn't the last
+					if(!(i == (tArr.length - 2))){
+						//Add the separator followed by a space
+						finalList.append(String.valueOf(listSep) + String.valueOf(spChar));
+					}
+				}
+				//Check if the iterator is at the end of the array
+				else if(i == (tArr.length - 1)){
+					//Append the final element of the list and the list type indication
+					finalList.append(String.valueOf(listSep) + String.valueOf(spChar) + listTypeStr + String.valueOf(spChar) + tArr[i]);
+				}
+			}
+		}
+		//Check if the array length is two
+		else if(tArr.length == 2){
+			//Add the first and then the second element with the list type in between
+			finalList.append(tArr[0] + String.valueOf(spChar) + listTypeStr + String.valueOf(spChar) + tArr[1]);
+		}
+		//Default to just adding the first array element
+		else {
+			finalList.append(tArr[0]);
+		}
+		
+		//Return the resulting StringBuilder as a String
+		return finalList.toString();
 	}
 	
 	/**
