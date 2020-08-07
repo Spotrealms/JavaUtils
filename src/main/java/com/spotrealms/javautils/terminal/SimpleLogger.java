@@ -154,7 +154,7 @@ public class SimpleLogger {
 		String logTimestamp;
 		
 		//Check if the timestamp format is empty
-		if(timestampFormat != null){
+		if(timestampFormat.isEmpty()){
 			//Get the date format from the user's locale
 			DateFormat dateFormat = DateFormat.getDateTimeInstance(
 				DateFormat.DEFAULT, DateFormat.DEFAULT, Locale.getDefault()
