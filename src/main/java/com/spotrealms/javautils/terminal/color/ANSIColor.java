@@ -46,7 +46,8 @@ import com.spotrealms.javautils.math.NumberSystem;
  */
 public class ANSIColor {
 	//Set default class variables
-	private static final char escCode = '\033';
+	/** The "ESC" character that forms the basis of an ANSI escape sequence **/
+	private static final char ESC_CODE = '\033';
 
 	/**
 	 * Generates color in the terminal via the 4-bit
@@ -64,7 +65,7 @@ public class ANSIColor {
 	 */
 	public static String get4Color(int ansiCode, int textMod){
 		//Construct and return the corresponding ANSI escape sequence
-		return (escCode + "[" + textMod + ";" + ansiCode + "m");
+		return (ESC_CODE + "[" + textMod + ";" + ansiCode + "m");
 	}
 	
 	/**
@@ -166,7 +167,7 @@ public class ANSIColor {
 		}
 		
 		//Construct and return the corresponding ANSI escape sequence
-		return (escCode + "[" + groundSelect + ";5;" + ansiCode + "m");
+		return (ESC_CODE + "[" + groundSelect + ";5;" + ansiCode + "m");
 	}
 	
 	/**
@@ -235,7 +236,7 @@ public class ANSIColor {
 		}
 
 		//Construct and return the corresponding ANSI escape sequence
-		return (escCode + "[" + groundSelect + ";2;" + red + ";" + green + ";" + blue + "m");
+		return (ESC_CODE + "[" + groundSelect + ";2;" + red + ";" + green + ";" + blue + "m");
 	}
 	
 	/**
