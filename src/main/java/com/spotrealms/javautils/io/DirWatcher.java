@@ -1,6 +1,6 @@
-/**
+/*
  * JavaUtils: A collection of utility methods and classes for your Java programs
- *   Copyright (C) 2015-2019  Spotrealms Network
+ *   Copyright (C) 2015-2020  Spotrealms Network
  *
  *    This library is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU Lesser General Public License as
@@ -18,10 +18,8 @@
 
 package com.spotrealms.javautils.io;
 
-//Import first-party classes
-import com.spotrealms.javautils.StringUtil;
+import com.spotrealms.javautils.misc.StringUtil;
 
-//Import Java classes and dependencies
 import java.io.File;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
@@ -30,7 +28,10 @@ import java.nio.file.WatchEvent;
 import java.nio.file.WatchEvent.Kind;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
-import static java.nio.file.StandardWatchEventKinds.*;
+
+import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
+import static java.nio.file.StandardWatchEventKinds.ENTRY_DELETE;
+import static java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY;
 
 /**
  * A wrapper class for Java 7's {@code WatchService}
@@ -68,8 +69,11 @@ import static java.nio.file.StandardWatchEventKinds.*;
  *  <li><pre style="margin:0; padding:0; display: inline">count()</pre> - The times this event was fired</li>
  *  <li><pre style="margin:0; padding:0; display: inline">kind()</pre> - The fired event's type (create, delete, modify)</li>
  * </ul>
+ * @deprecated Better alternatives exist like "gmethvin/directory-watcher" or "darylteo/directory-watcher".
+ *      This class will be removed on release of version 1.0
  * @author Spotrealms
  */
+@Deprecated
 public abstract class DirWatcher implements Runnable {
 	//Set class variables
 	private Path watchPath;
@@ -77,30 +81,33 @@ public abstract class DirWatcher implements Runnable {
 	//Class constructor
 	/**
 	 * Constructs an instance of the {@code DirWatcher}
-	 * class
+	 * class.
 	 * @param watchPath The absolute path to the directory to watch
 	 */
-	public DirWatcher(String watchPath){
+	public DirWatcher(final String watchPath){
+		//Initialization
+		String wPath = watchPath;
+
 		//Check if the watch path is blank
-		if(StringUtil.isNullOrVoid(watchPath)){
+		if(StringUtil.isNullOrVoid(wPath)){
 			//Set the watch path to be the current directory
-			watchPath = System.getProperty("user.dir");
+			wPath = System.getProperty("user.dir");
 		}
 		
 		//Check if the path points to an existent file/folder
-		if(new File(watchPath).exists()){
+		if(new File(wPath).exists()){
 			//Derive a path object from the input string
-			this.watchPath = Paths.get(watchPath);
+			this.watchPath = Paths.get(wPath);
 		}
 		else {
 			//Throw an IllegalArgumentException because the input path doesn't exist
-			throw new IllegalArgumentException("Input path points to a non-existant directory");
+			throw new IllegalArgumentException("Input path points to a non-existent directory");
 		}
 	}
 	
 	/**
 	 * Constructs an instance of the {@code DirWatcher}
-	 * class
+	 * class.
 	 */
 	public DirWatcher(){
 		//Redirect to the overloaded constructor with unimplemented parameters being substituted by blanks

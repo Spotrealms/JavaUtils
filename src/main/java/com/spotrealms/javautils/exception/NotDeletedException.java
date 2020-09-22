@@ -19,21 +19,21 @@
 package com.spotrealms.javautils.exception;
 
 /**
- * An exception thrown when an item in a
- * {@code Map} was not found.
+ * An exception thrown when a file was not
+ * deleted successfully.
  *
  * @author Spotrealms
  */
-public class KeyNotFoundException extends RuntimeException {
-	private static final long serialVersionUID = -9141966215259779964L;
+public class NotDeletedException extends RuntimeException {
+	private static final long serialVersionUID = 4355528335425717516L;
 
 	/**
-	 * An exception thrown when an item in a
-	 * {@code Map} was not found.
+	 * An exception thrown when a file was not
+	 * deleted successfully.
 	 *
-	 * @param errorMessage The message to display to the user when the error is thrown
+	 * @param errorMessage The message to display to the user when the exception is thrown
 	 */
-	public KeyNotFoundException(final String errorMessage){
+	public NotDeletedException(final String errorMessage){
 		//Invoke the runtime exception
 		super(errorMessage);
 	}

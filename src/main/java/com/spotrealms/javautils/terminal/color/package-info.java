@@ -16,25 +16,10 @@
  *    License along with this library.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.spotrealms.javautils.exception;
-
 /**
- * An exception thrown when an item in a
- * {@code Map} was not found.
+ * Contains classes that allow the user to add color to
+ * the terminal via ANSI escape sequences.
  *
  * @author Spotrealms
  */
-public class KeyNotFoundException extends RuntimeException {
-	private static final long serialVersionUID = -9141966215259779964L;
-
-	/**
-	 * An exception thrown when an item in a
-	 * {@code Map} was not found.
-	 *
-	 * @param errorMessage The message to display to the user when the error is thrown
-	 */
-	public KeyNotFoundException(final String errorMessage){
-		//Invoke the runtime exception
-		super(errorMessage);
-	}
-}
+package com.spotrealms.javautils.terminal.color;

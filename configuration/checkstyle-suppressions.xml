@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE suppressions PUBLIC "-//Puppy Crawl//DTD Suppressions 1.1//EN" "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
+<suppressions>
+	<!-- Generated Sources -->
+	<suppress files="[/\\]target[/\\]generated\-sources[/\\].*\.java" checks=".*"/>
+
+	<!-- All Test Classes -->
+	<suppress files="[/\\]src[/\\]test[/\\].*\.java" checks="MagicNumber"/>
+
+	<!-- JUnit Tests -->
+	<suppress files="[/\\]src[/\\]test[/\\].*Test\.java" checks="(AvoidStaticImport|JavadocPackage|MissingCtor|VisibilityModifier)"/>
+	
+	<!-- JPlaceholder.java (LinkedHashMaps are okay in the context they are used) -->
+	<suppress files="JPlaceholder.java" checks="IllegalType"/>
+	
+	<!-- StringUtil.java (Unicode escapes should be checked for in a string in order to purge them from said string) -->
+	<suppress files="StringUtil.java" checks="AvoidEscapedUnicodeCharacters"/>
+	
+	<!-- TypeValidation.java (A NULL unicode escape should be returned as the default value for a char) -->
+	<suppress files="TypeValidation.java" checks="AvoidEscapedUnicodeCharacters"/>
+	
+	<!-- FileUtil.java (HashMaps are okay in the context they are used) -->
+	<suppress files="FileUtil.java" checks="IllegalType"/>
+	
+	
+	<!-- DEPRECATION SUPRESSIONS -->
+	<!-- DirWatcher.java (Class is deprecated and set for removal anyways) -->
+	<suppress files="DirWatcher.java" checks="[a-zA-Z0-9]*" />
+	
+	<!-- MapUtil.java (Class is deprecated and set for removal anyways) -->
+	<suppress files="MapUtil.java" checks="[a-zA-Z0-9]*" />
+	
+	<!-- NetUtil.java (Class is deprecated and set for removal anyways) -->
+	<suppress files="NetUtil.java" checks="[a-zA-Z0-9]*" />
+	
+	<!-- SimpleLogger.java (Class is deprecated and set for removal anyways) -->
+	<suppress files="SimpleLogger.java" checks="[a-zA-Z0-9]*" />
+	
+	<!-- SimpleLoggerConfig.java (Class is deprecated and set for removal anyways) -->
+	<suppress files="SimpleLoggerConfig.java" checks="[a-zA-Z0-9]*" />
+	
+	<!-- TF.java (Class is deprecated and set for removal anyways) -->
+	<suppress files="TF.java" checks="[a-zA-Z0-9]*" />
+</suppressions>

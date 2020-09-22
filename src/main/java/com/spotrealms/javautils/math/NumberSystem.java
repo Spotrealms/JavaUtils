@@ -1,6 +1,6 @@
-/**
+/*
  * JavaUtils: A collection of utility methods and classes for your Java programs
- *   Copyright (C) 2015-2019  Spotrealms Network
+ *   Copyright (C) 2015-2020  Spotrealms Network
  *
  *    This library is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU Lesser General Public License as
@@ -18,40 +18,84 @@
 
 package com.spotrealms.javautils.math;
 
-//Import Java classes and dependencies
 import java.math.BigInteger;
 
-//TODO: Add JavaDoc
+/**
+ * A series of methods for working with
+ * different number systems.
+ *
+ * @author Spotrealms
+ */
+public final class NumberSystem {
+	/**
+	 * Prevents instantiation of the utility class NumberSystem.
+	 *
+	 * @throws RuntimeException If instantiation occurs
+	 */
+	private NumberSystem(){ throw new RuntimeException("No " + this.getClass().getSimpleName() + " instance for you :)"); }
 
-public class NumberSystem {
-	public static String decToHex(long decIn){
+	/**
+	 * Converts a decimal {@code long} to a
+	 * hexadecimal {@code String}.
+	 *
+	 * @param decIn The number to convert to hexadecimal
+	 * @return <b>String</b> The resulting hexadecimal string
+	 */
+	public static String decToHex(final long decIn){
 		//Derive the class-form of the input long and convert it to hexadecimal, then return the hex number
-		return (Long.toHexString(Long.valueOf(decIn)));
+		return Long.toHexString(decIn);
 	}
-	
-	public static long hexToDec(String hexIn){
+
+	/**
+	 * Converts a hexadecimal {@code String} to a
+	 * decimal {@code long}.
+	 *
+	 * @param hexIn The number to convert to decimal
+	 * @return <b>long</b> The resulting decimal long
+	 */
+	public static long hexToDec(final String hexIn){
+		//Set "magic numbers"
+		final int HEX_RADIX = 16;
+
 		//Convert the hex string to a decimal and return the parsed long
-		return (Long.parseLong(hexIn, 16));
+		return Long.parseLong(hexIn, HEX_RADIX);
 	}
-	
-	private static BigInteger strToBigInt(String strIn, int numBase){
-		//Convert the input to a BigInteger and return it
-		return new BigInteger(strIn, numBase);
-	}
-	
-	public static String strDecToHex(String decIn){
+
+	/**
+	 * Converts a decimal {@code String} to a
+	 * hexadecimal {@code String}.
+	 *
+	 * @param decIn The number to convert to hexadecimal
+	 * @return <b>String</b> The resulting hexadecimal string
+	 */
+	public static String strDecToHex(final String decIn){
+		//Set "magic numbers"
+		final int DEC_RADIX = 10;
+		final int HEX_RADIX = 16;
+
 		//Remove all non-numeric chars from the string
-		decIn = decIn.replaceAll("[^0-9]", "");
-		
+		String decimal = decIn.replaceAll("[^0-9]", "");
+
 		//Get the BigInteger form of the string and return the result as a hexadecimal number
-		return (strToBigInt(decIn, 10).toString(16));
+		return new BigInteger(decimal, DEC_RADIX).toString(HEX_RADIX);
 	}
-	
-	public static String strHexToDec(String hexIn){
+
+	/**
+	 * Converts a hexadecimal {@code String} to a
+	 * decimal {@code String}.
+	 *
+	 * @param hexIn The number to convert to decimal
+	 * @return <b>String</b> The resulting decimal string
+	 */
+	public static String strHexToDec(final String hexIn){
+		//Set "magic numbers"
+		final int DEC_RADIX = 10;
+		final int HEX_RADIX = 16;
+
 		//Remove all non-numeric/non-hex chars from the string
-		hexIn = hexIn.replaceAll("(?i)[^0-9A-F]+", "");
-		
+		String hexadecimal = hexIn.replaceAll("(?i)[^0-9A-F]+", "");
+
 		//Get the BigInteger form of the string and return the result as a decimal number
-		return (strToBigInt(hexIn, 16).toString(10));
+		return new BigInteger(hexadecimal, HEX_RADIX).toString(DEC_RADIX);
 	}
 }

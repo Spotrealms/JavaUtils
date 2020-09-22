@@ -1,6 +1,6 @@
-/**
+/*
  * JavaUtils: A collection of utility methods and classes for your Java programs
- *   Copyright (C) 2015-2019  Spotrealms Network
+ *   Copyright (C) 2015-2020  Spotrealms Network
  *
  *    This library is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU Lesser General Public License as
@@ -18,90 +18,120 @@
 
 package com.spotrealms.javautils.math;
 
-//TODO: Finish up JavaDoc
-//TODO: Add proper random API with seed selection
+import java.math.BigDecimal;
 
-public class MathUtil {
+/**
+ * A series of math-related operations and
+ * calculators.
+ *
+ * @author Spotrealms
+ */
+public final class MathUtil {
 	/**
-	 * Get a random boolean value using
-	 * {@code Math.random()}
-	 * @return <b>boolean</b> A random boolean value
+	 * Prevents instantiation of the utility class MathUtil.
+	 *
+	 * @throws RuntimeException If instantiation occurs
 	 */
-	public static boolean getRandomBool(){
-		return Math.random() >= 0.5;
-	}
-	
-	/**
-	 * Get a random double between a
-	 * minimum and max number using
-	 * {@code Math.random()}
-	 * @param min The lowest number that can be selected
-	 * @param max The highest number that can be selected
-	 * @return <b>double</b> A random double value
-	 */
-	public static double getRandomDouble(double min, double max){
-		return Math.random() * (max - min) + min;
-	}
-	
-	/**
-	 * Get a random float between a
-	 * minimum and max number using
-	 * {@code Math.random()}
-	 * @param min The lowest number that can be selected
-	 * @param max The highest number that can be selected
-	 * @return <b>float</b> A random float value
-	 */
-	public static float getRandomFloat(float min, float max){
-		return (float) Math.random() * (max - min) + min;
-	}
+	private MathUtil(){ throw new RuntimeException("No " + this.getClass().getSimpleName() + " instance for you :)"); }
 
 	/**
-	 * Get a random integer between a
-	 * minimum and max number using
-	 * {@code Math.random()}
-	 * @param min The lowest number that can be selected
-	 * @param max The highest number that can be selected
-	 * @return <b>int</b> A random integer
+	 * Performs a comparison between one generic number and another.
+	 *
+	 * @author rolve
+	 * @param x The first number to compare
+	 * @param y The second number to compare
+	 * @return <b>int</b> The difference between the two numbers
+	 * @see <a href="https://stackoverflow.com/a/12884075">https://stackoverflow.com/a/12884075</a>
 	 */
-	public static int getRandomInt(int min, int max){
-		return (int) Math.floor(Math.random() * (max - min + 1) + min);
+	public static int compareGN(final Number x, final Number y){
+		//Check if the number is "special" (eg: infinity, NaN, etc)
+		if(isSpecial(x) || isSpecial(y)){
+			//Compare using the Double wrapper
+			return Double.compare(x.doubleValue(), y.doubleValue());
+		}
+		else {
+			//Convert to BigDecimal and compare
+			return toBigDecimal(x).compareTo(toBigDecimal(y));
+		}
 	}
-	
+
 	/**
-	 * Get a random long between a
-	 * minimum and max number using
-	 * {@code Math.random()}
-	 * @param min The lowest number that can be selected
-	 * @param max The highest number that can be selected
-	 * @return <b>long</b> A random long
+	 * Determines if a generic number is "special",
+	 * or has the value {@code +/- infinity} or {@code NaN}.
+	 *
+	 * @author rolve
+	 * @param num The number to check
+	 * @return <b>boolean</b> The status as to whether the input number is special
+	 * @see <a href="https://stackoverflow.com/a/12884075">https://stackoverflow.com/a/12884075</a>
 	 */
-	public static long getRandomLong(long min, long max){
-		return (long) Math.floor(Math.random() * (max - min + 1) + min);
+	public static boolean isSpecial(final Number num){
+		//Check if a number is a "special double" (eg: infinity or NaM)
+		boolean specialDouble = num instanceof Double && (Double.isNaN((Double) num) || Double.isInfinite((Double) num));
+
+		//Check if a number is a "special float" (eg: infinity or NaM)
+		boolean specialFloat = num instanceof Float && (Float.isNaN((Float) num) || Float.isInfinite((Float) num));
+
+		//OR the booleans and return
+		return specialDouble || specialFloat;
 	}
-	
+
 	/**
-	 * Check if a given double or float is in 
-	 * the range of two given values
-	 * @param numIn The number to check the range of
-	 * @param minVal The lower bound for the range check
-	 * @param maxVal The upper bound for the range check
+	 * Checks if a given double or float is in
+	 * the range of two given values.
+	 *
+	 * @param num The number to check the range of
+	 * @param min The lower bound for the range check
+	 * @param max The upper bound for the range check
 	 * @return <b>boolean</b>The status as to whether or not the input number is in range
 	 */
-	public static boolean numberInRange(double numIn, double minVal, double maxVal){
+	public static boolean numberInRange(final double num, final double min, final double max){
 		//Check if the input double is in range and return the result
-		return (numIn >= minVal && numIn <= maxVal);
+		return num >= min && num <= max;
 	}
 	
 	/**
-	 * Check if a given integer or smaller is 
-	 * in the range of two given values
-	 * @param numIn The number to check the range of
-	 * @param minVal The lower bound for the range check
-	 * @param maxVal The upper bound for the range check
+	 * Checks if a given integer or smaller is
+	 * in the range of two given values.
+	 *
+	 * @param num The number to check the range of
+	 * @param min The lower bound for the range check
+	 * @param max The upper bound for the range check
 	 * @return <b>boolean</b>The status as to whether or not the input number is in range
 	 */
-	public static boolean numberInRange(long numIn, long minVal, long maxVal){
+	public static boolean numberInRange(final long num, final long min, final long max){
 		//Check if the input long is in range and return the result
-		return (numIn >= minVal && numIn <= maxVal);
+		return num >= min && num <= max;
+	}
+
+	/**
+	 * Converts a generic number to {@code BigDecimal}.
+	 *
+	 * @author rolve
+	 * @param num The number to convert to BigDecimal
+	 * @return <b>BigDecimal</b> The resulting BigDecimal representation of the input number
+	 * @throws RuntimeException If the number can't be parsed to BigDecimal
+	 * @see <a href="https://stackoverflow.com/a/12884075">https://stackoverflow.com/a/12884075</a>
+	 */
+	public static BigDecimal toBigDecimal(final Number num){
+		//Switch over the classname (avoids a bunch of ifs with instanceof)
+		switch(num.getClass().getSimpleName()){
+			//Number is an integer-type so derive a BigDecimal from the long value and return it
+			case "Byte": case "Integer": case "Long": case "Short": return new BigDecimal(num.longValue());
+
+			//Number is a float-type so derive a BigDecimal from the double value and return it
+			case "Double": case "Float": return BigDecimal.valueOf(num.doubleValue());
+
+			//By default, treat the number as a string
+			default:{
+				//Attempt to derive a BigDecimal from the string representation
+				try {
+					return new BigDecimal(num.toString());
+				}
+				catch(final NumberFormatException ex){
+					throw new RuntimeException("The given number (\"" + num + "\" of class " + num.getClass().getName()
+							+ ") does not have a parsable string representation", ex);
+				}
+			}
+		}
 	}
 }

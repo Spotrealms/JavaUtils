@@ -50,12 +50,12 @@ package com.spotrealms.javautils.terminal;
  * 
  * @author Spotrealms &amp; Contributors
  * @see <a href="http://ascii-table.com/ansi-escape-sequences.php">http://ascii-table.com/ansi-escape-sequences.php</a>
- * @see <a href="https://stackoverflow.com/a/51944613/7520602">https://stackoverflow.com/a/51944613/7520602</a>
+ * @see <a href="https://stackoverflow.com/a/51944613">https://stackoverflow.com/a/51944613</a>
  * @deprecated Whole enum moved to its own file ({@code NColor}) to reduce complexity (no need for static imports)
  */
 @Deprecated
-public class TF {
-	public static enum Color {
+public final class TF {
+	public enum Color {
 		//Reset
 		RESET("\033[0m"),
 

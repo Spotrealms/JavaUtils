@@ -1,4 +1,4 @@
-/**
+/*
  * JavaUtils: A collection of utility methods and classes for your Java programs
  *   Copyright (C) 2015-2018  Spotrealms Network
  *
@@ -19,7 +19,7 @@
 package com.spotrealms.javautils.io;
 
 //Import first-party classes
-import com.spotrealms.javautils.StringUtil;
+import com.spotrealms.javautils.misc.StringUtil;
 
 //Import Java classes and dependencies
 import java.io.UnsupportedEncodingException;
@@ -28,6 +28,7 @@ import java.net.URL;
 
 //TODO: Add JavaDoc
 
+@Deprecated
 public class NetUtil {
 	public static URL strToURL(String tString) throws MalformedURLException {
 		//Make the URL object
@@ -40,7 +41,7 @@ public class NetUtil {
 		String resStr = String.valueOf(tURL);
 		
 		//Decode the URL
-		resStr = StringUtil.decodeURL(resStr);
+		resStr = StringUtil.decodeUrl(resStr);
 		
 		//Return the resulting string
 		return resStr;

@@ -1,8 +1,8 @@
 package com.spotrealms.javautils.terminal;
 
 //Import first-party classes
-import com.spotrealms.javautils.JPlaceholder;
-import com.spotrealms.javautils.StringUtil;
+import com.spotrealms.javautils.misc.JPlaceholder;
+import com.spotrealms.javautils.misc.StringUtil;
 
 //Import Java classes and dependencies
 import java.text.DateFormat;
@@ -133,7 +133,7 @@ public class SimpleLogger {
 		}
 		else {
 			//Format and return the completed log message with the user specified log format syntax (if it was provided)
-			return (formatLogOutput(logMessage, aHeader, logColors, logType, formatOverride));
+			return (formatLogOutput(logMessage, aHeader, logColors, logType, ""));
 		}
 	}
 	
@@ -178,16 +178,15 @@ public class SimpleLogger {
 		possFormats.put("appheader", logHeader);
 		possFormats.put("date", logTimestamp);
 		possFormats.put("logtype", logType.toString());
-		possFormats.put("headercolor", logColors[0].toString());
-		possFormats.put("bodycolor", logColors[1].toString());
-		possFormats.put("resetcolor", logColors[2].toString());
+		possFormats.put("headercolor", logColors[0]);
+		possFormats.put("bodycolor", logColors[1]);
+		possFormats.put("resetcolor", logColors[2]);
 		possFormats.put("message", inputMsg);
 
 		//Replace the placeholders
-		String formattedMsg = JPlaceholder.format((logColors[2] + formatSyntax + logColors[2]), possFormats);
-		
+
 		//Return the formatted log message
-		return formattedMsg;
+		return JPlaceholder.format((logColors[2] + formatSyntax + logColors[2]), possFormats);
 	}
 	
 	//TODO: Move to JUnit test instead of declaring it here in the class itself
