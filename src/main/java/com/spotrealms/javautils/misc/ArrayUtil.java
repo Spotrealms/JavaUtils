@@ -93,7 +93,7 @@ public final class ArrayUtil {
 	 * in the same style as printing an {@code ArrayList}.
 	 *
 	 * @param arrayIn The {@code Array} to create the {@code String} from
-	 * @param elemDelim The seperator to use in the resulting {@code String}
+	 * @param elemDelim The separator to use in the resulting {@code String}
 	 * @param <T> Allow generic types and objects to be used
 	 * @return <b>String</b> The resulting list of {@code Array} elements
 	 */
