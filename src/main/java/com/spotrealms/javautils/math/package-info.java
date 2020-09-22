@@ -22,4 +22,4 @@
  *
  * @author Spotrealms
  */
-package com.spotrealms.javautils;
+package com.spotrealms.javautils.math;
