@@ -23,6 +23,7 @@ import com.spotrealms.javautils.math.MathUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -385,9 +386,9 @@ public final class TypeValidation {
 		 *
 		 * @see TypeValidation#strValidates
 		 */
-		public static final ArrayList<AllValidationTypes> ALL_FLOAT_TYPES = (ArrayList<AllValidationTypes>) Collections.unmodifiableList(Arrays.asList(
+		public static final List<AllValidationTypes> ALL_FLOAT_TYPES = Collections.unmodifiableList(new ArrayList<>(Arrays.asList(
 				AllValidationTypes.DOUBLE, AllValidationTypes.FLOAT
-		));
+		)));
 
 		/**
 		 * Defines a list of all possible integer data types
@@ -396,9 +397,9 @@ public final class TypeValidation {
 		 *
 		 * @see TypeValidation#strValidates
 		 */
-		public static final ArrayList<AllValidationTypes> ALL_INT_TYPES = (ArrayList<AllValidationTypes>) Collections.unmodifiableList(Arrays.asList(
+		public static final List<AllValidationTypes> ALL_INT_TYPES = Collections.unmodifiableList(new ArrayList<>(Arrays.asList(
 				AllValidationTypes.BYTE, AllValidationTypes.INT, AllValidationTypes.LONG, AllValidationTypes.SHORT
-		));
+		)));
 
 		/**
 		 * Returns true/false depending on whether
