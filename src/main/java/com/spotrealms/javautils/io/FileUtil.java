@@ -91,7 +91,7 @@ public final class FileUtil {
 	 *
 	 * @see CommentLines
 	 */
-	public static final ArrayList<String> COMMENT_LINES = (ArrayList<String>) Collections.unmodifiableList(Arrays.asList(
+	public static final List<String> COMMENT_LINES = Collections.unmodifiableList(new ArrayList<>(Arrays.asList(
 		CommentLines.ADA.toString(),
 		CommentLines.BASIC.toString(),
 		CommentLines.BATCH.toString(),
@@ -100,7 +100,7 @@ public final class FileUtil {
 		CommentLines.LATEX.toString(),
 		CommentLines.PERL.toString(),
 		CommentLines.PYTHON.toString()
-	));
+	)));
 
 	/**
 	 * Prevents instantiation of the utility class FileUtil.

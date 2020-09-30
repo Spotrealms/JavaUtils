@@ -25,6 +25,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -142,7 +143,7 @@ public final class StringUtil {
 	 * @param <T> Allow generic types and objects to be used
 	 * @return <b>boolean</b> The status as to whether or not the input {@code String} contains any object in the passed {@code ArrayList}
 	 */
-	public static <T> boolean containsAny(final String tStr, final ArrayList<T> contTargets, final boolean ignoreCase){
+	public static <T> boolean containsAny(final String tStr, final List<T> contTargets, final boolean ignoreCase){
 		//Initialization
 		String hunteeStr = tStr;
 
@@ -245,7 +246,7 @@ public final class StringUtil {
 	 * @param <T> Allow generic types and objects to be used
 	 * @return <b>boolean</b> The status as to whether or not the input {@code String} equals any object in the passed {@code ArrayList}
 	 */
-	public static <T> boolean equalsAny(final String tStr, final ArrayList<T> equalTargets, final boolean ignoreCase, final boolean useRegex){
+	public static <T> boolean equalsAny(final String tStr, final List<T> equalTargets, final boolean ignoreCase, final boolean useRegex){
 		//Initialization
 		String strOut = tStr;
 
