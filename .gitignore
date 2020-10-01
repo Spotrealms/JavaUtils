@@ -53,6 +53,7 @@ build/
 *.iml
 *.log.*
 gradle.properties
+.editorconfig
 
 
 #################
