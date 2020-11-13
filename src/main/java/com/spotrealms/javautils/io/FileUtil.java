@@ -153,6 +153,23 @@ public final class FileUtil {
 	}
 
 	/**
+	 * Checks if any of the paths provided in a list exist.
+	 *
+	 * @param paths The list of absolute paths
+	 * @return <b>boolean</b> Whether any of the provided paths exist
+	 */
+	public static boolean anyExists(final String[] paths){
+		//Loop over the list of paths
+		for(String path : paths){
+			//Check if the current path exists and return if so
+			if(new File(path).exists()) return true;
+		}
+
+		//Return false since none of the paths exist
+		return false;
+	}
+
+	/**
 	 * Wrapper for the built-in {@code Files.copy()} method
 	 * that adds error checks with a unified exception if
 	 * anything goes south. NOTE: This method requires 
