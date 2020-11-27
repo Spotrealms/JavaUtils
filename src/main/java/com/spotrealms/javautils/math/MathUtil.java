@@ -19,6 +19,7 @@
 package com.spotrealms.javautils.math;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * A series of math-related operations and
@@ -101,6 +102,69 @@ public final class MathUtil {
 	public static boolean numberInRange(final long num, final long min, final long max){
 		//Check if the input long is in range and return the result
 		return num >= min && num <= max;
+	}
+
+	/**
+	 * Rounds a number to the xth decimal place using
+	 * {@link BigDecimal#setScale}.
+	 *
+	 * @param number The number to round
+	 * @param places The number of places to round to
+	 * @param mode The mode that should be used when rounding
+	 * @return <b>BigDecimal</b> The rounded result
+	 */
+	public static BigDecimal round(final BigDecimal number, final int places, final RoundingMode mode){
+		//Create a BigDecimal to store the result
+		BigDecimal rounded = new BigDecimal(String.valueOf(number));
+
+		//Set the sale, rounding mode, and return
+		return rounded.setScale(places, mode);
+	}
+
+	/**
+	 * Rounds a number to the xth decimal place using
+	 * {@link BigDecimal#setScale}. Assumes the rounding
+	 * mode to use is {@link RoundingMode#HALF_UP}, as this
+	 * is the most commonly used method for rounding (ie:
+	 * 5 or more let it soar; 4 or less let it rest).
+	 *
+	 * @param number The number to round
+	 * @param places The number of places to round to
+	 * @return <b>BigDecimal</b> The rounded result
+	 */
+	public static BigDecimal round(final BigDecimal number, final int places){
+		//Select mode ROUND_UP when running the overloaded method
+		return round(number, places, RoundingMode.HALF_UP);
+	}
+
+	/**
+	 * Rounds a number to the xth decimal place using
+	 * {@link BigDecimal#setScale}.
+	 *
+	 * @param number The number to round
+	 * @param places The number of places to round to
+	 * @param mode The mode that should be used when rounding
+	 * @return <b>double</b> The rounded result
+	 */
+	public static double round(final double number, final int places, final RoundingMode mode){
+		//Convert the input to a BigDecimal and convert the resulting BigDecimal back to a double
+		return round(BigDecimal.valueOf(number), places, mode).doubleValue();
+	}
+
+	/**
+	 * Rounds a number to the xth decimal place using
+	 * {@link BigDecimal#setScale}. Assumes the rounding
+	 * mode to use is {@link RoundingMode#HALF_UP}, as this
+	 * is the most commonly used method for rounding (ie:
+	 * 5 or more let it soar; 4 or less let it rest).
+	 *
+	 * @param number The number to round
+	 * @param places The number of places to round to
+	 * @return <b>BigDecimal</b> The rounded result
+	 */
+	public static double round(final double number, final int places){
+		//Select mode ROUND_UP when running the overloaded method
+		return round(number, places, RoundingMode.HALF_UP);
 	}
 
 	/**
