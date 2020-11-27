@@ -105,7 +105,7 @@ public final class MathUtil {
 	}
 
 	/**
-	 * Rounds a number to the xth decimal place using
+	 * Rounds a number to the nth decimal place using
 	 * {@link BigDecimal#setScale}.
 	 *
 	 * @param number The number to round
@@ -122,7 +122,7 @@ public final class MathUtil {
 	}
 
 	/**
-	 * Rounds a number to the xth decimal place using
+	 * Rounds a number to the nth decimal place using
 	 * {@link BigDecimal#setScale}. Assumes the rounding
 	 * mode to use is {@link RoundingMode#HALF_UP}, as this
 	 * is the most commonly used method for rounding (ie:
@@ -133,12 +133,12 @@ public final class MathUtil {
 	 * @return <b>BigDecimal</b> The rounded result
 	 */
 	public static BigDecimal round(final BigDecimal number, final int places){
-		//Select mode ROUND_UP when running the overloaded method
+		//Select mode HALF_UP when running the overloaded method
 		return round(number, places, RoundingMode.HALF_UP);
 	}
 
 	/**
-	 * Rounds a number to the xth decimal place using
+	 * Rounds a number to the nth decimal place using
 	 * {@link BigDecimal#setScale}.
 	 *
 	 * @param number The number to round
@@ -152,7 +152,7 @@ public final class MathUtil {
 	}
 
 	/**
-	 * Rounds a number to the xth decimal place using
+	 * Rounds a number to the nth decimal place using
 	 * {@link BigDecimal#setScale}. Assumes the rounding
 	 * mode to use is {@link RoundingMode#HALF_UP}, as this
 	 * is the most commonly used method for rounding (ie:
@@ -163,7 +163,7 @@ public final class MathUtil {
 	 * @return <b>BigDecimal</b> The rounded result
 	 */
 	public static double round(final double number, final int places){
-		//Select mode ROUND_UP when running the overloaded method
+		//Select mode HALF_UP when running the overloaded method
 		return round(number, places, RoundingMode.HALF_UP);
 	}
 
