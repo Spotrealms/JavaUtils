@@ -160,7 +160,7 @@ public final class MathUtil {
 	 *
 	 * @param number The number to round
 	 * @param places The number of places to round to
-	 * @return <b>BigDecimal</b> The rounded result
+	 * @return <b>double</b> The rounded result
 	 */
 	public static double round(final double number, final int places){
 		//Select mode HALF_UP when running the overloaded method
