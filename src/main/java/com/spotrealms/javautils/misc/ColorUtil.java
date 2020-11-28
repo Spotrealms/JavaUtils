@@ -53,6 +53,7 @@ public final class ColorUtil {
 	 * @param backgroundHex The color of the background
 	 * @return The best fitting color for the foreground
 	 * @see <a href="https://www.w3.org/TR/WCAG20/#glossary">https://www.w3.org/TR/WCAG20/#glossary</a>
+	 * @see <a href="https://en.wikipedia.org/wiki/Relative_luminance">https://en.wikipedia.org/wiki/Relative_luminance</a>
 	 */
 	public static String getForeground(final String backgroundHex){
 		//Get the input color as an rgb array
