@@ -18,8 +18,7 @@
 
 package com.spotrealms.javautils.terminal.color;
 
-import com.spotrealms.javautils.math.NumberSystem;
-import com.spotrealms.javautils.misc.StringUtil;
+import com.spotrealms.javautils.misc.ColorUtil;
 
 /**
  * A series of methods that can be used to color the
@@ -267,71 +266,11 @@ public final class AnsiColor {
 	 * @return <b>String</b> The assembled ANSI escape sequence
 	 */
 	public static String get24Color(final String colorCode, final boolean isBackground){
-		//Set the "magic numbers"
-		final int HALF_HEX = 3; //The length of a half hex color (eg: #F00)
-		final int FULL_HEX = 6; //The length of a full hex code (eg: #25F3B9)
-
-		//Create a new code string from the input
-		String code = colorCode;
-
-		//Remove any chars that aren't hexadecimal digits (includes the pound sign denoting that the string is a color code)
-		code = code.replaceAll("(?i)[^0-9A-F]+", "");
-		
-		//Check if the length of the code is 3 (codes are still valid if they are 3 chars long)
-		if(code.length() == HALF_HEX){
-			//Create a StringBuilder for temporary storage of the color code
-			StringBuilder tempCode = new StringBuilder(code);
-			
-			//Create an integer to keep track of the position in the StringBuilder
-			int codePos = 0;
-			
-			//Loop through the code
-			for(int i = 0; i < code.length(); i++){
-				//Get the current char
-				String curDigit = String.valueOf(code.charAt(i));
-				
-				//Dupe the char and append the digit and its duplicate onto the StringBuilder
-				tempCode.insert(codePos, StringUtil.cloneStr(curDigit, 1));
-				
-				//Increment the position integer by two (one for the new char and one for the increment of i
-				codePos += 2;
-			}
-			
-			//Replace the color code with the temporary color code string
-			code = tempCode.toString();
-		}
-		
-		//Check if the code is longer than 6
-		if(code.length() > FULL_HEX){
-			//Chop off every char past the 6th one
-			code = code.substring(0, FULL_HEX);
-		}
-		
-		//Check if the code is not 3 or 6 chars long
-		if(code.length() != HALF_HEX && code.length() != FULL_HEX){
-			//Create a StringBuilder for temporary storage of the color code
-			StringBuilder tempCode = new StringBuilder(code);
-			
-			//Loop until the code equals 6 chars long
-			while(tempCode.length() != FULL_HEX){
-				//Add a 0 onto the end of the code
-				tempCode.append("0");
-			}
-			
-			//Replace the color code with the temporary color code string
-			code = tempCode.toString();
-		}
-		
-		//Split the code into its red, green, and blue parts
-		String[] rgbParts = code.split("(?<=\\G..)");
-		
-		//Get the red, green, and blue parts of the input and convert the hexadecimal strings to decimal ones
-		String redVal = NumberSystem.strHexToDec(rgbParts[0]);
-		String greenVal = NumberSystem.strHexToDec(rgbParts[1]);
-		String blueVal = NumberSystem.strHexToDec(rgbParts[2]);
+		//Get the input color code as an rgb array
+		int[] rgb = ColorUtil.rgbaColor(colorCode);
 		
 		//Redirect back to the overloaded method and return the output
-		return get24Color(Integer.parseInt(redVal), Integer.parseInt(greenVal), Integer.parseInt(blueVal), isBackground);
+		return get24Color(rgb[0], rgb[1], rgb[2], isBackground);
 	}
 	
 	/**
