@@ -43,6 +43,32 @@ public final class ColorUtil {
 	private ColorUtil(){ throw new RuntimeException("No " + this.getClass().getSimpleName() + " instance for you :)"); }
 
 	/**
+	 * Gets the foreground color as either white or
+	 * black depending on the foreground, according
+	 * to the W3C spec which can be found below
+	 * (see Appendix A: relative luminance). The
+	 * luminance is calculated via the ITU-R's BT.709
+	 * recommendation which can also be found below.
+	 *
+	 * @param backgroundHex The color of the background
+	 * @return The best fitting color for the foreground
+	 * @see <a href="https://www.w3.org/TR/WCAG20/#glossary">https://www.w3.org/TR/WCAG20/#glossary</a>
+	 */
+	public static String getForeground(final String backgroundHex){
+		//Get the input color as an rgb array
+		int[] rgb = ColorUtil.rgbaColor(backgroundHex);
+
+		//Compute the luminances of each color (gamma adjusted normalized rgb values) via Java streams
+		double[] lumas = Arrays.stream(rgb).mapToDouble(d -> d).map(e -> Math.pow(e / 255.0, 2.2)).toArray();
+
+		//Compute the overall luminance of the color via ITU-R BT.709
+		double luma = 0.2126 * lumas[0] + 0.7152 * lumas[1] + 0.0722 * lumas[2];
+
+		//Apply the W3C's suggested algorithm and return black if true
+		return luma > Math.sqrt(1.05 * 0.05) - 0.05 ? "#000000" : "#FFFFFF";
+	}
+
+	/**
 	 * Converts an input color hex string to a normalized
 	 * hexadecimal representation.
 	 *

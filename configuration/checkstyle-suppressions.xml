@@ -10,6 +10,9 @@
 	<!-- JUnit Tests -->
 	<suppress files="[/\\]src[/\\]test[/\\].*Test\.java" checks="(AvoidStaticImport|JavadocPackage|MissingCtor|VisibilityModifier)"/>
 	
+	<!-- ColorUtil.java (Unnamed magic numbers are necessary for the computation of certain elements) -->
+	<suppress files="ColorUtil.java" checks="MagicNumber"/>
+	
 	<!-- JPlaceholder.java (LinkedHashMaps are okay in the context they are used) -->
 	<suppress files="JPlaceholder.java" checks="IllegalType"/>
 	
