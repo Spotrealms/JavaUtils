@@ -44,7 +44,7 @@ public final class ColorUtil {
 
 	/**
 	 * Gets the foreground color as either white or
-	 * black depending on the foreground, according
+	 * black depending on the background, according
 	 * to the W3C spec which can be found below
 	 * (see Appendix A: relative luminance). The
 	 * luminance is calculated via the ITU-R's BT.709
