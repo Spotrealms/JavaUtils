@@ -138,7 +138,7 @@ public final class ColorUtil {
 		}
 
 		//Convert the alpha value to hexadecimal, prepending a padding 0 if the value is less than 15 if alpha is enabled that is
-		String alphaCode = noAlpha ? "" : alpha < HEX_RADIX ? "0" + Long.toHexString(alpha) : Long.toHexString(alpha);
+		String alphaCode = noAlpha ? "" : alpha < HEX_RADIX ? "0" + Integer.toHexString(alpha) : Integer.toHexString(alpha);
 
 		//Assemble the final code and return it
 		return "#" + (postfixAlpha ? code + alphaCode.toUpperCase(Locale.ENGLISH) : alphaCode.toUpperCase(Locale.ENGLISH) + code);
