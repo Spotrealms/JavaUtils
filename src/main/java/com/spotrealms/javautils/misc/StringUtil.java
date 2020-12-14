@@ -338,13 +338,13 @@ public final class StringUtil {
 	 * Check if a given {@code String} is of a 
 	 * null value or is simply empty.
 	 *
-	 * @param tStr The target {@code String}
+	 * @param str The target {@code String}
 	 * @return <b>boolean</b> The status of whether or 
 	 *      not the given {@code String} is null or empty
 	 */
-	public static boolean isNullOrVoid(final String tStr){
+	public static boolean isNullOrVoid(final String str){
 		//Check if the string is null or empty and return the result
-		return tStr != null && !tStr.isEmpty();
+		return str == null || str.isEmpty();
 	}
 
 	/**
