@@ -51,19 +51,7 @@ public final class RandomValue {
 	 */
 	public static boolean randomBool(){
 		//Create a new random number generator and return the resulting boolean
-		return randomBool(new Random());
-	}
-
-	/**
-	 * Generates a random boolean value using a
-	 * given random number generator instance.
-	 *
-	 * @param randGen The random number generator to use when generating the boolean
-	 * @return <b>boolean</b> A random boolean value
-	 */
-	public static boolean randomBool(final Random randGen){
-		//Calculate the random boolean and return it
-		return randGen.nextBoolean();
+		return new Random().nextBoolean();
 	}
 
 	/**
@@ -75,7 +63,7 @@ public final class RandomValue {
 	 */
 	public static boolean randomBool(final long seed){
 		//Create a random number generator using the given seed and return the random boolean
-		return randomBool(new Random(seed));
+		return new Random(seed).nextBoolean();
 	}
 
 	/**
