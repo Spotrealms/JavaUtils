@@ -1,6 +1,6 @@
 /*
  * JavaUtils: A collection of utility methods and classes for your Java programs
- *   Copyright (C) 2015-2020  Spotrealms Network
+ *   Copyright (C) 2015-2021 Spotrealms Network
  *
  *    This library is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU Lesser General Public License as
@@ -24,17 +24,27 @@ import java.util.concurrent.TimeUnit;
 /**
  * A simple inline benchmarking class used to
  * determine the time it takes for a series of
- * operations to complete. Adapted from kangcz's
- * TimperImpl class.
+ * operations to complete. This class should NOT
+ * be used to perform legitimate benchmarks for
+ * methods to determine efficiency or to compare
+ * execution speeds for multiple methods or series
+ * of operations. Use JMH for those purposes. This
+ * class is best used, for example, when calculating
+ * how long something like a REST API POST takes.
+ * Adapted from kangcz's {@code TimperImpl} class.
  *
  * @author Spotrealms &amp; kangcz
  * @see <a href="https://stackoverflow.com/a/44036528">https://stackoverflow.com/a/44036528</a>
  */
 public class NanoBenchmark {
+	/** The nanosecond offset. */
 	private final long nanoOffset;
+	/** The precision of the benchmark. */
 	private final TimeUnit precision;
 
+	/** The time the benchmark was started. */
 	private long startTime;
+	/** How long the benchmark has lasted. */
 	private long elapsedTime;
 
 	/**

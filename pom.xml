@@ -26,6 +26,13 @@
 	
 	<!-- Dependencies -->
 	<dependencies>
+		<!-- JetBrains annotation processor -->
+		<dependency>
+			<groupId>org.jetbrains</groupId>
+			<artifactId>annotations</artifactId>
+			<version>20.1.0</version>
+			<scope>compile</scope>
+		</dependency>
 		<!-- Json.org JSON (user-provided if they use the JSON type validator) -->
 		<dependency>
 			<groupId>org.json</groupId>
@@ -64,7 +71,7 @@
 					<dependency>
 						<groupId>com.puppycrawl.tools</groupId>
 						<artifactId>checkstyle</artifactId>
-						<version>8.36</version>
+						<version>8.39</version>
 					</dependency>
 				</dependencies>
 				<executions>
@@ -80,7 +87,7 @@
 			<plugin>
 				<groupId>com.github.spotbugs</groupId>
 				<artifactId>spotbugs-maven-plugin</artifactId>
-				<version>4.0.0</version>
+				<version>4.2.0</version>
 				<configuration>
 					<effort>Max</effort> <!-- Maximum bug catching aggressiveness -->
 					<threshold>Low</threshold> <!-- Low bug tolerance -->

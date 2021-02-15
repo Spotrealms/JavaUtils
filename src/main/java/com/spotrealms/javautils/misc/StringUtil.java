@@ -1,6 +1,6 @@
 /*
  * JavaUtils: A collection of utility methods and classes for your Java programs
- *   Copyright (C) 2015-2020  Spotrealms Network
+ *   Copyright (C) 2015-2021 Spotrealms Network
  *
  *    This library is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU Lesser General Public License as
@@ -316,7 +316,13 @@ public final class StringUtil {
 		//Redirect to the overloaded method
 		return equalsAny(tStr, new ArrayList<>(Collections.singletonList(equalTarget)), ignoreCase, useRegex);
 	}
-	
+
+	/**
+	 * Escapes all characters in a string.
+	 *
+	 * @param escStr The string to escape the characters in
+	 * @return <b>String</b> The escaped string
+	 */
 	public static String escAllChars(final String escStr){
 		//Initialization
 		String escedStr = escStr;
@@ -522,11 +528,13 @@ public final class StringUtil {
 			//11, 12, 13 do not follow typical conventions (1st, 2nd, 3rd), so they always get "th"
 			case SPECIAL_SUFFIX_11:
 			case SPECIAL_SUFFIX_12:
-			case SPECIAL_SUFFIX_13:
+			case SPECIAL_SUFFIX_13:{
 				return intIn + "th";
+			}
 			//Return the corresponding ordinal suffix depending on the number's ones place digit
-			default:
+			default:{
 				return intIn + suffixList[intIn % suffixList.length];
+			}
 		}
 	}
 	

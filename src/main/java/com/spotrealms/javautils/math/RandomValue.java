@@ -1,6 +1,6 @@
 /*
  * JavaUtils: A collection of utility methods and classes for your Java programs
- *   Copyright (C) 2015-2020  Spotrealms Network
+ *   Copyright (C) 2015-2021 Spotrealms Network
  *
  *    This library is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU Lesser General Public License as
@@ -24,7 +24,15 @@ import java.util.Random;
  * A series of methods for working with random
  * values. Provides value randomization via both
  * seeded and non-seeded methods for all eight of
- * the primitive data types.
+ * the primitive data types. In addition, each of
+ * the random generators allows the passing of
+ * already defined {@link Random} objects for
+ * special cases where, for example, an alternate
+ * random number generator may be necessary like
+ * {@link java.util.concurrent.ThreadLocalRandom},
+ * which makes each of these random number generators
+ * threadsafe, as by default, these methods are NOT
+ * threadsafe.
  *
  * @author Spotrealms
  */

@@ -1,6 +1,6 @@
 /*
  * JavaUtils: A collection of utility methods and classes for your Java programs
- *   Copyright (C) 2015-2020  Spotrealms Network
+ *   Copyright (C) 2015-2021 Spotrealms Network
  *
  *    This library is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU Lesser General Public License as
@@ -139,6 +139,7 @@ public enum NColor {
 	WHITE_BACKGROUND_BRIGHT("\033[0;107m");
 
 	//Enum routines
+	/** The color constant. */
 	private final String namedColor;
 	NColor(final String namedColor){ this.namedColor = namedColor; }
 	

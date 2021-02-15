@@ -13,8 +13,8 @@
 	<!-- ColorUtil.java (Unnamed magic numbers are necessary for the computation of certain elements) -->
 	<suppress files="ColorUtil.java" checks="MagicNumber"/>
 	
-	<!-- JPlaceholder.java (LinkedHashMaps are okay in the context they are used) -->
-	<suppress files="JPlaceholder.java" checks="IllegalType"/>
+	<!-- JPlaceholder.java (LinkedHashMaps are okay in the context they are used, Javadocs being omitted is fine) -->
+	<suppress files="JPlaceholder.java" checks="(IllegalType|JavadocVariable|MissingJavadocMethod)"/>
 	
 	<!-- StringUtil.java (Unicode escapes should be checked for in a string in order to purge them from said string) -->
 	<suppress files="StringUtil.java" checks="AvoidEscapedUnicodeCharacters"/>

@@ -9,10 +9,10 @@
 		<Bug pattern="DM_USELESS_THREAD, DP_DO_INSIDE_DO_PRIVILEGED, RV_RETURN_VALUE_IGNORED_BAD_PRACTICE, RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT, SIC_INNER_SHOULD_BE_STATIC_ANON, UPM_UNCALLED_PRIVATE_METHOD, URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD" />
 	</Match>
 	
-	<!-- Possible false positive -->
+	<!-- Possible false positive (nullcheck already occurred, but SpotBugs doesn't like it) -->
 	<Match>
 		<Source name="Resource.java" />
-		<Bug pattern="RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE"/>
+		<Bug pattern="NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE"/>
 	</Match>
 	
 	<!-- Deprecated Classes (these will be removed anyways, so who cares if there's errors) -->

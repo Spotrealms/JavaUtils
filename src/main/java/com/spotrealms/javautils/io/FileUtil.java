@@ -1,6 +1,6 @@
 /*
  * JavaUtils: A collection of utility methods and classes for your Java programs
- *   Copyright (C) 2015-2020  Spotrealms Network
+ *   Copyright (C) 2015-2021 Spotrealms Network
  *
  *    This library is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU Lesser General Public License as
@@ -139,6 +139,7 @@ public final class FileUtil {
 		PYTHON("\"\"\"");
 
 		//Get the enum values
+		/** The comment line constant. */
 		private final String cLine;
 		CommentLines(final String envCLine){
 			//Convert the enum value to a string
@@ -445,14 +446,13 @@ public final class FileUtil {
 	 * @param filePath The relative path of the file to load
 	 * @return <b>File</b> The file as a {@code FileInputStream}
 	 * @throws IOException If an error occurred while fetching the file (usually an invalid path)
-	 * @see Resource#getResourceAsFile
 	 */
 	public static FileInputStream loadFileAsFileStream(final String filePath) throws IOException {
 		//Initialization by normalizing the file path
 		String normedPath = FileUtil.normalizePath(filePath);
 
 		//Return the resulting FileInputStream
-		return new FileInputStream(new File(normedPath));
+		return new FileInputStream(normedPath);
 	}
 	
 	/**
@@ -691,33 +691,33 @@ public final class FileUtil {
 		//Return an ArrayList containing the elements
 		return new ArrayList<>(Arrays.asList(pathDir, pathFile));
 	}
-	
+
 	/**
-	 * Convert a file path to the standard path
+	 * Converts a string path to the standard path
 	 * expected by Windows.
 	 *
-	 * @param pathIn The relative or absolute path to convert
+	 * @param path The relative or absolute path to convert
 	 * @return <b>String</b> The resulting Windows path
 	 */
-	public static String unixToWinPath(final String pathIn){
+	public static String unixToWinPath(final String path){
 		//Replace all forward slashes to backward slashes, as Windows directories use a backward slash as the separator and return the Windows path
-		return pathIn.replaceAll("(/)+", "\\\\");
+		return path.replaceAll("(/)+", "\\\\");
 	}
-	
+
 	/**
-	 * Convert a file path to the standard path
+	 * Converts a string path to the standard path
 	 * expected by UNIX.
 	 *
-	 * @param pathIn The relative or absolute path to convert
+	 * @param path The relative or absolute path to convert
 	 * @return <b>String</b> The resulting UNIX path
 	 */
-	public static String winToUnixPath(final String pathIn){
+	public static String winToUnixPath(final String path){
 		//Replace all backslashes to forward slashes, as UNIX directories use a forward slash as the separator and return the UNIX path
-		return pathIn.replaceAll("(\\\\)+", "/");
+		return path.replaceAll("(\\\\)+", "/");
 	}
 	
 	/**
-	 * Write a line to a {@code File} at the very end.
+	 * Writes a line to a {@code File} at the very end.
 	 *
 	 * @param tFile The {@code File} to write the line to
 	 * @param lineContent The line content to write
