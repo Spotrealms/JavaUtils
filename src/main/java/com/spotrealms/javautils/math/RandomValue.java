@@ -62,11 +62,8 @@ public final class RandomValue {
 	 * @return <b>boolean</b> A random boolean value
 	 */
 	public static boolean randomBool(final Random randGen){
-		//Set the threshold for the method to return true
-		final double THRESHOLD = 0.5;
-
 		//Calculate the random boolean and return it
-		return randGen.nextFloat() >= THRESHOLD;
+		return randGen.nextBoolean();
 	}
 
 	/**
