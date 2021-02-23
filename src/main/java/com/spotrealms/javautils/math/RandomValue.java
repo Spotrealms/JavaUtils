@@ -19,6 +19,7 @@
 package com.spotrealms.javautils.math;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * A series of methods for working with random
@@ -29,14 +30,19 @@ import java.util.Random;
  * already defined {@link Random} objects for
  * special cases where, for example, an alternate
  * random number generator may be necessary like
- * {@link java.util.concurrent.ThreadLocalRandom},
+ * {@link java.util.concurrent.ThreadLocalRandom}
+ * or {@link java.security.SecureRandom},
  * which makes each of these random number generators
- * threadsafe, as by default, these methods are NOT
- * threadsafe.
+ * threadsafe or cryptographically secure respectively,
+ * as by default, these methods are NOT threadsafe nor
+ * cryptographically secure.
  *
  * @author Spotrealms
  */
 public final class RandomValue {
+	/** Default prng instance local threaded instance. **/
+	private static final Random prng = ThreadLocalRandom.current();
+
 	/**
 	 * Prevents instantiation of the utility class RandomValue.
 	 *
@@ -45,13 +51,64 @@ public final class RandomValue {
 	private RandomValue(){ throw new RuntimeException("No " + this.getClass().getSimpleName() + " instance for you :)"); }
 
 	/**
-	 * Generates a random boolean value.
+	 * Generates a random boolean value using a
+	 * given random number generator instance.
+	 * Unlike {@link RandomValue#randomBool(long)}
+	 * or {@link RandomValue#randomBool()}, this
+	 * method allows for bias to be introduced
+	 * when generating the booleans, skewing the
+	 * results towards {@code false} for negative
+	 * biases approaching 1 and vice versa. If the
+	 * bias is 0, then the results will be more or
+	 * less 50/50, though in that case, it's better
+	 * to just use {@link Random#nextBoolean()}, as
+	 * it's computationally faster and produces the
+	 * same results, more or less.
 	 *
+	 * @param randGen The random number generator to use when generating the boolean
+	 * @param bias A {@code double} from -1 to 1 that defines how often to skew the result
+	 *             towards either true or false, with +/- 1 being 100% false or 100% true
+	 *             and 0 being a sort of "unity" where either true or false can occur
 	 * @return <b>boolean</b> A random boolean value
+	 * @throws IllegalArgumentException If the bias value is greater than -1 or 1
 	 */
-	public static boolean randomBool(){
-		//Create a new random number generator and return the resulting boolean
-		return new Random().nextBoolean();
+	public static boolean randomBool(final Random randGen, final double bias){
+		//Ensure the bias isn't greater than 1 in both directions
+		if(Math.abs(bias) > 1) throw new IllegalArgumentException("Bias cannot be greater than -1 or 1.");
+
+		//Check if the bias is exactly -1 or 1 (user intends to return true/false 100% of the time) and return the corresponding truth value
+		if(Math.abs(bias) == 1) return bias == 1;
+
+		//Generate a random double between -1 and 1
+		final double randDouble = randomDouble(-1, 1, randGen);
+
+		//Return true if the rounded double is >= or > the inverse bias (the threshold type is determined randomly)
+		return randGen.nextBoolean() ? randDouble >= (bias * -1) : randDouble > (bias * -1);
+	}
+
+	/**
+	 * Generates a random boolean value. Unlike
+	 * {@link RandomValue#randomBool(long)} or
+	 * {@link RandomValue#randomBool()}, this
+	 * method allows for bias to be introduced
+	 * when generating the booleans, skewing the
+	 * results towards {@code false} for negative
+	 * biases approaching 1 and vice versa. If the
+	 * bias is 0, then the results will be more or
+	 * less 50/50, though in that case, it's better
+	 * to just use {@link Random#nextBoolean()}, as
+	 * it's computationally faster and produces the
+	 * same results, more or less.
+	 *
+	 * @param bias A {@code double} from -1 to 1 that defines how often to skew the result
+	 *             towards either true or false, with +/- 1 being 100% false or 100% true
+	 *             and 0 being a sort of "unity" where either true or false can occur
+	 * @return <b>boolean</b> A random boolean value
+	 * @throws IllegalArgumentException If the bias value is greater than -1 or 1
+	 */
+	public static boolean randomBool(final double bias){
+		//Run the biased generator with the default prng object
+		return randomBool(prng, bias);
 	}
 
 	/**
@@ -63,7 +120,25 @@ public final class RandomValue {
 	 */
 	public static boolean randomBool(final long seed){
 		//Create a random number generator using the given seed and return the random boolean
-		return new Random(seed).nextBoolean();
+		return randomBool(new Random(seed), 0);
+	}
+
+	/**
+	 * Generates a random boolean value. Given a
+	 * {@link Random} instance, this method should
+	 * generally be substituted for
+	 * {@link Random#nextBoolean()} due to that method
+	 * producing the same results, but in a faster
+	 * computation time. This method only exists as an
+	 * adapter for {@link RandomValue#randomBool(Random, double)}
+	 * in case that method of generating random booleans
+	 * is preferred.
+	 *
+	 * @return <b>boolean</b> A random boolean value
+	 */
+	public static boolean randomBool(){
+		//Create a new random number generator and return the resulting boolean
+		return randomBool(prng, 0);
 	}
 
 	/**
@@ -75,7 +150,7 @@ public final class RandomValue {
 	 */
 	public static byte randomByte(final byte min, final byte max){
 		//Create a new random number generator and return the resulting byte
-		return randomByte(min, max, new Random());
+		return randomByte(min, max, prng);
 	}
 
 	/**
@@ -118,7 +193,7 @@ public final class RandomValue {
 	 */
 	public static char randomChar(final char min, final char max){
 		//Create a new random number generator and return the resulting char
-		return randomChar(min, max, new Random());
+		return randomChar(min, max, prng);
 	}
 
 	/**
@@ -161,7 +236,7 @@ public final class RandomValue {
 	 */
 	public static double randomDouble(final double min, final double max){
 		//Create a new random number generator and return the resulting double
-		return randomDouble(min, max, new Random());
+		return randomDouble(min, max, prng);
 	}
 
 	/**
@@ -178,7 +253,7 @@ public final class RandomValue {
 		assertMaxGtMin(min, max);
 
 		//Calculate the random double and return it
-		return randGen.nextFloat() * (max - min) + min;
+		return randGen.nextDouble() * (max - min) + min;
 	}
 
 	/**
@@ -204,7 +279,7 @@ public final class RandomValue {
 	 */
 	public static float randomFloat(final float min, final float max){
 		//Create a new random number generator and return the resulting float
-		return randomFloat(min, max, new Random());
+		return randomFloat(min, max, prng);
 	}
 
 	/**
@@ -247,7 +322,7 @@ public final class RandomValue {
 	 */
 	public static int randomInt(final int min, final int max){
 		//Create a new random number generator and return the resulting integer
-		return randomInt(min, max, new Random());
+		return randomInt(min, max, prng);
 	}
 
 	/**
@@ -290,7 +365,7 @@ public final class RandomValue {
 	 */
 	public static long randomLong(final long min, final long max){
 		//Create a new random number generator and return the resulting long
-		return randomLong(min, max, new Random());
+		return randomLong(min, max, prng);
 	}
 
 	/**
@@ -333,7 +408,7 @@ public final class RandomValue {
 	 */
 	public static short randomShort(final short min, final short max){
 		//Create a new random number generator and return the resulting short
-		return randomShort(min, max, new Random());
+		return randomShort(min, max, prng);
 	}
 
 	/**

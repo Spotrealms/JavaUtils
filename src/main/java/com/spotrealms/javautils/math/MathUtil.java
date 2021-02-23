@@ -114,19 +114,15 @@ public final class MathUtil {
 	 * @return <b>BigDecimal</b> The rounded result
 	 */
 	public static BigDecimal round(final BigDecimal number, final int places, final RoundingMode mode){
-		//Create a BigDecimal to store the result
-		BigDecimal rounded = new BigDecimal(String.valueOf(number));
-
-		//Set the sale, rounding mode, and return
-		return rounded.setScale(places, mode);
+		//Round the input via BigDecimal#setScale and return the result
+		return number.setScale(places, mode);
 	}
 
 	/**
 	 * Rounds a number to the nth decimal place using
 	 * {@link BigDecimal#setScale}. Assumes the rounding
-	 * mode to use is {@link RoundingMode#HALF_UP}, as this
-	 * is the most commonly used method for rounding (ie:
-	 * 5 or more let it soar; 4 or less let it rest).
+	 * mode to use is {@link RoundingMode#HALF_EVEN}, as
+	 * this is the most unbiased form of rounding.
 	 *
 	 * @param number The number to round
 	 * @param places The number of places to round to
@@ -134,7 +130,7 @@ public final class MathUtil {
 	 */
 	public static BigDecimal round(final BigDecimal number, final int places){
 		//Select mode HALF_UP when running the overloaded method
-		return round(number, places, RoundingMode.HALF_UP);
+		return round(number, places, RoundingMode.HALF_EVEN);
 	}
 
 	/**
@@ -154,9 +150,8 @@ public final class MathUtil {
 	/**
 	 * Rounds a number to the nth decimal place using
 	 * {@link BigDecimal#setScale}. Assumes the rounding
-	 * mode to use is {@link RoundingMode#HALF_UP}, as this
-	 * is the most commonly used method for rounding (ie:
-	 * 5 or more let it soar; 4 or less let it rest).
+	 * mode to use is {@link RoundingMode#HALF_EVEN}, as
+	 * this is the most unbiased form of rounding.
 	 *
 	 * @param number The number to round
 	 * @param places The number of places to round to
@@ -164,7 +159,7 @@ public final class MathUtil {
 	 */
 	public static double round(final double number, final int places){
 		//Select mode HALF_UP when running the overloaded method
-		return round(number, places, RoundingMode.HALF_UP);
+		return round(number, places, RoundingMode.HALF_EVEN);
 	}
 
 	/**

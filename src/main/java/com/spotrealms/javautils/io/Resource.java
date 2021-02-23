@@ -52,12 +52,14 @@ import org.jetbrains.annotations.Nullable;
  * may or may not be utilized by the entire program. Working with resource 
  * files can be useful if hard-coded data must be supplied. Examples may 
  * include localization strings, default configurations, fonts, images, etc.
- * The methods included can both import and export data from JAR files. This
- * class is not meant to replace Java's builtin {@link Class#getResource(String)}
- * or {@link Class#getResourceAsStream(String)}, but rather complement it, as
- * the methods in this class can infer the target class without having to use
- * reflection via {@code MyClass.class}, for example, using Java's {@link SecurityManager}
- * via {@code SecurityManager.getClassContext()} among other things.
+ * The methods included can both import and export data from the classpath. This
+ * class is not meant to replace Java's builtin {@link ClassLoader#getResource(String)}
+ * or {@link ClassLoader#getResourceAsStream(String)}, {@link Class#getResource(String)},
+ * or {@link Class#getResourceAsStream(String)} methods but rather complement
+ * them, as the methods in this class can infer the target class without having
+ * to use reflection via {@code MyClass.class}, for example, using Java's
+ * {@link SecurityManager} via {@code SecurityManager.getClassContext()} among
+ * other benefits besides the aforementioned.
  * <br>This class includes the following export options:
  * <ul>
  * 	<li>{@link File} via {@link Resource#export(Path, Path, StandardCopyOption)}</li>
@@ -85,12 +87,15 @@ import org.jetbrains.annotations.Nullable;
  * 	<li>{@link Resource#classpathRoot()} to get the base URL of the classpath</li>
  * 	<li>{@link Resource#exists(Path)} to check if a resource file exists</li>
  * 	<li>{@link Resource#typeof(Path)} to get the MIME type of an existing resource file</li>
+ * 	<li>{@link Resource#walk(Path, boolean)} to get a directory listing of the resources from a starting directory</li>
  * </ul>
  * Each of the above methods allow either a relative lookup or an
- * absolute lookup to occur via {@link Class#getResource}
- * and {@link Class#getResourceAsStream} respectively via
+ * absolute lookup to occur via {@link Class#getResource(String)}
+ * and {@link Class#getResourceAsStream(String)} respectively via
  * {@code ...Rel} for the relative method or the standard name
- * for absolute. The "relative" and "absolute" terms are in relation
+ * for absolute via {@link ClassLoader#getResource(String)} or
+ * {@link ClassLoader#getResourceAsStream(String)} respectively
+ * . The "relative" and "absolute" terms are in relation
  * to the JAR, rather than the whole filesystem. The term "absolute"
  * in this context refers to the resource being at the root directory
  * of the JAR (eg: {@code MyJar!/my-resource} and the term "relative"
