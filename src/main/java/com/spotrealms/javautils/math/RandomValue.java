@@ -58,7 +58,7 @@ public final class RandomValue {
 	 * method allows for bias to be introduced
 	 * when generating the booleans, skewing the
 	 * results towards {@code false} for negative
-	 * biases approaching 1 and vice versa. If the
+	 * biases approaching -1 and vice versa. If the
 	 * bias is 0, then the results will be more or
 	 * less 50/50, though in that case, it's better
 	 * to just use {@link Random#nextBoolean()}, as
