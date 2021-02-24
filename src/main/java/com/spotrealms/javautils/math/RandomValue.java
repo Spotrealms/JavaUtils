@@ -40,7 +40,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author Spotrealms
  */
 public final class RandomValue {
-	/** Default prng instance local threaded instance. **/
+	/** Default prng local threaded instance. **/
 	private static final Random prng = ThreadLocalRandom.current();
 
 	/**
