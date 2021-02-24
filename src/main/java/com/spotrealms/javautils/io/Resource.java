@@ -1384,8 +1384,8 @@ public final class Resource {
 
 			//Return a directory type, setting the MIME type as inode/directory if the path references
 			//directory, though this is Unix only and deprecated by the IANA
-			else if(absolutePath.toFile().isFile()){
-				return new Type(Category.FILE, "inode/directory");
+			else if(absolutePath.toFile().isDirectory()){
+				return new Type(Category.DIRECTORY, "inode/directory");
 			}
 		}
 		catch(NullPointerException | URISyntaxException | IOException ignored){} //Ignore exceptions, jumping straight to the default return branch
