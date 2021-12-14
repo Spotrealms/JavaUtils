@@ -18,8 +18,6 @@
 
 package com.spotrealms.javautils.io;
 
-import com.spotrealms.javautils.misc.StringUtil;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -80,8 +78,8 @@ import org.jetbrains.annotations.Nullable;
  * 	<li>Normalized {@link Path} via {@code Paths.get(Resource.asUrl(Path).toURI())}</li>
  * 	<li>
  * 	    Normalized path {@code String} via {@code Resource.asUrl(Path).getPath()},
- * 	    utilizing {@link StringUtil#decodeUrl} to construct a valid string representation
- * 	    without any URL encoded characters
+ * 	    utilizing {@link com.spotrealms.javautils.misc.StringUtil#decodeUrl} to construct a
+ * 	    valid string representation without any URL encoded characters
  * 	</li>
  * 	<li>Normalized {@link URL} via {@link Resource#asUrl(Path)}</li>
  * </ul>
