@@ -20,14 +20,17 @@ package com.spotrealms.javautils.io;
 
 import com.spotrealms.javautils.misc.StringUtil;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
@@ -39,6 +42,7 @@ import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -972,7 +976,7 @@ public final class Resource {
 	 * to access the resource absolute to the executing class.
 	 *
 	 * @param relClass The class that the resource should be loaded relative to (instantiated using {@code ClassName.class} or {@code this.getClass()})
-	 * @param resourcePath The relative path to the resource and its name
+	 * @param resourcePath The relative path to the resource, including its filename
 	 * @param dropPath The location to drop the extracted resource, including its filename (can be absolute or relative to the program JAR)
 	 * @param copyOption What to do if there's a file conflict issue
 	 * @throws IOException If an error occurred while fetching or dropping the resource (usually an invalid resource path)
@@ -991,7 +995,7 @@ public final class Resource {
 	 * {@link Resource#export(ClassLoader, Path, Path, StandardCopyOption)}
 	 * to access the resource absolute to the executing class.
 	 *
-	 * @param resourcePath The relative path to the resource and its name
+	 * @param resourcePath The relative path to the resource, including its filename
 	 * @param dropPath The location to drop the extracted resource, including its filename (can be absolute or relative to the program JAR)
 	 * @param copyOption What to do if there's a file conflict issue
 	 * @throws IOException If an error occurred while fetching or dropping the resource (usually an invalid resource path)
@@ -999,6 +1003,86 @@ public final class Resource {
 	public static void exportRel(@NotNull final Path resourcePath, @NotNull final Path dropPath,
 			final StandardCopyOption copyOption) throws IOException {
 		export(asStreamRel(resourcePath), resourcePath, dropPath, copyOption);
+	}
+
+	/**
+	 * Exports a resource directory from within a JAR file
+	 * (ie: {@code src/main/resources}) to a specified
+	 * path either relative to the program JAR or to an
+	 * absolute path elsewhere on the system. <br>
+	 * NOTE: The parameter {@code resourcePath} is absolute. Use
+	 * {@link Resource#exportDirectoryRel(Class, Path, Path, StandardCopyOption)}
+	 * to access the resource directory relative to the executing class.
+	 *
+	 * @param relLoader The {@link ClassLoader} that the resource directory should be loaded relative to (instantiated using
+	 *     {@code ClassName.class.getClassLoader()} or {@code this.getClass().getClassLoader()}). Also accepts other
+	 *     {@link ClassLoader} types such as {@code Thread.currentThread().getContextClassLoader()}
+	 * @param resourceDirectoryPath The absolute path to the resource directory in the JAR
+	 * @param dropPath The location to drop the extracted resource directory (can be absolute or relative to the program JAR)
+	 * @param copyOption What to do if there's a file conflict issue
+	 * @throws IOException If an error occurred while fetching or dropping the resource directory (usually an invalid resource directory path)
+	 */
+	public static void exportDirectory(@NotNull final ClassLoader relLoader, @NotNull final Path resourceDirectoryPath,
+			@NotNull final Path dropPath, @NotNull final StandardCopyOption copyOption) throws IOException {
+		exportDirectory(asStream(relLoader, resourceDirectoryPath), resourceDirectoryPath, dropPath, copyOption);
+	}
+
+	/**
+	 * Exports a resource directory from within a JAR file
+	 * (ie: {@code src/main/resources}) to a specified
+	 * path either relative to the program JAR or to an
+	 * absolute path elsewhere on the system. <br>
+	 * NOTE: The parameter {@code resourcePath} is absolute. Use
+	 * {@link Resource#exportDirectoryRel(Path, Path, StandardCopyOption)}
+	 * to access the resource directory relative to the executing class.
+	 *
+	 * @param resourceDirectoryPath The absolute path to the resource directory in the JAR
+	 * @param dropPath The location to drop the extracted resource directory (can be absolute or relative to the program JAR)
+	 * @param copyOption What to do if there's a file conflict issue
+	 * @throws IOException If an error occurred while fetching or dropping the resource directory (usually an invalid resource directory path)
+	 */
+	public static void exportDirectory(@NotNull final Path resourceDirectoryPath, @NotNull final Path dropPath,
+			@NotNull final StandardCopyOption copyOption) throws IOException {
+		exportDirectory(asStream(resourceDirectoryPath), resourceDirectoryPath, dropPath, copyOption);
+	}
+
+	/**
+	 * Exports a resource directory from within a JAR file
+	 * (ie: {@code src/main/resources}) to a specified
+	 * path either relative to the program JAR or to an
+	 * absolute path elsewhere on the system. <br>
+	 * NOTE: The parameter {@code resourcePath} is relative. Use
+	 * {@link Resource#export(ClassLoader, Path, Path, StandardCopyOption)}
+	 * to access the resource directory absolute to the executing class.
+	 *
+	 * @param relClass The class that the directory should be loaded relative to (instantiated using {@code ClassName.class} or {@code this.getClass()})
+	 * @param resourceDirectoryPath The relative path to the resource directory in the JAR
+	 * @param dropPath The location to drop the extracted resource (can be absolute or relative to the program JAR)
+	 * @param copyOption What to do if there's a file conflict issue
+	 * @throws IOException If an error occurred while fetching or dropping the resource directory (usually an invalid resource directory path)
+	 */
+	public static void exportDirectoryRel(@NotNull final Class<?> relClass, @NotNull final Path resourceDirectoryPath,
+			@NotNull final Path dropPath, @NotNull final StandardCopyOption copyOption) throws IOException {
+		export(asStreamRel(relClass, resourceDirectoryPath), resourceDirectoryPath, dropPath, copyOption);
+	}
+
+	/**
+	 * Exports a resource directory from within a JAR file
+	 * (ie: {@code src/main/resources}) to a specified
+	 * path either relative to the program JAR or to an
+	 * absolute path elsewhere on the system. <br>
+	 * NOTE: The parameter {@code resourcePath} is relative. Use
+	 * {@link Resource#exportDirectory(ClassLoader, Path, Path, StandardCopyOption)}
+	 * to access the resource directory absolute to the executing class.
+	 *
+	 * @param resourceDirectoryPath The relative path to the resource directory
+	 * @param dropPath The location to drop the extracted resource directory (can be absolute or relative to the program JAR)
+	 * @param copyOption What to do if there's a file conflict issue
+	 * @throws IOException If an error occurred while fetching or dropping the resource directory (usually an invalid resource directory path)
+	 */
+	public static void exportDirectoryRel(@NotNull final Path resourceDirectoryPath, @NotNull final Path dropPath,
+			final StandardCopyOption copyOption) throws IOException {
+		export(asStreamRel(resourceDirectoryPath), resourceDirectoryPath, dropPath, copyOption);
 	}
 	
 	/**
@@ -1202,7 +1286,7 @@ public final class Resource {
 	 * to access the resource relative to the executing class.
 	 *
 	 * @param path The absolute starting path from which to start the file tree walk
-	 * @param recursive Whether or not the operation should be recursive
+	 * @param recursive Whether the operation should be recursive
 	 * @return <b>ArrayList&lt;Path&gt;</b> The list of found paths on the classpath
 	 * @throws IllegalArgumentException If the resource path is invalid
 	 * @throws IOException If an error occurs during the operation
@@ -1220,7 +1304,7 @@ public final class Resource {
 	 *
 	 * @param relClass The class that the resource should be loaded relative to (instantiated using {@code ClassName.class} or {@code this.getClass()})
 	 * @param path The relative starting path from which to start the file tree walk
-	 * @param recursive Whether or not the operation should be recursive
+	 * @param recursive Whether the operation should be recursive
 	 * @return <b>ArrayList&lt;Path&gt;</b> The list of found paths on the classpath
 	 * @throws IllegalArgumentException If the resource path is invalid
 	 * @throws IOException If an error occurs during the operation
@@ -1245,7 +1329,7 @@ public final class Resource {
 	 * to access the resource absolute to the executing class.
 	 *
 	 * @param path The relative starting path from which to start the file tree walk
-	 * @param recursive Whether or not the operation should be recursive
+	 * @param recursive Whether the operation should be recursive
 	 * @return <b>ArrayList&lt;Path&gt;</b> The list of found paths on the classpath
 	 * @throws IllegalArgumentException If the resource path is invalid
 	 * @throws IOException If an error occurs during the operation
@@ -1271,7 +1355,7 @@ public final class Resource {
 	 *
 	 * @param relClass The class that the resource should be loaded relative to (instantiated using {@code ClassName.class} or {@code this.getClass()})
 	 * @param path The relative starting path from which to start the file tree walk
-	 * @param recursive Whether or not the operation should be recursive
+	 * @param recursive Whether the operation should be recursive
 	 * @return <b>ArrayList&lt;Path&gt;</b> The list of found paths on the classpath
 	 * @throws IllegalArgumentException If the resource path is invalid
 	 * @throws IOException If an error occurs during the operation
@@ -1288,7 +1372,7 @@ public final class Resource {
 	 * to access the resource absolute to the executing class.
 	 *
 	 * @param path The relative starting path from which to start the file tree walk
-	 * @param recursive Whether or not the operation should be recursive
+	 * @param recursive Whether the operation should be recursive
 	 * @return <b>ArrayList&lt;Path&gt;</b> The list of found paths on the classpath
 	 * @throws IllegalArgumentException If the resource path is invalid
 	 * @throws IOException If an error occurs during the operation
@@ -1312,17 +1396,79 @@ public final class Resource {
 		if(resStream == null) throw new IllegalArgumentException("Path cannot be null or reference a non-existent resource.");
 		if(copyOption == null) throw new IllegalArgumentException("Standard Copy Option cannot be null.");
 
-		//Create a file object to store the temporary file's data
-		File tempFile;
-
 		//Create the output file in the temp directory
-		tempFile = File.createTempFile(Integer.toHexString(resStream.hashCode()), ".tmp");
+		Path tempFile = Files.createTempFile(Integer.toHexString(resStream.hashCode()), ".tmp");
 
 		//Convert the InputStream to file and copy its contents to the temporary file
-		Files.copy(resStream, Paths.get(tempFile.getAbsolutePath()), copyOption);
+		Files.copy(resStream, tempFile, copyOption);
 
-		//Return the resulting file
-		return tempFile;
+		//Return the resulting file object
+		return tempFile.toFile();
+	}
+
+	/**
+	 * Exports a resource directory from within a JAR file
+	 * (ie: {@code src/main/resources}) to a specified
+	 * path either relative to the program JAR or to an
+	 * absolute path elsewhere on the system.
+	 *
+	 * @param resStream The target resource as an {@link InputStream}
+	 * @param origPath The original path to the resource in the JAR, including its filename
+	 * @param dropPath The location to drop the extracted resource, including its filename (can be absolute or relative to the program JAR)
+	 * @param copyOption What to do if there's a file conflict issue
+	 * @throws IllegalArgumentException If the resource path is invalid
+	 * @throws IOException If an error occurred while fetching or dropping the resource (usually an invalid resource path)
+	 */
+	private static void exportDirectory(final InputStream resStream, final Path origPath,
+			final Path dropPath, final StandardCopyOption copyOption) throws IOException {
+		//Ensure the args aren't null
+		if(resStream == null || origPath == null || dropPath == null){
+			throw new IllegalArgumentException("Path(s) cannot be null or reference a non-existent resource.");
+		}
+		if(copyOption == null){
+			throw new IllegalArgumentException("Standard Copy Option cannot be null.");
+		}
+
+		//Ensure the target is a directory and not a file
+		if(typeof(origPath).getCategory().equals(Category.FILE)){
+			throw new IllegalArgumentException("Resource path must reference a directory. Use Resource#export to export files.");
+		}
+
+		//Read the inputstream as a list of strings (this stream contains the directory listing for the resource directory)
+		List<String> directoryContents = new BufferedReader(new InputStreamReader(resStream, StandardCharsets.UTF_8)).lines().collect(Collectors.toList());
+
+		//Loop over the contents of the directory
+		for(String entry : directoryContents){
+			//Get the full path of the file relative to the classpath as well as if it's a directory or file
+			Path fullPath = origPath.resolve(entry);
+			Category entryType = typeof(fullPath).category;
+
+			//Derive the resulting path to drop the contents of the directory into
+			Path fullDropPath = dropPath.resolve(entry);
+
+			//Switch over the category
+			switch(entryType){
+				case FILE:{
+					//Export the resource with the paths and the same copy option as the user provided
+					export(fullPath, fullDropPath, copyOption);
+
+					//Nothing left to do so break out
+					break;
+				}
+				case DIRECTORY:{
+					//Create the drop directory in the destination
+					Files.createDirectory(fullDropPath);
+
+					//Recursively run the method to export the subdirectory (may or may not cause locks if there's a lot to unpack)
+					exportDirectory(asStream(fullPath), fullPath, fullDropPath, copyOption);
+
+					//Nothing left to do so break out
+					break;
+				}
+
+				default: break; //Urecognized filetype, so leave it be
+			}
+		}
 	}
 
 	/**
@@ -1346,6 +1492,11 @@ public final class Resource {
 		}
 		if(copyOption == null) throw new IllegalArgumentException("Standard Copy Option cannot be null.");
 
+		//Ensure the target is a file and not a directory
+		if(typeof(origPath).getCategory().equals(Category.DIRECTORY)){
+			throw new IllegalArgumentException("Resource path must reference a file. Use Resource#exportDirectory to export entire directories.");
+		}
+
 		//Check if the drop path is relative
 		Path absDropPath = dropPath;
 		if(!dropPath.isAbsolute()){
@@ -1353,10 +1504,16 @@ public final class Resource {
 			absDropPath = dropPath.toAbsolutePath();
 		}
 
-		//Check if the input path is blank (assumes the user wants to copy to the same directory with the same filename)
+		//Check if the drop path is a directory (assumes the user just specified a directory to copy the resources to and not the filename)
+		if(Files.isDirectory(absDropPath)){
+			//Derive the correct file drop path using the JAR resource name as the filename of the file to drop
+			absDropPath = absDropPath.resolve(origPath.getFileName()).toAbsolutePath();
+		}
+
+		//Check if the drop path is blank (assumes the user wants to copy to the same directory as the runtime with the same filename)
 		if(dropPath.toString().isEmpty()){
 			//Get the filename of the original path
-			String filename = origPath.getFileName().toString().isEmpty() || origPath.getFileName() == null ? ""
+			String filename = origPath.getFileName() == null || origPath.getFileName().toString().isEmpty() ? ""
 				: origPath.getFileName().toString();
 
 			//Get the referenced resource filename and concat it onto the end of the drop path
@@ -1374,17 +1531,18 @@ public final class Resource {
 	 * @return <b>Type</b> The MIME type of a resource as referenced by a {@link Resource.Type} object
 	 */
 	private static Type typeof(@Nullable final URL resUrl){
-		//Try to get the resource type (accounts for both null URLs, null paths, and bad URLs
-		try {
+		//Try to get the resource type (accounts for both null URLs, null paths, and bad URLs) of the given filesystem (JAR or a simple filesystem)
+		try(FileSystem ignored = Objects.requireNonNull(resUrl).toURI().getScheme().equals("jar")
+				? FileSystems.newFileSystem(Objects.requireNonNull(resUrl).toURI(), Collections.emptyMap()) : null){
 			//Derive an absolute path object from the URL
 			Path absolutePath = Paths.get(Objects.requireNonNull(resUrl).toURI());
 
 			//Return a file type, inferring the MIME type of the file via Files.probeContentType if the path references a file
-			if(absolutePath.toFile().isFile()) return new Type(Category.FILE, Files.probeContentType(absolutePath));
+			if(Files.isRegularFile(absolutePath)) return new Type(Category.FILE, Files.probeContentType(absolutePath));
 
 			//Return a directory type, setting the MIME type as inode/directory if the path references
 			//directory, though this is Unix only and deprecated by the IANA
-			else if(absolutePath.toFile().isDirectory()){
+			else if(Files.isDirectory(absolutePath)){
 				return new Type(Category.DIRECTORY, "inode/directory");
 			}
 		}
@@ -1402,7 +1560,7 @@ public final class Resource {
 	 *
 	 * @author fge, Pino, Somaiah Kumbera
 	 * @param uri The starting resource folder URI for the file tree walk
-	 * @param recursive Whether or not the operation should be recursive
+	 * @param recursive Whether the operation should be recursive
 	 * @return <b>ArrayList&lt;Path&gt;</b> The list of found paths on the classpath
 	 * @throws IllegalArgumentException If the resource path is invalid
 	 * @throws IOException If an error occurs during the operation
@@ -1437,7 +1595,6 @@ public final class Resource {
 				return found;
 			}
 			else {
-
 				//Run Files.walk with a max depth of 1 on the directory and return the resulting list
 				try(Stream<Path> walk = Files.walk(uriPath, 1)){
 					return (ArrayList<Path>) walk.filter(p -> !p.equals(uriPath)).collect(Collectors.toList());
